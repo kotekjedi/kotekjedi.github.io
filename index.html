@@ -23,8 +23,12 @@
               color: #256EFF;
           }
           .profile-pic {
-          width: 251px; /* Установите желаемую ширину */
-          height: 251px; /* Высота должна быть равна ширине для круга */
+          width: 100%; /* Устанавливаем ширину на 100% от родительского контейнера */
+          max-width: 210px; /* Устанавливаем максимальную ширину изображения */
+          height: auto; /* Высота автоматически рассчитывается для сохранения пропорций */
+          object-fit: cover; /* Обрезает изображение по контейнеру без искажения */
+          float: right; /* Оставляем обтекание справа */
+
           border-radius: 50%; /* Делает изображение кругом */
           border: 1px solid #ccc;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -77,8 +81,7 @@
         <div class="row" style="margin-top: 1em;">
             <div class="col-md-10">
                 
-        <img src="assets/img/profile_mine.jpg" alt="Profile picture" class="profile-pic" style="float: right; margin-left: 35px; margin-bottom: 15px; margin-right: -85px;">
-
+        <img src="assets/img/profile_mine.jpg" alt="Profile picture" class="profile-pic img-fluid" style="float: right; margin-left: 35px; margin-bottom: 15px; margin-right: -85px;">
         <p style="font-size: 1.1em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
   and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I am very lucky to be working under the supervision of<a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;">Maksym Andriushchenko</a>.
