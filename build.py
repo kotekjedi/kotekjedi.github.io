@@ -1,4 +1,5 @@
 import json
+import time
 from datetime import datetime
 
 from pybtex.database.input import bibtex
@@ -36,10 +37,11 @@ def get_personal_data():
         <p style="font-size: 1.2em;">
         You can find my CV <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; background-color: rgb(255, 255, 179);">here</a>. I am always open to collaboration — feel free to reach out via email!</p>
     """
+    current_date = time.strftime("%d/%m/%Y")
     footer = f"""
     <footer style="text-align: right; padding: 10px; margin-top: 20px;">
         <p style="font-size: 0.9em;">
-            Website design credits to <a href="https://github.com/m-niemeyer/m-niemeyer.github.io" target="_blank">Michael Niemeyer</a>.
+            Updated on {current_date}. Website design credits to <a href="https://github.com/m-niemeyer/m-niemeyer.github.io" target="_blank">Michael Niemeyer</a>.
         </p>
     </footer>
     """
