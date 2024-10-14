@@ -27,14 +27,14 @@ def get_personal_data():
     bio_text = f"""
         <img src="assets/img/profile_mine.jpg" alt="Profile picture" class="profile-pic" style="float: right; margin-left: 35px; margin-bottom: 15px; margin-right: -85px;">
 
-        <p style="font-size: 1.2em;">
+        <p style="font-size: 1.1em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
   and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I am very lucky to be working under the supervision of<a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;">Maksym Andriushchenko</a>.
         </p>
-        <p style="font-size: 1.2em;">
+        <p style="font-size: 1.1em;">
         Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I like to break machine learning systems in various ways. Lately, I’ve been focusing on jailbreaking attacks on LLMs and what they mean for safety and security.
         </p>
-        <p style="font-size: 1.2em;">
+        <p style="font-size: 1.1em;">
         You can find my CV <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; background-color: rgb(255, 255, 179);">here</a>. I am always open to collaboration — feel free to reach out via email!</p>
     """
     current_date = time.strftime("%d/%m/%Y")
@@ -84,9 +84,9 @@ def generate_person_html(
 def get_paper_entry(entry_key, entry):
     s = """<div style="margin-bottom: 3em;" > <div class="row"><div class="col-sm-3">"""
     s += f"""<img src="{entry.fields['img']}" class="img-fluid" alt="Project image">"""
-    s += """</div><div class="col-sm-9" style="font-size: 1.1em;">"""
+    s += """</div><div class="col-sm-9" style="font-size: 1em;">"""
 
-    s += f"""<a href="{entry.fields['url']}" target="_blank" class="article-title" style="font-size: 1.15em;">{entry.fields['title']}</a> <br>"""
+    s += f"""<a href="{entry.fields['url']}" target="_blank" class="article-title" style="font-size: 1.1em;">{entry.fields['title']}</a> <br>"""
 
     s += f"""{generate_person_html(entry.persons['author'])} <br>"""
     s += f"""<span style="font-style: italic;">{entry.fields['booktitle']}</span>, {entry.fields['year']} <br>"""
@@ -182,7 +182,7 @@ def get_news_items(filename="news.json"):
 
 def get_news_html():
     news_items = get_news_items()
-    s = '<ul class="list-unstyled" style="font-size: 1.1em;">'
+    s = '<ul class="list-unstyled" style="font-size: 1em;">'
     for item in news_items:
         date_str = item["date_obj"].strftime("%B %d, %Y")
         text = item["text"]
@@ -228,7 +228,7 @@ def get_index_html():
           object-fit: cover; /* Обрезает изображение по контейнеру без искажения */
           }}
         .main-container {{
-              max-width: 1200px; /* Установите желаемую максимальную ширину */
+              max-width: 1000px; /* Установите желаемую максимальную ширину */
               margin: 0 auto; /* Центрирует контейнер */
               padding: 0 15px; /* Добавляет отступы по бокам */
           
