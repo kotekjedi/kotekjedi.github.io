@@ -208,7 +208,7 @@ def get_index_html():
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <title>{name[0] + ' ' + name[1]}</title>
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="assets/favicon_mine.ico">
   <style>
           .article-title {{
               color: #256EFF;
