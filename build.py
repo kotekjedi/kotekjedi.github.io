@@ -247,7 +247,7 @@ def get_index_html():
       }}
 
         .main-container {{
-              max-width: 1000px; /* Установите желаемую максимальную ширину */
+              max-width: 1050px; /* Установите желаемую максимальную ширину */
               margin: 0 auto; /* Центрирует контейнер */
               padding: 0 15px; /* Добавляет отступы по бокам */
           
@@ -282,7 +282,7 @@ def get_index_html():
         </div>
         <!-- Био и фото -->
         <div class="row" style="margin-top: 2em;">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 {bio_text}
             </div>
         </div>
