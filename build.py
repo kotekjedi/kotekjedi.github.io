@@ -25,16 +25,20 @@ def get_personal_data():
     """
 
     bio_text = f"""
-        <img src="assets/img/profile_mine.jpg" alt="Profile picture" class="profile-pic img-fluid" style="float: right; margin-left: 5%; margin-bottom: 15px; margin-right: -5%;">
+        <img src="assets/img/profile_mine_new.jpg" alt="Profile picture" class="profile-pic img-fluid" style="float: right; margin-left: 5%; margin-bottom: 15px; margin-right: -5%;">
 
-        <p style="font-size: 1.1em;">
+        <p style="font-size: 1.15em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
-  and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I am very lucky to be working under the supervision of<a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;">Maksym Andriushchenko</a>.
+  and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by <a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;">Maksym Andriushchenko</a>.
         </p>
-        <p style="font-size: 1.1em;">
-        Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I like to break machine learning systems in various ways. Lately, I’ve been focusing on jailbreaking attacks on LLMs and what they mean for safety and security.
+        <p style="font-size: 1.15em;">
+    Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I enjoy finding various ways to break machine learning systems. </p>
+    
+    <p style="font-size: 1.15em;">
+    Lately, I have been focusing on jailbreaking attacks on LLMs, contemplating:
+(1) What are the viable threat models for attacks on safety tuning? (2) Are safety jailbreaks truly effective, or are we victims of flawed (LLM-based) evaluations? (3) Are we doomed?
         </p>
-        <p style="font-size: 1.1em;">
+        <p style="font-size: 1.15em;">
         You can find my CV <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; background-color: rgb(255, 255, 179);">here</a>. I am always open to collaboration — feel free to reach out via email!</p>
     """
     current_date = time.strftime("%d/%m/%Y")
@@ -182,11 +186,11 @@ def get_news_items(filename="news.json"):
 
 def get_news_html():
     news_items = get_news_items()
-    s = '<ul class="list-unstyled" style="font-size: 1em;">'
+    s = '<ul class="list-unstyled" style="font-size: 1.1em;">'
     for item in news_items:
         date_str = item["date_obj"].strftime("%B %d, %Y")
         text = item["text"]
-        s += f"<li><strong>{date_str}</strong>: {text}</li>"
+        s += f"<li style='margin-top: 1em;'><strong>{date_str}</strong>: {text}</li>"
     s += "</ul>"
     return s
 
@@ -221,18 +225,18 @@ def get_index_html():
           }}
           .profile-pic {{
           width: 100%; /* Устанавливаем ширину на 100% от родительского контейнера */
-          max-width: 210px; /* Устанавливаем максимальную ширину изображения */
+          max-width: 300px; /* Устанавливаем максимальную ширину изображения */
           height: auto; /* Высота автоматически рассчитывается для сохранения пропорций */
           object-fit: cover; /* Обрезает изображение по контейнеру без искажения */
           float: right; /* Оставляем обтекание справа */
 
-          border-radius: 50%; /* Делает изображение кругом */
+        #   border-radius: 50%; /* Делает изображение кругом */
           border: 1px solid #ccc;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           object-fit: cover; /* Обрезает изображение по контейнеру без искажения */
           }}
         .main-container {{
-              max-width: 1000px; /* Установите желаемую максимальную ширину */
+              max-width: 1100px; /* Установите желаемую максимальную ширину */
               margin: 0 auto; /* Центрирует контейнер */
               padding: 0 15px; /* Добавляет отступы по бокам */
           
@@ -266,7 +270,7 @@ def get_index_html():
             </div>
         </div>
         <!-- Био и фото -->
-        <div class="row" style="margin-top: 1em;">
+        <div class="row" style="margin-top: 2em;">
             <div class="col-md-10">
                 {bio_text}
             </div>
