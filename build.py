@@ -223,18 +223,29 @@ def get_index_html():
           .article-link {{
               color: #256EFF;
           }}
-          .profile-pic {{
-          width: 100%; /* Устанавливаем ширину на 100% от родительского контейнера */
-          max-width: 300px; /* Устанавливаем максимальную ширину изображения */
-          height: auto; /* Высота автоматически рассчитывается для сохранения пропорций */
-          object-fit: cover; /* Обрезает изображение по контейнеру без искажения */
-          float: right; /* Оставляем обтекание справа */
-
-        #   border-radius: 50%; /* Делает изображение кругом */
+        .profile-pic {{
+          width: 90%;
+          max-width: 300px;
+          height: auto;
+          object-fit: cover;
+          float: right;
+          margin-left: 5%;
+          margin-bottom: 15px;
+          margin-right: -5%;
           border: 1px solid #ccc;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          object-fit: cover; /* Обрезает изображение по контейнеру без искажения */
+      }}
+
+      @media (max-width: 767.98px) {{
+          .profile-pic {{
+              float: none;
+              margin-left: auto;
+              margin-right: auto;
+              margin-bottom: 15px;
+              display: block;
           }}
+      }}
+
         .main-container {{
               max-width: 1100px; /* Установите желаемую максимальную ширину */
               margin: 0 auto; /* Центрирует контейнер */
