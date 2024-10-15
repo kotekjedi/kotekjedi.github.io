@@ -25,7 +25,7 @@ def get_personal_data():
     """
 
     bio_text = f"""
-        <img src="assets/img/profile_mine_new.jpg" alt="Profile picture" class="profile-pic img-fluid" style="float: right; margin-left: 5%; margin-bottom: 15px; margin-right: -5%;">
+        <img src="assets/img/profile_mine_new.jpg" alt="Profile picture" class="profile-pic img-fluid float-md-right mr-md-3 mb-3">
 
         <p style="font-size: 1.15em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
