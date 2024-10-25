@@ -29,7 +29,7 @@ def get_personal_data():
 
         <p style="font-size: 1.15em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
-  and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by <a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;">Maksym Andriushchenko</a>.
+  and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by <a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;" target="_blank">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;" target="_blank">Maksym Andriushchenko</a>.
         </p>
         <p style="font-size: 1.15em;">
     Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I enjoy finding various ways to break machine learning systems. </p>
@@ -52,6 +52,25 @@ def get_personal_data():
 
     return name, icons_html, bio_text, footer
 
+def get_acknowledgements():
+    s = """
+    <div class="row" style="margin-top: 3em;">
+        <div class="col-sm-12">
+            <h4 style="margin-bottom: 0.5em; font-weight: medium;">Acknowledgements</h4>
+            <p style="font-size: 1.15em;">
+                I am grateful to the many colleagues I worked with in the past, from whom I learned so much, for their invaluable contributions to my career.
+                I would like to especially acknowledge the mentorship and guidance of
+                <a href="https://www.linkedin.com/in/svyatoslav-oreshin/" target="_blank">Svyatoslav Oreshin</a>,
+                <a href="https://scholar.google.com/citations?user=wcdrgdYAAAAJ&hl=en" target="_blank">Arip Asadualev</a>,
+                <a href="https://scholar.google.de/citations?user=4jdISHwAAAAJ&hl=en" target="_blank">Roland Zimmerman</a>,
+                <a href="https://scholar.google.com/citations?user=aeCiRSYAAAAJ&hl=en" target="_blank">Thaddaus Wiedemer</a>,
+                <a href="https://scholar.google.com/citations?hl=en&user=jgPzOmgAAAAJ" target="_blank">Jack Brady</a>, and
+                <a href="https://scholar.google.com/citations?user=v-JL-hsAAAAJ&hl=en" target="_blank">Wieland Brendel</a>.
+            </p>
+        </div>
+    </div>
+    """
+    return s
 
 def get_author_dict():
     return {
@@ -199,6 +218,7 @@ def get_index_html():
     pub = get_publications_html()
     news_html = get_news_html()
     name, icons_html, bio_text, footer = get_personal_data()
+    ack = get_acknowledgements()
     s = f"""
     <!doctype html>
 <html lang="en">
@@ -297,10 +317,11 @@ def get_index_html():
         </div>
         <div class="row" style="margin-top: 2em;">
             <div class="col-sm-12">
-                <h3 style="margin-bottom: 1em; font-weight: bold;">Publications</h3>
+                <h3 style="margin-bottom: 1em; font-weight: bold;">Selected Publications</h3>
                 {pub}
             </div>
         </div>
+        {ack}
     </div>
     {footer}
 
