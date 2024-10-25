@@ -29,7 +29,7 @@ def get_personal_data():
 
         <p style="font-size: 1.15em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
-  and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by <a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;" target="_blank">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;" target="_blank">Maksym Andriushchenko</a>.
+  and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by<a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;" target="_blank">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;" target="_blank">Maksym Andriushchenko</a>.
         </p>
         <p style="font-size: 1.15em;">
     Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I enjoy finding various ways to break machine learning systems. </p>
