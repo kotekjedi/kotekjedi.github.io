@@ -7,7 +7,6 @@ from pybtex.database.input import bibtex
 
 def get_personal_data():
     name = ["Alexander", "Panfilov"]
-    email = "micniemeyer1@gmail.com"
     twitter = "kotekjedi_ml"
     github = "kotekjedi"
     linkedin = "kotekjedi"
@@ -39,7 +38,7 @@ def get_personal_data():
 (1) What are the viable threat models for attacks on safety tuning? (2) Are safety jailbreaks truly effective, or are we victims of flawed (LLM-based) evaluations? (3) Are we doomed?
         </p>
         <p style="font-size: 1.15em;">
-        You can find my CV <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; background-color: rgb(255, 255, 179);">here</a>. I am always open to collaboration — feel free to reach out via email!</p>
+        You can find my CV <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; font-weight: 500; background-color: rgb(255, 255, 179);">here</a>. I am always open to collaboration — feel free to reach out via email!</p>
     """
     current_date = time.strftime("%d/%m/%Y")
     footer = f"""

@@ -1,10 +1,14 @@
 [
     {
         "date": "2024-05-01",
-        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems."
+        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems. You can find slides for my IMPRS talk <a href=\"assets/talks/imprs_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: 500; color: inherit;\">here</a>."
     },
     {
         "date": "2024-10-09",
-        "text": "Our work, \"A Realistic Threat Model for Large Language Model Jailbreaks,\" has been accepted for an oral presentation at the Red Teaming GenAI Workshop at NeurIPS 2024."
+        "text": "Our work, \"A Realistic Threat Model for Large Language Model Jailbreaks\", has been accepted for an oral presentation at the Red Teaming GenAI Workshop at NeurIPS 2024."
+    },
+    {
+        "date": "2024-11-05",
+        "text": "Presented our work, \"Provable Compositional Generalization for Object-Centric Learning\" at EPFL (Nicolas Flammarion's group seminar). You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: 500; color: inherit;\">here</a>."
     }
 ]
