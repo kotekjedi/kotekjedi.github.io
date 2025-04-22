@@ -10,5 +10,9 @@
     {
         "date": "2024-11-05",
         "text": "Presented our work, \"Provable Compositional Generalization for Object-Centric Learning\" at EPFL (Nicolas Flammarion's group seminar). You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: 500; color: inherit;\">here</a>."
+    },
+    {
+        "date": "2025-04-15",
+        "text": "Our work, \"ASIDE: Architectural Separation of Instructions and Data in Language Models\", has been accepted for an oral presentation at the BuildingTrust Workshop at ICLR 2025."
     }
 ]
