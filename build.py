@@ -5,6 +5,9 @@ import re
 
 from pybtex.database.input import bibtex
 
+# Global font size multiplier - adjust this value to scale all fonts
+FONT_SIZE_MULTIPLIER = 0.95  # 0.95 = 5% smaller, 1.0 = normal size, 1.1 = 10% larger
+
 
 def get_personal_data():
     name = ["Alexander", "Panfilov"]
@@ -29,19 +32,19 @@ def get_personal_data():
     bio_text = f"""
         <img src="assets/img/profile_mine_new.jpg" alt="{full_name_en} ({full_name_ru}) - PhD Student in AI Safety and Machine Learning Security" class="profile-pic img-fluid float-md-right mr-md-3 mb-3" loading="lazy" width="300" height="400" style="object-fit: cover;">
 
-        <p style="font-size: 1.15em;">
+        <p style="font-size: {1.15 * FONT_SIZE_MULTIPLIER}em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
   and I am a first-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by<a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;" target="_blank">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;" target="_blank">Maksym Andriushchenko</a>.
         </p>
-        <p style="font-size: 1.15em;">
+        <p style="font-size: {1.15 * FONT_SIZE_MULTIPLIER}em;">
     Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I enjoy finding various ways to break machine learning systems. Roughly three days a week I am an AI doomer.
         </p>
     
-    <p style="font-size: 1.15em;">
+    <p style="font-size: {1.15 * FONT_SIZE_MULTIPLIER}em;">
     Lately, I have been focusing on jailbreaking attacks on LLMs, contemplating:
 (1) What are the viable threat models for attacks on safety tuning? (2) Are safety jailbreaks truly effective, or are we victims of flawed (LLM-based) evaluations? (3) Are we doomed?
         </p>
-        <p style="font-size: 1.15em;">
+        <p style="font-size: {1.15 * FONT_SIZE_MULTIPLIER}em;">
         You can find my <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; font-weight: bold; background-color: rgb(255, 255, 179);">CV here</a>. I am always open to collaboration — feel free to reach out via email!</p>
         
         <!-- Enhanced SEO content for Russian and English search engines -->
@@ -55,7 +58,7 @@ def get_personal_data():
     current_date = time.strftime("%d/%m/%Y")
     footer = f"""
     <footer style="text-align: right; padding: 10px; margin-top: 20px;">
-        <p style="font-size: 0.9em;">
+        <p style="font-size: {0.9 * FONT_SIZE_MULTIPLIER}em;">
             Updated on {current_date}. Website design credits to <a href="https://github.com/m-niemeyer/m-niemeyer.github.io" target="_blank">Michael Niemeyer</a>.
         </p>
     </footer>
@@ -64,11 +67,11 @@ def get_personal_data():
     return name, icons_html, bio_text, footer, full_name_en, full_name_ru
 
 def get_acknowledgements():
-    s = """
+    s = f"""
     <div class="row" style="margin-top: 3em;">
         <div class="col-sm-12">
             <h4 style="margin-bottom: 0.5em; font-weight: medium;">Acknowledgements</h4>
-            <p style="font-size: 1.15em;">
+            <p style="font-size: {1.15 * FONT_SIZE_MULTIPLIER}em;">
                 I am grateful to the many colleagues I worked with in the past, from whom I learned so much, for their invaluable contributions to my career.
                 I would like to especially acknowledge the mentorship and guidance of
                 <a href="https://www.linkedin.com/in/svyatoslav-oreshin/" target="_blank">Svyatoslav Oreshin</a>,
@@ -192,14 +195,14 @@ def get_paper_entry(entry_key, entry):
     # Enhanced alt text for better SEO
     alt_text = f"{entry.fields.get('title', 'Research paper')} - {entry_key} - Alexander Panfilov AI Safety ML Security Research"
     s += f"""<img src="{entry.fields['img']}" class="img-fluid" alt="{alt_text}" loading="lazy" width="300" height="200" style="object-fit: cover;">"""
-    s += """</div><div class="col-sm-9" style="font-size: 1.05em;">"""
+    s += f"""</div><div class="col-sm-9" style="font-size: {1.05 * FONT_SIZE_MULTIPLIER}em;">"""
 
     # Add presentation badge if available
     badge = ""
     if 'presentation' in entry.fields:
         badge = generate_presentation_badge(entry.fields['presentation'])
     
-    s += f"""{badge}<a href="{entry.fields['url']}" target="_blank" class="article-title" style="font-size: 1.1em;">{entry.fields['title']}</a> <br>"""
+    s += f"""{badge}<a href="{entry.fields['url']}" target="_blank" class="article-title" style="font-size: {1.1 * FONT_SIZE_MULTIPLIER}em;">{entry.fields['title']}</a> <br>"""
 
     s += f"""{generate_person_html(entry.persons['author'])} <br>"""
     
@@ -289,7 +292,7 @@ def get_news_items(filename="news.json"):
 
 def get_news_html():
     news_items = get_news_items()
-    s = '<div style="max-height: 210px; overflow-y: auto; padding-right: 10px;"><ul class="list-unstyled" style="font-size: 1.1em;">'
+    s = f'<div style="max-height: 210px; overflow-y: auto; padding-right: 10px;"><ul class="list-unstyled" style="font-size: {1.1 * FONT_SIZE_MULTIPLIER}em;">'
     for item in news_items:
         date_str = item["date_obj"].strftime("%B %d, %Y")
         text_with_conferences = highlight_conference_names(item["text"])  # Apply conference highlighting
@@ -509,7 +512,7 @@ def get_index_html():
         <!-- Разделы News и Publications -->
         <div class="row" style="margin-top: 2em;">
             <div class="col-sm-12">
-                <h3 style="margin-bottom: -0.3em; font-weight: bold;">News</h3>
+                <h3 style="margin-bottom: 0em; font-weight: bold;">News</h3>
                 {news_html}
             </div>
         </div>
