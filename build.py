@@ -289,7 +289,7 @@ def get_news_items(filename="news.json"):
 
 def get_news_html():
     news_items = get_news_items()
-    s = '<div style="max-height: 250px; overflow-y: auto; padding-right: 10px;"><ul class="list-unstyled" style="font-size: 1.1em;">'
+    s = '<div style="max-height: 210px; overflow-y: auto; padding-right: 10px;"><ul class="list-unstyled" style="font-size: 1.1em;">'
     for item in news_items:
         date_str = item["date_obj"].strftime("%B %d, %Y")
         text_with_conferences = highlight_conference_names(item["text"])  # Apply conference highlighting
@@ -509,7 +509,7 @@ def get_index_html():
         <!-- Разделы News и Publications -->
         <div class="row" style="margin-top: 2em;">
             <div class="col-sm-12">
-                <h3 style="margin-bottom: 1em; font-weight: bold;">News</h3>
+                <h3 style="margin-bottom: -0.3em; font-weight: bold;">News</h3>
                 {news_html}
             </div>
         </div>
