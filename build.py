@@ -27,7 +27,7 @@ def get_personal_data():
     """
 
     bio_text = f"""
-        <img src="assets/img/profile_mine_new.jpg" alt="{full_name_en} ({full_name_ru}) - PhD Student in AI Safety and Machine Learning Security" class="profile-pic img-fluid float-md-right mr-md-3 mb-3">
+        <img src="assets/img/profile_mine_new.jpg" alt="{full_name_en} ({full_name_ru}) - PhD Student in AI Safety and Machine Learning Security" class="profile-pic img-fluid float-md-right mr-md-3 mb-3" loading="lazy" width="300" height="400" style="object-fit: cover;">
 
         <p style="font-size: 1.15em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
@@ -44,9 +44,12 @@ def get_personal_data():
         <p style="font-size: 1.15em;">
         You can find my <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; font-weight: bold; background-color: rgb(255, 255, 179);">CV here</a>. I am always open to collaboration — feel free to reach out via email!</p>
         
-        <!-- Hidden SEO content for name variants -->
+        <!-- Enhanced SEO content for Russian and English search engines -->
         <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
             <span>{full_name_en} {full_name_ru} Alexander Panfilov Александр Панфилов Sasha Panfilov AI Safety Machine Learning Security Adversarial Robustness LLM Jailbreaking PhD Student ELLIS IMPRS-IS Tübingen Research Max Planck Institute for Intelligent Systems MPI-IS Тольятти Togliatti Togliatty Toliatty Samara Самара ITMO ИТМО ITMO University Red Teaming AI Alignment ML Security Research</span>
+            <span>искусственный интеллект машинное обучение безопасность ИИ adversarial attacks состязательные атаки jailbreak джейлбрейк LLM языковые модели исследователь PhD докторант Тюбинген Германия Germany русский российский ученый</span>
+            <span>neural networks нейронные сети deep learning глубокое обучение computer vision компьютерное зрение natural language processing NLP обработка естественного языка cybersecurity кибербезопасность AI ethics этика ИИ machine learning engineer инженер машинного обучения</span>
+            <span>Panfilov researcher Панфилов исследователь student студент artificial intelligence безопасность машинного обучения ML safety AI researcher исследователь ИИ Котек Джеди kotekjedi</span>
         </div>
     """
     current_date = time.strftime("%d/%m/%Y")
@@ -186,7 +189,9 @@ def generate_presentation_badge(presentation_type):
 
 def get_paper_entry(entry_key, entry):
     s = """<div style="margin-bottom: 3em;" > <div class="row"><div class="col-sm-3">"""
-    s += f"""<img src="{entry.fields['img']}" class="img-fluid" alt="Project image">"""
+    # Enhanced alt text for better SEO
+    alt_text = f"{entry.fields.get('title', 'Research paper')} - {entry_key} - Alexander Panfilov AI Safety ML Security Research"
+    s += f"""<img src="{entry.fields['img']}" class="img-fluid" alt="{alt_text}" loading="lazy" width="300" height="200" style="object-fit: cover;">"""
     s += """</div><div class="col-sm-9" style="font-size: 1.05em;">"""
 
     # Add presentation badge if available
@@ -223,23 +228,7 @@ def get_paper_entry(entry_key, entry):
         else:
             print(f"[{entry_key}] Warning: Field {k} missing!")
 
-    # cite = "<pre><code>@InProceedings{" + f"{entry_key}, \n"
-    # cite += (
-    #     "\tauthor = {"
-    #     + f"{generate_person_html(entry.persons['author'], make_bold=False, add_links=False, connection=' and ')}"
-    #     + "}, \n"
-    # )
-    # for entr in ["title", "booktitle", "year"]:
-    #     cite += f"\t{entr} = " + "{" + f"{entry.fields[entr]}" + "}, \n"
-    # cite += """}</pre></code>"""
-    # cite = cite.replace("*", "")
-
-    # s += (
-    #     " /"
-    #     + f"""<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{entry_key}" aria-expanded="false" aria-controls="collapseExample" style="margin-left: -6px; margin-top: -2px;">Expand bibtex</button><div class="collapse" id="collapse{entry_key}"><div class="card card-body">{cite}</div></div>"""
-    # )
     s += """ </div> </div> </div>"""
-    # remove * from cite
     return s
 
 
@@ -310,13 +299,50 @@ def get_news_html():
     return s
 
 
+def get_publications_structured_data():
+    """Generate structured data for publications to enhance SEO"""
+    parser = bibtex.Parser()
+    bib_data = parser.parse_file("publication_list.bib")
+    publications = []
+    
+    for entry_key, entry in bib_data.entries.items():
+        authors = []
+        for person in entry.persons['author']:
+            first_names = " ".join(person.get_part("first"))
+            last_names = " ".join(person.get_part("last"))
+            full_name = f"{first_names} {last_names}"
+            authors.append({
+                "@type": "Person",
+                "name": full_name
+            })
+        
+        publication = {
+            "@type": "ScholarlyArticle",
+            "headline": entry.fields.get('title', ''),
+            "author": authors,
+            "datePublished": entry.fields.get('year', ''),
+            "publisher": {
+                "@type": "Organization",
+                "name": entry.fields.get('booktitle', '')
+            }
+        }
+        
+        if 'url' in entry.fields:
+            publication["url"] = entry.fields['url']
+        
+        publications.append(publication)
+    
+    return publications
+
+
 def get_index_html():
     pub = get_publications_html()
     news_html = get_news_html()
     name, icons_html, bio_text, footer, full_name_en, full_name_ru = get_personal_data()
     ack = get_acknowledgements()
+    publications_data = get_publications_structured_data()
     
-    # SEO-optimized title and meta description
+    # Enhanced SEO-optimized title and meta description
     
     s = f"""
     <!doctype html>
@@ -327,24 +353,32 @@ def get_index_html():
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
-  <!-- SEO Meta Tags -->
-  <title>{full_name_en} - PhD Student in AI Safety & Machine Learning Security</title>
-  <meta name="description" content="{full_name_en} ({full_name_ru}) - PhD student at ELLIS/IMPRS-IS Tübingen working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks.">
-  <meta name="keywords" content="{full_name_en}, {full_name_ru}, Alexander Panfilov, Александр Панфилов, PhD, AI Safety, Machine Learning Security, Adversarial Robustness, LLM Jailbreaking, ELLIS, IMPRS-IS, Tübingen, Jonas Geiping, Maksym Andriushchenko, Max Planck Institute for Intelligent Systems, MPI-IS, Тольятти, Togliatti, Samara, Самара, ITMO, ИТМО, ITMO University, Red Teaming, AI Alignment, ML Security Research">
+  <!-- Language targeting -->
+  <link rel="alternate" hreflang="en" href="https://kotekjedi.github.io">
+  <link rel="alternate" hreflang="ru" href="https://kotekjedi.github.io">
+  <link rel="alternate" hreflang="x-default" href="https://kotekjedi.github.io">
+  
+  <!-- Enhanced SEO Meta Tags -->
+  <title>{full_name_en} - PhD Student in AI Safety & Machine Learning Security | Исследователь ИИ</title>
+  <meta name="description" content="{full_name_en} ({full_name_ru}) - PhD student at ELLIS/IMPRS-IS Tübingen working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks. Исследователь безопасности искусственного интеллекта.">
+  <meta name="keywords" content="{full_name_en}, {full_name_ru}, Alexander Panfilov, Александр Панфилов, PhD, AI Safety, Machine Learning Security, Adversarial Robustness, LLM Jailbreaking, ELLIS, IMPRS-IS, Tübingen, Jonas Geiping, Maksym Andriushchenko, Max Planck Institute for Intelligent Systems, MPI-IS, Тольятти, Togliatti, Samara, Самара, ITMO, ИТМО, ITMO University, Red Teaming, AI Alignment, ML Security Research, искусственный интеллект, машинное обучение, безопасность ИИ, исследователь, PhD, докторант, Германия, русский ученый, состязательные атаки, джейлбрейк, языковые модели">
   <meta name="author" content="{full_name_en}">
   <meta name="robots" content="index, follow">
   
-  <!-- Open Graph / Social Media -->
+  <!-- Enhanced Open Graph / Social Media -->
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{full_name_en} - AI Safety Researcher">
   <meta property="og:title" content="{full_name_en} - AI Safety & ML Security Researcher">
-  <meta property="og:description" content="PhD student working on adversarial robustness, AI safety, and LLM jailbreaking attacks at ELLIS Institute Tübingen.">
+  <meta property="og:description" content="PhD student working on adversarial robustness, AI safety, and LLM jailbreaking attacks at ELLIS Institute Tübingen. Исследователь безопасности ИИ.">
   <meta property="og:url" content="https://kotekjedi.github.io">
   <meta property="og:image" content="https://kotekjedi.github.io/assets/img/profile_mine_new.jpg">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{full_name_en} - AI Safety Researcher">
-  <meta name="twitter:description" content="PhD student working on adversarial robustness, AI safety, and LLM jailbreaking attacks.">
+  <meta name="twitter:description" content="PhD student working on adversarial robustness, AI safety, and LLM jailbreaking attacks. Исследователь безопасности ИИ.">
   <meta name="twitter:image" content="https://kotekjedi.github.io/assets/img/profile_mine_new.jpg">
   <meta name="twitter:site" content="@kotekjedi_ml">
 
@@ -355,20 +389,20 @@ def get_index_html():
 
   <link rel="icon" type="image/x-icon" href="assets/favicon_mine.ico">
   
-  <!-- Structured Data (JSON-LD) for SEO -->
+  <!-- Enhanced Structured Data (JSON-LD) for SEO -->
   <script type="application/ld+json">
   {{
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "{full_name_en}",
-    "alternateName": ["{full_name_ru}", "Sasha Panfilov", "Alexander Panfilov"],
+    "alternateName": ["{full_name_ru}", "Sasha Panfilov", "Alexander Panfilov", "Александр Панфилов", "Котек Джеди", "kotekjedi"],
     "jobTitle": "PhD Student",
+    "description": "PhD student working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks",
     "affiliation": {{
       "@type": "Organization",
       "name": "ELLIS Institute Tübingen",
-      "alternateName": ["Max Planck Institute for Intelligent Systems", "MPI-IS"]
+      "alternateName": ["Max Planck Institute for Intelligent Systems", "MPI-IS", "IMPRS-IS"]
     }},
-    "description": "PhD student working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks",
     "url": "https://kotekjedi.github.io",
     "image": "https://kotekjedi.github.io/assets/img/profile_mine_new.jpg",
     "sameAs": [
@@ -383,9 +417,19 @@ def get_index_html():
       "Adversarial Robustness",
       "LLM Jailbreaking",
       "Red Teaming",
-      "AI Alignment"
+      "AI Alignment",
+      "Безопасность искусственного интеллекта",
+      "Машинное обучение",
+      "Состязательные атаки"
     ],
-    "alumniOf": ["ELLIS Institute Tübingen", "ITMO University", "ИТМО"]
+    "alumniOf": [
+      {{"@type": "Organization", "name": "ELLIS Institute Tübingen"}},
+      {{"@type": "Organization", "name": "ITMO University", "alternateName": "ИТМО"}}
+    ],
+    "nationality": ["Russian", "русский"],
+    "workLocation": {{"@type": "Place", "name": "Tübingen, Germany"}},
+    "homeLocation": {{"@type": "Place", "name": "Togliatti, Russia", "alternateName": "Тольятти, Россия"}},
+    "publication": {json.dumps(publications_data, ensure_ascii=False)}
   }}
   </script>
   
