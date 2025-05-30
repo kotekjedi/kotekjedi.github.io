@@ -362,7 +362,7 @@ def get_index_html():
   <link rel="alternate" hreflang="x-default" href="https://kotekjedi.github.io">
   
   <!-- Enhanced SEO Meta Tags -->
-  <title>{full_name_en} - PhD Student in AI Safety & Machine Learning Security | Исследователь ИИ</title>
+  <title>{full_name_en} - PhD Student in AI Safety</title>
   <meta name="description" content="{full_name_en} ({full_name_ru}) - PhD student at ELLIS/IMPRS-IS Tübingen working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks. Исследователь безопасности искусственного интеллекта.">
   <meta name="keywords" content="{full_name_en}, {full_name_ru}, Alexander Panfilov, Александр Панфилов, PhD, AI Safety, Machine Learning Security, Adversarial Robustness, LLM Jailbreaking, ELLIS, IMPRS-IS, Tübingen, Jonas Geiping, Maksym Andriushchenko, Max Planck Institute for Intelligent Systems, MPI-IS, Тольятти, Togliatti, Samara, Самара, ITMO, ИТМО, ITMO University, Red Teaming, AI Alignment, ML Security Research, искусственный интеллект, машинное обучение, безопасность ИИ, исследователь, PhD, докторант, Германия, русский ученый, состязательные атаки, джейлбрейк, языковые модели">
   <meta name="author" content="{full_name_en}">
