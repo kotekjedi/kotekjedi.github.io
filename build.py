@@ -131,7 +131,7 @@ def highlight_oral_text(text):
 def highlight_conference_names(text):
     """Highlight major conference names and years in bold"""
     # List of major conferences to highlight
-    conferences = ['ICML', 'ICLR', 'NeurIPS', 'NIPS', 'CVPR', 'ICCV', 'ECCV', 'AAAI', 'IJCAI', 'ACL', 'EMNLP', 'NAACL']
+    conferences = ['ICML', 'ICLR', 'NeurIPS', 'NIPS', 'CoLLAs', 'TMLR', 'CVPR', 'ICCV', 'ECCV', 'AAAI', 'IJCAI', 'ACL', 'EMNLP', 'NAACL']
     
     for conf in conferences:
         # Match conference name followed by optional space and year (e.g., "ICML 2025", "ICLR", etc.)
@@ -210,7 +210,7 @@ def get_paper_entry(entry_key, entry):
     booktitle_styled = f"""<span style="font-style: italic;">{entry.fields['booktitle']}</span>"""
     booktitle_with_conferences = highlight_conference_names(booktitle_styled)
     booktitle_with_oral = highlight_oral_text(booktitle_with_conferences)
-    s += f"""{booktitle_with_oral}, {entry.fields['year']} <br>"""
+    s += f"""{booktitle_with_oral} <br>"""
 
     artefacts = {
         "url": "Paper",
@@ -323,12 +323,15 @@ def get_publications_structured_data():
             "@type": "ScholarlyArticle",
             "headline": entry.fields.get('title', ''),
             "author": authors,
-            "datePublished": entry.fields.get('year', ''),
             "publisher": {
                 "@type": "Organization",
                 "name": entry.fields.get('booktitle', '')
             }
         }
+        
+        # Only add datePublished if year exists
+        if 'year' in entry.fields:
+            publication["datePublished"] = entry.fields['year']
         
         if 'url' in entry.fields:
             publication["url"] = entry.fields['url']
