@@ -1,7 +1,7 @@
 [
     {
         "date": "2024-05-01",
-        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems. You can find the slides for my IMPRS talk <a href=\"assets/talks/imprs_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
+        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems. You can find the slides for my <span style=\"font-weight: bold; color: #2563eb;\">IMPRS</span> talk <a href=\"assets/talks/imprs_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
     },
     {
         "date": "2024-10-09",
@@ -9,7 +9,7 @@
     },
     {
         "date": "2024-11-05",
-        "text": "Presented our work, \"Provable Compositional Generalization for Object-Centric Learning\" at EPFL (Nicolas Flammarion's group seminar). You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
+        "text": "Presented our work, \"Provable Compositional Generalization for Object-Centric Learning\" at <span style=\"font-weight: bold; color: #2563eb;\">EPFL (Nicolas Flammarion's group seminar)</span>. You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
     },
     {
         "date": "2025-04-15",
@@ -18,5 +18,9 @@
     {
         "date": "2025-05-01",
         "text": "Our work, \"An Interpretable N-gram Perplexity Threat Model for Large Language Model Jailbreaks\", has been accepted at ICML 2025."
+    },
+    {
+        "date": "2025-06-23",
+        "text": "Presented our work \"Capability-Based Scaling Laws for LLM Red-Teaming\" and \"ASIDE\" at the <span style=\"font-weight: bold; color: #2563eb;\">Google's Red Teaming seminar</span>. You can find the slides <a href=\"assets/talks/google_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>. Thanks for the invitation!"
     }
 ]
