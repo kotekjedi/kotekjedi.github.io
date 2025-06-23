@@ -5,22 +5,22 @@
     },
     {
         "date": "2024-10-09",
-        "text": "Our work, \"A Realistic Threat Model for Large Language Model Jailbreaks\", has been accepted for an oral presentation at the Red Teaming GenAI Workshop at NeurIPS 2024."
+        "text": "Our work, <em>A Realistic Threat Model for Large Language Model Jailbreaks</em>, has been accepted for an oral presentation at the <span style=\"font-weight: bold; color: #2563eb;\">Red Teaming GenAI Workshop at NeurIPS 2024</span>."
     },
     {
         "date": "2024-11-05",
-        "text": "Presented our work, \"Provable Compositional Generalization for Object-Centric Learning\" at <span style=\"font-weight: bold; color: #2563eb;\">EPFL (Nicolas Flammarion's group seminar)</span>. You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
+        "text": "Presented our work, <em>Provable Compositional Generalization for Object-Centric Learning</em> at <span style=\"font-weight: bold; color: #2563eb;\">EPFL</span> (Nicolas Flammarion's group seminar). You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
     },
     {
         "date": "2025-04-15",
-        "text": "Our work, \"ASIDE: Architectural Separation of Instructions and Data in Language Models\", has been accepted for an oral presentation at the BuildingTrust Workshop at ICLR 2025."
+        "text": "Our work, <em>ASIDE: Architectural Separation of Instructions and Data in Language Models</em>, has been accepted for an oral presentation at the <span style=\"font-weight: bold; color: #2563eb;\">BuildingTrust Workshop at ICLR 2025</span>."
     },
     {
         "date": "2025-05-01",
-        "text": "Our work, \"An Interpretable N-gram Perplexity Threat Model for Large Language Model Jailbreaks\", has been accepted at ICML 2025."
+        "text": "Our work, <em>An Interpretable N-gram Perplexity Threat Model for Large Language Model Jailbreaks</em>, has been accepted at <span style=\"font-weight: bold; color: #2563eb;\">ICML 2025</span>."
     },
     {
         "date": "2025-06-23",
-        "text": "Presented our work \"Capability-Based Scaling Laws for LLM Red-Teaming\" and \"ASIDE\" at the <span style=\"font-weight: bold; color: #2563eb;\">Google's Red Teaming seminar</span>. You can find the slides <a href=\"assets/talks/google_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>. Thanks for the invitation!"
+        "text": "Presented our work <em>Capability-Based Scaling Laws for LLM Red-Teaming</em> and <em>ASIDE</em> at the <span style=\"font-weight: bold; color: #2563eb;\">Google's Red Teaming seminar</span>. You can find the slides <a href=\"assets/talks/google_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>. Thanks for the invitation!"
     }
 ]
