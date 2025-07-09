@@ -30,7 +30,15 @@ def get_personal_data():
     """
 
     bio_text = f"""
-        <img src="assets/img/profile_mine_new.jpg" alt="{full_name_en} ({full_name_ru}) - PhD Student in AI Safety and Machine Learning Security" class="profile-pic img-fluid float-md-right mr-md-3 mb-3" loading="lazy" width="300" height="400" style="object-fit: cover;">
+    <img 
+    src="assets/img/profile_mine_new.jpg" 
+    alt="{full_name_en} ({full_name_ru}) - PhD Student in AI Safety." 
+    title="I’m of Mordvin ancestry — one of many non-Slavic Indigenous peoples historically colonized by the Russian Empire, but invisible in Western diversity narratives." 
+    class="profile-pic img-fluid float-md-right mr-md-3 mb-3" 
+    loading="lazy" 
+    width="300" 
+    height="400" 
+    style="object-fit: cover;">
 
         <p style="font-size: {1.12 * FONT_SIZE_MULTIPLIER}em;">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
@@ -50,9 +58,9 @@ def get_personal_data():
         <!-- Enhanced SEO content for Russian and English search engines -->
         <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
             <span>{full_name_en} {full_name_ru} Alexander Panfilov Александр Панфилов Sasha Panfilov AI Safety Machine Learning Security Adversarial Robustness LLM Jailbreaking PhD Student ELLIS IMPRS-IS Tübingen Research Max Planck Institute for Intelligent Systems MPI-IS Тольятти Togliatti Togliatty Toliatty Samara Самара ITMO ИТМО ITMO University Red Teaming AI Alignment ML Security Research</span>
-            <span>искусственный интеллект машинное обучение безопасность ИИ adversarial attacks состязательные атаки jailbreak джейлбрейк LLM языковые модели исследователь PhD докторант Тюбинген Германия Germany русский российский ученый</span>
+            <span>искусственный интеллект машинное обучение безопасность ИИ adversarial attacks состязательные атаки jailbreak джейлбрейк LLM языковые модели исследователь PhD докторант Тюбинген Германия Germany</span>
             <span>neural networks нейронные сети deep learning глубокое обучение computer vision компьютерное зрение natural language processing NLP обработка естественного языка cybersecurity кибербезопасность AI ethics этика ИИ machine learning engineer инженер машинного обучения</span>
-            <span>Panfilov researcher Панфилов исследователь student студент artificial intelligence безопасность машинного обучения ML safety AI researcher исследователь ИИ Котек Джеди kotekjedi</span>
+            <span>Panfilov researcher Панфилов исследователь student студент artificial intelligence безопасность машинного обучения ML safety AI researcher исследователь ИИ kotekjedi</span>
         </div>
     """
     current_date = time.strftime("%d/%m/%Y")
@@ -366,8 +374,8 @@ def get_index_html():
   
   <!-- Enhanced SEO Meta Tags -->
   <title>{full_name_en} - PhD Student @ ELLIS/IMPRS-IS Tübingen</title>
-  <meta name="description" content="{full_name_en} ({full_name_ru}) - PhD student at ELLIS/IMPRS-IS Tübingen working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks. Исследователь безопасности искусственного интеллекта.">
-  <meta name="keywords" content="{full_name_en}, {full_name_ru}, Alexander Panfilov, Александр Панфилов, PhD, AI Safety, Machine Learning Security, Adversarial Robustness, LLM Jailbreaking, ELLIS, IMPRS-IS, Tübingen, Jonas Geiping, Maksym Andriushchenko, Max Planck Institute for Intelligent Systems, MPI-IS, Тольятти, Togliatti, Samara, Самара, ITMO, ИТМО, ITMO University, Red Teaming, AI Alignment, ML Security Research, искусственный интеллект, машинное обучение, безопасность ИИ, исследователь, PhD, докторант, Германия, русский ученый, состязательные атаки, джейлбрейк, языковые модели">
+  <meta name="description" content="{full_name_en} ({full_name_ru}) - PhD student at ELLIS/IMPRS-IS Tübingen working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks.">
+  <meta name="keywords" content="{full_name_en}, {full_name_ru}, Alexander Panfilov, Александр Панфилов, PhD, AI Safety, Machine Learning Security, Adversarial Robustness, LLM Jailbreaking, ELLIS, IMPRS-IS, Tübingen, Jonas Geiping, Maksym Andriushchenko, Max Planck Institute for Intelligent Systems, MPI-IS, Тольятти, Togliatti, Samara, Самара, ITMO, ИТМО, ITMO University, Red Teaming, AI Alignment, искусственный интеллект, машинное обучение, безопасность ИИ, исследователь, PhD, аспирант, Германия">
   <meta name="author" content="{full_name_en}">
   <meta name="robots" content="index, follow">
   
