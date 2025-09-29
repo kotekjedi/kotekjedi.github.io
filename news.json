@@ -1,30 +1,34 @@
 [
     {
         "date": "2024-05-01",
-        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems. You can find the slides for my <span style=\"font-weight: bold; color: #2563eb;\">IMPRS</span> talk <a href=\"assets/talks/imprs_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
+        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems. You can find the slides for my <span style=\" color: #2563eb;\">IMPRS</span> talk <a href=\"assets/talks/imprs_talk.pdf\" target=\"_blank\">here</a>."
     },
     {
         "date": "2024-10-09",
-        "text": "Our work, <em>A Realistic Threat Model for Large Language Model Jailbreaks</em>, has been accepted for an oral presentation at the <span style=\"font-weight: bold; color: #2563eb;\">Red Teaming GenAI Workshop at NeurIPS 2024</span>."
+        "text": "Our work, <em>A Realistic Threat Model for Large Language Model Jailbreaks</em>, has been accepted for an oral presentation at the <span style=\" color: #2563eb;\">Red Teaming GenAI Workshop at NeurIPS 2024</span>."
     },
     {
         "date": "2024-11-05",
-        "text": "Presented our work, <em>Provable Compositional Generalization for Object-Centric Learning</em> at <span style=\"font-weight: bold; color: #2563eb;\">EPFL</span> (Nicolas Flammarion's group seminar). You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>."
+        "text": "Presented our work, <em>Provable Compositional Generalization for Object-Centric Learning</em> at <span style=\"  color: #2563eb;\">EPFL</span> (Nicolas Flammarion's group seminar). You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\">here</a>."
     },
     {
         "date": "2025-04-15",
-        "text": "Our work, <em>ASIDE: Architectural Separation of Instructions and Data in Language Models</em>, has been accepted for an oral presentation at the <span style=\"font-weight: bold; color: #2563eb;\">BuildingTrust Workshop at ICLR 2025</span>."
+        "text": "Our work, <em>ASIDE: Architectural Separation of Instructions and Data in Language Models</em>, has been accepted for an oral presentation at the <span style=\"  color: #2563eb;\">BuildingTrust Workshop at ICLR 2025</span>."
     },
     {
         "date": "2025-05-01",
-        "text": "Our work, <em>An Interpretable N-gram Perplexity Threat Model for Large Language Model Jailbreaks</em>, has been accepted at <span style=\"font-weight: bold; color: #2563eb;\">ICML 2025</span>."
+        "text": "Our work, <em>An Interpretable N-gram Perplexity Threat Model for Large Language Model Jailbreaks</em>, has been accepted at <span style=\"  color: #2563eb;\">ICML 2025</span>."
     },
     {
         "date": "2025-06-23",
-        "text": "Presented our work <em>Capability-Based Scaling Laws for LLM Red-Teaming</em> and <em>ASIDE</em> at the <span style=\"font-weight: bold; color: #2563eb;\">Google's Red Teaming seminar</span>. You can find the slides <a href=\"assets/talks/google_talk.pdf\" target=\"_blank\" style=\"text-decoration: none; font-weight: bold; color: inherit;\">here</a>. Thanks for the invitation!"
+        "text": "Presented our work <em>Capability-Based Scaling Laws for LLM Red-Teaming</em> and <em>ASIDE</em> at the <span style=\"  color: #2563eb;\">Google's Red Teaming seminar</span>. You can find the slides <a href=\"assets/talks/google_talk.pdf\" target=\"_blank\">here</a>. Thanks for the invitation!"
     },
     {
         "date": "2025-07-09",
-        "text": "<em>Capability-Based Scaling Laws for LLM Red-Teaming</em> accepted at <span style=\"font-weight: bold; color: #2563eb;\">ICML 2025 Workshop on Reliable and Responsible Foundation Models</span>! I will be presenting two recent papers there - come chat with me if you are attending!"
+        "text": "<em>Capability-Based Scaling Laws for LLM Red-Teaming</em> accepted at <span style=\" color: #2563eb;\">ICML 2025 Workshop on Reliable and Responsible Foundation Models</span>!"
+    },
+    {
+        "date": "2025-09-01",
+        "text": "<a href=\"https://scholar.google.com/citations?user=aFpbzMYAAAAJ&hl=en\" target=\"_blank\">Kristina Nikolić</a>, <a href=\"https://scholar.google.com/citations?user=7qTZ4NEAAAAJ&hl=en\" target=\"_blank\">Evgenii Kortukov</a>, and I won third place at the <span style=\"  color: #2563eb;\">ARENA 6.0 Mechanistic Interpretability Hackathon</span> by Apart Research in LISA (London)!"
     }
 ]

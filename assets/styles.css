@@ -1,0 +1,81 @@
+.article-title {
+  color: #256EFF;
+  font-weight: 600;
+}
+
+.article-link {
+  color: #256EFF;
+}
+
+.profile-pic {
+  width: 90%;
+  max-width: 300px;
+  height: auto;
+  object-fit: cover;
+  float: right;
+  margin-left: 5%;
+  margin-bottom: 15px;
+  margin-right: -5%;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 767.98px) {
+  .profile-pic {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    display: block;
+  }
+}
+
+.main-container {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.text-body {
+  font-size: 1.064em; /* matches 1.12 * 0.95 */
+}
+
+.article-title-lg {
+  font-size: 1.045em; /* matches 1.1 * 0.95 */
+}
+
+.badge-presentation {
+  font-size: 0.75em;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-right: 8px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.thumb-cover img,
+.thumb-cover {
+  object-fit: cover;
+}
+
+.news a {
+  color: #2563eb !important;
+  text-decoration: none !important;
+}
+
+.news a:hover,
+.news a:focus {
+  text-decoration: underline !important;
+}
+
+.author-self {
+  font-weight: bold;
+  background-color: rgb(255, 255, 179);
+}
+
+.venue {
+  font-style: italic;
+}
+
+

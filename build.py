@@ -37,22 +37,21 @@ def get_personal_data():
     class="profile-pic img-fluid float-md-right mr-md-3 mb-3" 
     loading="lazy" 
     width="300" 
-    height="400" 
-    style="object-fit: cover;">
+    height="400">
 
-        <p style="font-size: {1.12 * FONT_SIZE_MULTIPLIER}em;">
+        <p class="text-body">
             Yo! My name is <span style="font-weight: 500;">Sasha</span>
-  and I am a second-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by<a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;" target="_blank">Jonas Geiping</a>and<a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;" target="_blank">Maksym Andriushchenko</a>.
+  and I am a second-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by <a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;" target="_blank">Jonas Geiping</a> and <a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;" target="_blank">Maksym Andriushchenko</a>.
         </p>
-        <p style="font-size: {1.12 * FONT_SIZE_MULTIPLIER}em;">
+        <p class="text-body">
     Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I enjoy finding various ways to break machine learning systems. Roughly three days a week I am an AI doomer.
         </p>
     
-    <p style="font-size: {1.12 * FONT_SIZE_MULTIPLIER}em;">
+    <p class="text-body">
     Lately, I have been focusing on jailbreaking attacks on LLMs, contemplating:
-(1) What are the viable threat models for attacks on safety tuning? (2) Are safety jailbreaks truly effective, or are we victims of flawed (LLM-based) evaluations? (3) Are we doomed?
+ (1) What are the viable threat models for attacks on safety tuning? (2) Are safety jailbreaks truly effective, or are we victims of flawed (LLM-based) evaluations? (3) Are we doomed?
         </p>
-        <p style="font-size: {1.12 * FONT_SIZE_MULTIPLIER}em;">
+        <p class="text-body">
         You can find my <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; font-weight: bold; background-color: rgb(255, 255, 179);">CV here</a>. I am always open to collaboration — feel free to reach out via email!</p>
         
         <!-- Enhanced SEO content for Russian and English search engines -->
@@ -183,39 +182,34 @@ def generate_presentation_badge(presentation_type):
         'text_color': 'white'
     })
     
-    badge_html = f'''<span style="
-        background-color: {style['color']}; 
-        color: {style['text_color']}; 
-        font-size: 0.75em; 
-        font-weight: bold; 
-        padding: 3px 8px; 
-        border-radius: 12px; 
-        margin-right: 8px;
-        text-transform: uppercase;
-        display: inline-block;
-    ">{presentation_type}</span>'''
+    badge_html = f'''<span class="badge-presentation" style="background-color: {style['color']}; color: {style['text_color']};">{presentation_type}</span>'''
     
     return badge_html
 
 
 def get_paper_entry(entry_key, entry):
-    s = """<div style="margin-bottom: 3em;" > <div class="row"><div class="col-sm-3">"""
+    s = """<div style="margin-bottom: 3em;" > <div class="row"><div class="col-sm-3 thumb-cover">"""
     # Enhanced alt text for better SEO
     alt_text = f"{entry.fields.get('title', 'Research paper')} - {entry_key} - Alexander Panfilov AI Safety ML Security Research"
-    s += f"""<img src="{entry.fields['img']}" class="img-fluid" alt="{alt_text}" loading="lazy" width="300" height="200" style="object-fit: cover;">"""
-    s += f"""</div><div class="col-sm-9" style="font-size: {1.05 * FONT_SIZE_MULTIPLIER}em;">"""
+    s += f"""<img src="{entry.fields['img']}" class="img-fluid" alt="{alt_text}" loading="lazy" width="300" height="200">"""
+    s += f"""</div><div class="col-sm-9 text-body">"""
 
     # Add presentation badge if available
     badge = ""
     if 'presentation' in entry.fields:
         badge = generate_presentation_badge(entry.fields['presentation'])
     
-    s += f"""{badge}<a href="{entry.fields['url']}" target="_blank" class="article-title" style="font-size: {1.1 * FONT_SIZE_MULTIPLIER}em;">{entry.fields['title']}</a> <br>"""
+    s += f"""{badge}<a href="{entry.fields['url']}" target="_blank" class="article-title article-title-lg">{entry.fields['title']}</a> <br>"""
 
-    s += f"""{generate_person_html(entry.persons['author'])} <br>"""
+    authors_html = generate_person_html(entry.persons['author'])
+    authors_html = authors_html.replace(
+        '<span style="font-weight: bold; background-color: rgb(255, 255, 179);">',
+        '<span class="author-self">'
+    )
+    s += f"""{authors_html} <br>"""
     
     # Apply both conference name highlighting and oral highlighting
-    booktitle_styled = f"""<span style="font-style: italic;">{entry.fields['booktitle']}</span>"""
+    booktitle_styled = f"""<span class="venue">{entry.fields['booktitle']}</span>"""
     booktitle_with_conferences = highlight_conference_names(booktitle_styled)
     booktitle_with_oral = highlight_oral_text(booktitle_with_conferences)
     s += f"""{booktitle_with_oral} <br>"""
@@ -224,9 +218,6 @@ def get_paper_entry(entry_key, entry):
         "url": "Paper",
         "code": "Code",
         "html": "Project Page",
-        "pdf": "Pdf",
-        "supp": "Supplemental",
-        "video": "Video",
         "poster": "Poster",
     }
     i = 0
@@ -236,8 +227,7 @@ def get_paper_entry(entry_key, entry):
                 s += " / "
             s += f"""<a href="{entry.fields[k]}" target="_blank" class="article-link">{v}</a>"""
             i += 1
-        else:
-            print(f"[{entry_key}] Warning: Field {k} missing!")
+        # Missing artefacts are common; skip noisy warnings
 
     s += """ </div> </div> </div>"""
     return s
@@ -250,7 +240,7 @@ def get_talk_entry(entry_key, entry):
     s += f"""{entry.fields['title']}<br>"""
     
     # Apply both conference name highlighting and oral highlighting
-    booktitle_styled = f"""<span style="font-style: italic;">{entry.fields['booktitle']}</span>"""
+    booktitle_styled = f"""<span class="venue">{entry.fields['booktitle']}</span>"""
     booktitle_with_conferences = highlight_conference_names(booktitle_styled)
     booktitle_with_oral = highlight_oral_text(booktitle_with_conferences)
     s += f"""{booktitle_with_oral}, {entry.fields['year']} <br>"""
@@ -300,7 +290,7 @@ def get_news_items(filename="news.json"):
 
 def get_news_html():
     news_items = get_news_items()
-    s = f'<div style="max-height: 210px; overflow-y: auto; padding-right: 10px;"><ul class="list-unstyled" style="font-size: {1.1 * FONT_SIZE_MULTIPLIER}em;">'
+    s = f'<div class="news" style="max-height: 210px; overflow-y: auto; padding-right: 10px;"><ul class="list-unstyled text-body">'
     for item in news_items:
         date_str = item["date_obj"].strftime("%B %d, %Y")
         text_with_conferences = highlight_conference_names(item["text"])  # Apply conference highlighting
@@ -400,6 +390,7 @@ def get_index_html():
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/styles.css">
 
   <link rel="icon" type="image/x-icon" href="assets/favicon_mine.ico">
   
@@ -447,53 +438,7 @@ def get_index_html():
   }}
   </script>
   
-  <style>
-          .article-title {{
-              color: #256EFF;
-              font-weight: 600;
-          }}
-          .article-link {{
-              color: #256EFF;
-          }}
-        .profile-pic {{
-          width: 90%;
-          max-width: 300px;
-          height: auto;
-          object-fit: cover;
-          float: right;
-          margin-left: 5%;
-          margin-bottom: 15px;
-          margin-right: -5%;
-          border: 1px solid #ccc;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }}
-
-      @media (max-width: 767.98px) {{
-          .profile-pic {{
-              float: none;
-              margin-left: auto;
-              margin-right: auto;
-              margin-bottom: 15px;
-              display: block;
-          }}
-      }}
-
-        .main-container {{
-              max-width: 1050px; /* Установите желаемую максимальную ширину */
-              margin: 0 auto; /* Центрирует контейнер */
-              padding: 0 15px; /* Добавляет отступы по бокам */
-          
-
-      }}
-    </style>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<!-- Popper.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-<script data-goatcounter="https://kotekjedi.goatcounter.com/count"
+  <script data-goatcounter="https://kotekjedi.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </head>
 
