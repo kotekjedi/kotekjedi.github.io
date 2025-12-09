@@ -24,7 +24,7 @@ PERSON = {
     "highlight_name": "Alexander Panfilov",
     "bio": [
         "Yo! My name is Sasha and I am a second-year ELLIS / IMPRS-IS PhD student in Tuebingen advised by Jonas Geiping and Maksym Andriushchenko.",
-        "I work on AI Safety, in particular red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.",
+        "I work on AI Safety, particularly on red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.",
         "Previously I was obsessed with LLM jailbreaks, trying to understand realistic threat models, whether current safety evaluations are trustworthy, and whether we’re doomed. Lately I’m leaning into white-box alignment methods and AI control.",
         "I am open to collaboration - feel free to drop an email! I’m also looking for a safety/security internship opportunity in 2026/2027.",
     ],
