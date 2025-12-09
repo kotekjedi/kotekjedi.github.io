@@ -1,511 +1,503 @@
+from __future__ import annotations
+
 import json
 import re
-import time
 from datetime import datetime
+from html import escape
+from pathlib import Path
+from textwrap import dedent
+from typing import Dict, List, Optional
 
+from pybtex.database import BibliographyData
 from pybtex.database.input import bibtex
 
-# Global font size multiplier - adjust this value to scale all fonts
-FONT_SIZE_MULTIPLIER = 0.95  # 0.95 = 5% smaller, 1.0 = normal size, 1.1 = 10% larger
+ROOT = Path(__file__).parent.resolve()
 
+PERSON = {
+    "first_name": "Alexander",
+    "last_name": "Panfilov",
+    "tagline": "AI safety, Adversarial ML, & LLM Red-Teaming",
+    "location": "ELLIS Institute / IMPRS-IS, Tuebingen",
+    "email": "kotekjedi@gmail.com",
+    "cv": "assets/pdf/cv.pdf",
+    "photo": "assets/img/profile_mine_new.jpg",
+    "highlight_name": "Alexander Panfilov",
+    "bio": [
+        "Yo! My name is Sasha and I am a second-year ELLIS / IMPRS-IS PhD student in Tuebingen advised by Jonas Geiping and Maksym Andriushchenko.",
+        "I work on AI Safety, in particular red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.",
+        "Previously I was obsessed with LLM jailbreaks, trying to understand realistic threat models, whether current safety evaluations are trustworthy, and whether we’re doomed. Lately I’m leaning into white-box alignment methods and AI control.",
+        "I am open to collaboration - feel free to drop an email! I’m also looking for a safety/security internship opportunity in 2026/2027.",
+    ],
+}
 
-def get_personal_data():
-    name = ["Alexander", "Panfilov"]
-    full_name_en = f"{name[0]} {name[1]}"
-    full_name_ru = "Александр Панфилов"
-    twitter = "kotekjedi_ml"
-    github = "kotekjedi"
-    linkedin = "kotekjedi"
-    cv = "assets/pdf/cv.pdf"
+SOCIAL_LINKS = [
+    {
+        "label": "Scholar",
+        "url": "https://scholar.google.com/citations?user=M65_TPEAAAAJ&hl=en",
+        "icon_img": "assets/icons8-google-scholar.svg",
+    },
+    {
+        "label": "Twitter",
+        "url": "https://x.com/kotekjedi_ml",
+        "icon": "fa-brands fa-x-twitter",
+    },
+    {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/kotekjedi",
+        "icon": "fab fa-linkedin",
+    },
+    {
+        "label": "GitHub",
+        "url": "https://github.com/kotekjedi",
+        "icon": "fab fa-github",
+    },
+    {
+        "label": "Email",
+        "url": "mailto:kotekjedi@gmail.com",
+        "icon": "fa-solid fa-envelope",
+    },
+]
 
-    icons_html = f"""
-    <div class="d-flex justify-content-center align-items-center" style="flex-wrap: wrap;">
-        <a href="https://scholar.google.com/citations?user=M65_TPEAAAAJ&hl=en" target="_blank" class="m-2"><img src="assets/icons8-google-scholar.svg" alt="Google Scholar" width="36" height="36"></a>
-        <a href="https://www.linkedin.com/in/{linkedin}" target="_blank" class="m-2" style="color: black;"><i class="fab fa-linkedin fa-2x"></i></a>
-        <a href="https://x.com/{twitter}" target="_blank" class="m-2" style="color: black;"><i class="fa-brands fa-x-twitter fa-2x"></i></a>
-        <a href="https://github.com/{github}" target="_blank" class="m-2" style="color: black;"><i class="fab fa-github fa-2x"></i></a>
-        <a href="mailto:kotekjedi@gmail.com" class="m-2" style="color: black;"><i class="fa-solid fa-envelope fa-2x"></i></a>
+FOCUS_AREAS = [
+    {
+        "title": "Research Interests",
+        "body": "I find introspection capability of LLMs fascinating and think it can be used as a way to reason about white-box interventions and useful for self-jailbreaking.",
+    },
+    {
+        "title": "Whereabouts",
+        "body": "Based in London from January through March for MATS. Happy to grab a coffee if you are around!",
+    },
+    {
+        "title": "Plans",
+        "body": "Planning to attend ICLR 2026 in Brazil. Happy to catch up there!",
+    },
+]
 
-    </div>
+ACKNOWLEDGEMENT = dedent(
     """
-
-    bio_text = f"""
-    <img 
-    src="assets/img/profile_mine_new.jpg" 
-    alt="{full_name_en} ({full_name_ru}) - PhD Student in AI Safety." 
-    title="I’m of Mordvin ancestry — one of many non-Slavic Indigenous peoples historically colonized by the Russian Empire, but invisible in Western diversity narratives." 
-    class="profile-pic img-fluid float-md-right mr-md-3 mb-3" 
-    loading="lazy" 
-    width="300" 
-    height="400">
-
-        <p class="text-body">
-            Yo! My name is <span style="font-weight: 500;">Sasha</span>
-  and I am a second-year ELLIS / IMPRS-IS PhD student, based in Tübingen. I find myself very lucky to be advised by <a href="https://jonasgeiping.github.io/" class="m-2" style="font-weight: 500;" target="_blank">Jonas Geiping</a> and <a href="https://www.andriushchenko.me/" class="m-2" style="font-weight: 500;" target="_blank">Maksym Andriushchenko</a>.
-        </p>
-        <p class="text-body">
-    Broadly, I am interested in adversarial robustness, AI safety, and ML security. In practical terms, I enjoy finding various ways to break machine learning systems. Roughly three days a week I am an AI doomer.
-        </p>
-    
-    <p class="text-body">
-    Lately, I have been focusing on jailbreaking attacks on LLMs, contemplating:
- (1) What are the viable threat models for attacks on safety tuning? (2) Are safety jailbreaks truly effective, or are we victims of flawed (LLM-based) evaluations? (3) Are we doomed?
-        </p>
-        <p class="text-body">
-        You can find my <a href="{cv}" target="_blank" style="text-decoration: none; color: inherit; font-weight: bold; background-color: rgb(255, 255, 179);">CV here</a>. I am always open to collaboration — feel free to reach out via email!</p>
-        
-        <!-- Enhanced SEO content for Russian and English search engines -->
-        <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
-            <span>{full_name_en} {full_name_ru} Alexander Panfilov Александр Панфилов Sasha Panfilov AI Safety Machine Learning Security Adversarial Robustness LLM Jailbreaking PhD Student ELLIS IMPRS-IS Tübingen Research Max Planck Institute for Intelligent Systems MPI-IS Тольятти Togliatti Togliatty Toliatty Samara Самара ITMO ИТМО ITMO University Red Teaming AI Alignment ML Security Research</span>
-            <span>искусственный интеллект машинное обучение безопасность ИИ adversarial attacks состязательные атаки jailbreak джейлбрейк LLM языковые модели исследователь PhD докторант Тюбинген Германия Germany</span>
-            <span>neural networks нейронные сети deep learning глубокое обучение computer vision компьютерное зрение natural language processing NLP обработка естественного языка cybersecurity кибербезопасность AI ethics этика ИИ machine learning engineer инженер машинного обучения</span>
-            <span>Panfilov researcher Панфилов исследователь student студент artificial intelligence безопасность машинного обучения ML safety AI researcher исследователь ИИ kotekjedi</span>
-        </div>
+    I am grateful to the many friends and colleagues, from whom I learned so much, for their invaluable guidance
+    and for shaping my research vision. I would like to especially acknowledge
+    <a href="https://www.linkedin.com/in/svyatoslav-oreshin/" target="_blank">Svyatoslav Oreshin</a>,
+    <a href="https://scholar.google.com/citations?user=wcdrgdYAAAAJ&hl=en" target="_blank">Arip Asadualev</a>,
+    <a href="https://scholar.google.de/citations?user=4jdISHwAAAAJ&hl=en" target="_blank">Roland Zimmermann</a>,
+    <a href="https://scholar.google.com/citations?user=aeCiRSYAAAAJ&hl=en" target="_blank">Thaddaeus Wiedemer</a>,
+    <a href="https://scholar.google.com/citations?hl=en&user=jgPzOmgAAAAJ" target="_blank">Jack Brady</a>,
+    <a href="https://scholar.google.com/citations?user=v-JL-hsAAAAJ&hl=en" target="_blank">Wieland Brendel</a>,
+    <a href="https://scholar.google.com/citations?hl=en&user=gzRuY4cAAAAJ" target="_blank">Valentyn Boreiko</a>,
+    <a href="https://scholar.google.com/citations?user=0ZAb3tsAAAAJ&hl=en" target="_blank">Matthias Hein</a>,
+    <a href="https://scholar.google.com/citations?hl=en&user=exaNV-0AAAAJ" target="_blank">Shashwat Goel</a>,
+    <a href="https://scholar.google.com/citations?hl=en&user=e-YbZyEAAAAJ" target="_blank">Illia Shumailov</a>,
+    <a href="https://scholar.google.com/citations?user=ZNtuJYoAAAAJ" target="_blank">Maksym Andriushchenko</a>, and
+    <a href="https://scholar.google.de/citations?user=206vNCEAAAAJ&hl=en" target="_blank">Jonas Geiping</a>.
     """
-    current_date = time.strftime("%d/%m/%Y")
-    footer = f"""
-    <footer style="text-align: right; padding: 10px; margin-top: 20px;">
-        <p style="font-size: {0.9 * FONT_SIZE_MULTIPLIER}em;">
-            Updated on {current_date}. Website design credits to <a href="https://github.com/m-niemeyer/m-niemeyer.github.io" target="_blank">Michael Niemeyer</a>.
-        </p>
-    </footer>
-    """
+).strip()
 
-    return name, icons_html, bio_text, footer, full_name_en, full_name_ru
+NAV_LINKS = [
+    {"label": "News", "href": "#news"},
+    {"label": "Research", "href": "#research"},
+]
 
-def get_acknowledgements():
-    s = f"""
-    <div class="row" style="margin-top: 3em;">
-        <div class="col-sm-12">
-            <h4 style="margin-bottom: 0.5em; font-weight: medium;">Acknowledgements</h4>
-            <p style="font-size: {1.15 * FONT_SIZE_MULTIPLIER}em;">
-                I am grateful to the many colleagues I worked with in the past, from whom I learned so much, for their invaluable contributions to my career.
-                I would like to especially acknowledge the mentorship and guidance of
-                <a href="https://www.linkedin.com/in/svyatoslav-oreshin/" target="_blank">Svyatoslav Oreshin</a>,
-                <a href="https://scholar.google.com/citations?user=wcdrgdYAAAAJ&hl=en" target="_blank">Arip Asadualev</a>,
-                <a href="https://scholar.google.de/citations?user=4jdISHwAAAAJ&hl=en" target="_blank">Roland Zimmerman</a>,
-                <a href="https://scholar.google.com/citations?user=aeCiRSYAAAAJ&hl=en" target="_blank">Thaddaus Wiedemer</a>,
-                <a href="https://scholar.google.com/citations?hl=en&user=jgPzOmgAAAAJ" target="_blank">Jack Brady</a>, 
-                <a href="https://scholar.google.com/citations?user=v-JL-hsAAAAJ&hl=en" target="_blank">Wieland Brendel</a>,
-                <a href="https://scholar.google.com/citations?hl=en&user=gzRuY4cAAAAJ" target="_blank">Valentyn Boreiko</a> and
-                <a href="https://scholar.google.com/citations?user=0ZAb3tsAAAAJ&hl=en" target="_blank">Matthias Hein</a>.
-            </p>
-        </div>
-    </div>
-    """
-    return s
+CONFERENCES = [
+    "ICML",
+    "ICLR",
+    "NeurIPS",
+    "NIPS",
+    "CoLLAs",
+    "TMLR",
+    "CVPR",
+    "ICCV",
+    "ECCV",
+    "AAAI",
+    "IJCAI",
+    "ACL",
+    "EMNLP",
+    "NAACL",
+]
 
-def get_author_dict():
-    return {
-        # Заполните при необходимости
-    }
+ARTEFACT_LABELS = {
+    "url": "Paper",
+    "html": "Website",
+    "code": "Code",
+    "poster": "Poster",
+}
 
 
-def generate_person_html(
-    persons,
-    connection=", ",
-    make_bold=True,
-    make_bold_name="Alexander Panfilov",
-    add_links=True,
-):
-    links = get_author_dict() if add_links else {}
-    s = ""
-    for p in persons:
-        first_names = " ".join(p.get_part("first"))
-        last_names = " ".join(p.get_part("last"))
-        full_name = f"{first_names} {last_names}"
-        string_part_i = full_name
-        if string_part_i in links.keys():
-            string_part_i = (
-                f'<a href="{links[string_part_i]}" target="_blank">{string_part_i}</a>'
-            )
-        if make_bold and make_bold_name in full_name:
-            string_part_i = f'<span style="font-weight: bold; background-color: rgb(255, 255, 179);">{full_name}</span>'
-        if p != persons[-1]:
-            string_part_i += connection
-        s += string_part_i
-    return s
+def slugify(value: str) -> str:
+    clean = re.sub(r"[^a-zA-Z0-9]+", "-", value).strip("-").lower()
+    return clean or "entry"
 
 
-def highlight_oral_text(text):
-    """Highlight the word 'oral' in bold only, case-insensitive"""
-    # Use regex to find 'oral' (case-insensitive) and wrap it with bold styling
-    pattern = r'\b(oral)\b'
-    replacement = r'<strong>\1</strong>'
-    return re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+def highlight_oral(text: str) -> str:
+    return re.sub(r"\b(oral)\b", r"<strong>\1</strong>", text, flags=re.IGNORECASE)
 
 
-def highlight_conference_names(text):
-    """Highlight major conference names and years in bold"""
-    # List of major conferences to highlight
-    conferences = ['ICML', 'ICLR', 'NeurIPS', 'NIPS', 'CoLLAs', 'TMLR', 'CVPR', 'ICCV', 'ECCV', 'AAAI', 'IJCAI', 'ACL', 'EMNLP', 'NAACL']
-    
-    for conf in conferences:
-        # Match conference name followed by optional space and year (e.g., "ICML 2025", "ICLR", etc.)
-        pattern = r'\b(' + re.escape(conf) + r'(?:\s+\d{4})?)\b'
-        replacement = r'<strong>\1</strong>'
-        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
-    
-    return text
+def highlight_conferences(text: str) -> str:
+    result = text
+    for conf in CONFERENCES:
+        pattern = r"\b(" + re.escape(conf) + r"(?:\s+\d{4})?)\b"
+        result = re.sub(pattern, r"<strong>\1</strong>", result, flags=re.IGNORECASE)
+    return result
 
 
-def generate_presentation_badge(presentation_type):
-    """Generate a colored badge for presentation type"""
-    if not presentation_type:
-        return ""
-    
-    presentation_type = presentation_type.lower().strip()
-    
-    # Define badge styles for different presentation types
-    badge_styles = {
-        'oral': {
-            'color': 'rgb(200, 162, 255)',  # Same purple as oral text highlighting
-            'text_color': 'white'
-        },
-        'spotlight': {
-            'color': 'rgb(255, 165, 0)',  # Orange
-            'text_color': 'white'
-        },
-        'poster': {
-            'color': 'rgb(108, 117, 125)',  # Gray
-            'text_color': 'white'
-        },
-        'workshop': {
-            'color': 'rgb(40, 167, 69)',  # Green
-            'text_color': 'white'
-        }
-    }
-    
-    # Get style or default to blue
-    style = badge_styles.get(presentation_type, {
-        'color': 'rgb(37, 110, 255)',  # Blue (same as article links)
-        'text_color': 'white'
-    })
-    
-    badge_html = f'''<span class="badge-presentation" style="background-color: {style['color']}; color: {style['text_color']};">{presentation_type}</span>'''
-    
-    return badge_html
-
-
-def get_paper_entry(entry_key, entry):
-    s = """<div style="margin-bottom: 3em;" > <div class="row"><div class="col-sm-3 thumb-cover">"""
-    # Enhanced alt text for better SEO
-    alt_text = f"{entry.fields.get('title', 'Research paper')} - {entry_key} - Alexander Panfilov AI Safety ML Security Research"
-    s += f"""<img src="{entry.fields['img']}" class="img-fluid" alt="{alt_text}" loading="lazy" width="300" height="200">"""
-    s += f"""</div><div class="col-sm-9 text-body">"""
-
-    # Add presentation badge if available
-    badge = ""
-    if 'presentation' in entry.fields:
-        badge = generate_presentation_badge(entry.fields['presentation'])
-    
-    s += f"""{badge}<a href="{entry.fields['url']}" target="_blank" class="article-title article-title-lg">{entry.fields['title']}</a> <br>"""
-
-    authors_html = generate_person_html(entry.persons['author'])
-    authors_html = authors_html.replace(
-        '<span style="font-weight: bold; background-color: rgb(255, 255, 179);">',
-        '<span class="author-self">'
-    )
-    s += f"""{authors_html} <br>"""
-    
-    # Apply both conference name highlighting and oral highlighting
-    booktitle_styled = f"""<span class="venue">{entry.fields['booktitle']}</span>"""
-    booktitle_with_conferences = highlight_conference_names(booktitle_styled)
-    booktitle_with_oral = highlight_oral_text(booktitle_with_conferences)
-    s += f"""{booktitle_with_oral} <br>"""
-
-    artefacts = {
-        "url": "Paper",
-        "code": "Code",
-        "html": "Project Page",
-        "poster": "Poster",
-    }
-    i = 0
-    for k, v in artefacts.items():
-        if k in entry.fields.keys():
-            if i > 0:
-                s += " / "
-            s += f"""<a href="{entry.fields[k]}" target="_blank" class="article-link">{v}</a>"""
-            i += 1
-        # Missing artefacts are common; skip noisy warnings
-
-    s += """ </div> </div> </div>"""
-    return s
-
-
-def get_talk_entry(entry_key, entry):
-    s = """<div style="margin-bottom: 3em;"> <div class="row"><div class="col-sm-3">"""
-    s += f"""<img src="{entry.fields['img']}" class="img-fluid img-thumbnail" alt="Project image">"""
-    s += """</div><div class="col-sm-9">"""
-    s += f"""{entry.fields['title']}<br>"""
-    
-    # Apply both conference name highlighting and oral highlighting
-    booktitle_styled = f"""<span class="venue">{entry.fields['booktitle']}</span>"""
-    booktitle_with_conferences = highlight_conference_names(booktitle_styled)
-    booktitle_with_oral = highlight_oral_text(booktitle_with_conferences)
-    s += f"""{booktitle_with_oral}, {entry.fields['year']} <br>"""
-
-    artefacts = {"slides": "Slides", "video": "Recording"}
-    i = 0
-    for k, v in artefacts.items():
-        if k in entry.fields.keys():
-            if i > 0:
-                s += " / "
-            s += f"""<a href="{entry.fields[k]}" target="_blank">{v}</a>"""
-            i += 1
-        else:
-            print(f"[{entry_key}] Warning: Field {k} missing!")
-    s += """ </div> </div> </div>"""
-    return s
-
-
-def get_publications_html():
-    parser = bibtex.Parser()
-    bib_data = parser.parse_file("publication_list.bib")
-    keys = bib_data.entries.keys()
-    s = ""
-    for k in keys:
-        s += get_paper_entry(k, bib_data.entries[k])
-    return s
-
-
-# def get_talks_html():
-#     parser = bibtex.Parser()
-#     bib_data = parser.parse_file('talk_list.bib')
-#     keys = bib_data.entries.keys()
-#     s = ""
-#     for k in keys:
-#         s+= get_talk_entry(k, bib_data.entries[k])
-#     return s
-
-
-def get_news_items(filename="news.json"):
-    with open(filename, "r", encoding="utf-8") as f:
-        news_items = json.load(f)
+def load_news(path: Path = ROOT / "news.json") -> List[Dict[str, object]]:
+    with path.open("r", encoding="utf-8") as fh:
+        news_items = json.load(fh)
     for item in news_items:
         item["date_obj"] = datetime.strptime(item["date"], "%Y-%m-%d")
-    news_items.sort(key=lambda x: x["date_obj"], reverse=True)
-    return news_items
+    return sorted(news_items, key=lambda itm: itm["date_obj"], reverse=True)
 
 
-def get_news_html():
-    news_items = get_news_items()
-    s = f'<div class="news" style="max-height: 210px; overflow-y: auto; padding-right: 10px;"><ul class="list-unstyled text-body">'
+def render_news_items(news_items: List[Dict[str, object]]) -> str:
+    rendered = []
     for item in news_items:
-        date_str = item["date_obj"].strftime("%B %d, %Y")
-        text_with_conferences = highlight_conference_names(item["text"])  # Apply conference highlighting
-        text = highlight_oral_text(text_with_conferences)  # Apply oral highlighting
-        s += f"<li style='margin-top: 1em;'><strong>{date_str}</strong>: {text}</li>"
-    s += "</ul></div>"
-    return s
+        date_label = item["date_obj"].strftime("%b %d, %Y")
+        text = highlight_oral(highlight_conferences(item["text"]))
+        rendered.append(
+            dedent(
+                f"""
+                <li class="news-item">
+                    <span class="news-date">{date_label}</span>
+                    <div class="news-body">{text}</div>
+                </li>
+                """
+            ).strip()
+        )
+    return "\n".join(rendered)
 
 
-def get_publications_structured_data():
-    """Generate structured data for publications to enhance SEO"""
+def format_authors(persons) -> str:
+    names = []
+    for person in persons:
+        first = " ".join(person.get_part("first"))
+        last = " ".join(person.get_part("last"))
+        full = " ".join(p for p in [first, last] if p).strip()
+        if PERSON["highlight_name"] in full:
+            full = f'<span class="author-self">{full}</span>'
+        names.append(full or "Anonymous")
+    return ", ".join(names)
+
+
+def format_badge(label: Optional[str]) -> str:
+    if not label:
+        return ""
+    variant = label.strip().lower()
+    extra_class = " badge-oral" if variant == "oral" else ""
+    return f'<span class="badge-pill{extra_class}">{label}</span>'
+
+
+def format_artefact_links(entry) -> str:
+    links = []
+    for field, label in ARTEFACT_LABELS.items():
+        url = entry.fields.get(field)
+        if url:
+            links.append(
+                f'<a class="pill-button" href="{url}" target="_blank" rel="noopener">{label}</a>'
+            )
+    return "\n".join(links)
+
+
+def format_publication(entry_key: str, entry) -> str:
+    slug = slugify(entry_key)
+    title = entry.fields.get("title", "Untitled")
+    booktitle_raw = entry.fields.get("booktitle", "Preprint")
+    display_text = entry.fields.get("display", booktitle_raw)
+    is_preprint = booktitle_raw.strip().lower() == "preprint"
+    year = entry.fields.get("year")
+    badge = format_badge(entry.fields.get("presentation"))
+    authors = format_authors(entry.persons.get("author", []))
+    artefacts = format_artefact_links(entry)
+    abstract_text = entry.fields.get("abstract")
+
+    bibliograpy = BibliographyData(entries={entry_key: entry})
+    bibtex_raw = bibliograpy.to_string("bibtex").strip()
+    drop_fields = ("img", "code", "html", "poster", "presentation", "abstract")
+    cleaned_lines = []
+    for line in bibtex_raw.splitlines():
+        stripped = line.strip()
+        if any(stripped.startswith(f"{field} =") for field in drop_fields):
+            continue
+        cleaned_lines.append(line)
+    bibtex_clean = "\n".join(cleaned_lines).strip()
+    bibtex_html = escape(bibtex_clean)
+
+    thumb_button = ""
+    if abstract_text:
+        thumb_button = f'<button class="pill-button thumb-button" data-toggle-target="abstract-{slug}">Abstract</button>'
+
+    venue_html = highlight_oral(
+        highlight_conferences(f'<span class="venue">{display_text}</span>')
+    )
+    year_fragment = f" | {year}" if (year and is_preprint) else ""
+
+    parts = [
+        '<article class="publication-card">',
+        '  <div class="pub-thumb">',
+        f'    <img src="{entry.fields.get("img", "assets/img/publications/placeholder.png")}" alt="{title} cover" loading="lazy">',
+    ]
+    if thumb_button:
+        parts.append(f'    {thumb_button}')
+    parts.append("  </div>")
+    parts.extend([
+        '  <div class="pub-body">',
+        f'    <div class="pub-meta">{venue_html}{year_fragment}{badge}</div>',
+        f'    <h4 class="pub-title"><a href="{entry.fields.get("url", "#")}" target="_blank" rel="noopener">{title}</a></h4>',
+        f'    <p class="pub-authors">{authors}</p>',
+        f'    <div class="pub-actions">{artefacts}',
+    ])
+
+    toggle_buttons = []
+    toggle_buttons.append(
+        f'<button class="pill-button ghost" data-toggle-target="bibtex-{slug}">BibTeX</button>'
+    )
+
+    parts.append("      " + " ".join(toggle_buttons))
+    parts.append("    </div>")
+
+    if abstract_text:
+        parts.append(
+            dedent(
+                f"""
+                <div class="toggle-panel" id="abstract-{slug}">
+                    <p>{abstract_text}</p>
+                </div>
+                """
+            ).strip()
+        )
+
+    parts.append(
+        dedent(
+            f"""
+            <div class="toggle-panel toggle-panel-bib" id="bibtex-{slug}">
+                <pre class="pub-bibtex"><code>{bibtex_html}</code></pre>
+            </div>
+            """
+        ).strip()
+    )
+
+    parts.append("  </div>")
+    parts.append("</article>")
+    return "\n".join(parts)
+
+
+def build_publications_html():
     parser = bibtex.Parser()
-    bib_data = parser.parse_file("publication_list.bib")
+    bib_data = parser.parse_file(str(ROOT / "publication_list.bib"))
+    cards = [
+        format_publication(entry_key, entry)
+        for entry_key, entry in bib_data.entries.items()
+    ]
+    return "\n".join(cards), bib_data
+
+
+def build_social_html() -> str:
+    items = []
+    for link in SOCIAL_LINKS:
+        if icon_src := link.get("icon_img"):
+            icon_html = f'<img src="{icon_src}" alt="{link["label"]} icon" loading="lazy">'
+        else:
+            icon_html = f'<i class="{link["icon"]}"></i>'
+        items.append(
+            f'<a class="social-link" href="{link["url"]}" target="_blank" rel="noopener">{icon_html}<span>{link["label"]}</span></a>'
+        )
+    return "\n".join(items)
+
+
+def build_focus_html() -> str:
+    return "\n".join(
+        [
+            dedent(
+                f"""
+                <div class="focus-card">
+                    <h4>{item["title"]}</h4>
+                    <p>{item["body"]}</p>
+                </div>
+                """
+            ).strip()
+            for item in FOCUS_AREAS
+        ]
+    )
+
+
+def build_structured_data(bib_data) -> str:
     publications = []
-    
     for entry_key, entry in bib_data.entries.items():
         authors = []
-        for person in entry.persons['author']:
-            first_names = " ".join(person.get_part("first"))
-            last_names = " ".join(person.get_part("last"))
-            full_name = f"{first_names} {last_names}"
-            authors.append({
-                "@type": "Person",
-                "name": full_name
-            })
-        
+        for person in entry.persons.get("author", []):
+            first = " ".join(person.get_part("first"))
+            last = " ".join(person.get_part("last"))
+            authors.append({"@type": "Person", "name": " ".join([first, last]).strip()})
         publication = {
             "@type": "ScholarlyArticle",
-            "headline": entry.fields.get('title', ''),
+            "headline": entry.fields.get("title", ""),
             "author": authors,
-            "publisher": {
-                "@type": "Organization",
-                "name": entry.fields.get('booktitle', '')
-            }
+            "publisher": {"@type": "Organization", "name": entry.fields.get("booktitle", "")},
         }
-        
-        # Only add datePublished if year exists
-        if 'year' in entry.fields:
-            publication["datePublished"] = entry.fields['year']
-        
-        if 'url' in entry.fields:
-            publication["url"] = entry.fields['url']
-        
+        if year := entry.fields.get("year"):
+            publication["datePublished"] = year
+        if url := entry.fields.get("url"):
+            publication["url"] = url
         publications.append(publication)
-    
-    return publications
+
+    data = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": f'{PERSON["first_name"]} {PERSON["last_name"]}',
+        "jobTitle": "PhD Student",
+        "description": PERSON["tagline"],
+        "affiliation": {
+            "@type": "Organization",
+        "name": "ELLIS Institute Tuebingen",
+            "alternateName": "IMPRS-IS",
+        },
+        "url": "https://kotekjedi.github.io",
+        "image": f'https://kotekjedi.github.io/{PERSON["photo"]}',
+        "sameAs": [link["url"] for link in SOCIAL_LINKS if link["url"].startswith("http")],
+        "email": PERSON["email"],
+        "workLocation": {"@type": "Place", "name": "Tuebingen, Germany"},
+        "publication": publications,
+    }
+    return json.dumps(data, ensure_ascii=False, indent=2)
 
 
-def get_index_html():
-    pub = get_publications_html()
-    news_html = get_news_html()
-    name, icons_html, bio_text, footer, full_name_en, full_name_ru = get_personal_data()
-    ack = get_acknowledgements()
-    publications_data = get_publications_structured_data()
-    
-    # Enhanced SEO-optimized title and meta description
-    
-    s = f"""
-    <!doctype html>
-<html lang="en">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-  <!-- Language targeting -->
-  <link rel="alternate" hreflang="en" href="https://kotekjedi.github.io">
-  <link rel="alternate" hreflang="ru" href="https://kotekjedi.github.io">
-  <link rel="alternate" hreflang="x-default" href="https://kotekjedi.github.io">
-  
-  <!-- Enhanced SEO Meta Tags -->
-  <title>{full_name_en} - PhD Student @ ELLIS/IMPRS-IS Tübingen</title>
-  <meta name="description" content="{full_name_en} ({full_name_ru}) - PhD student at ELLIS/IMPRS-IS Tübingen working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks.">
-  <meta name="keywords" content="{full_name_en}, {full_name_ru}, Alexander Panfilov, Александр Панфилов, PhD, AI Safety, Machine Learning Security, Adversarial Robustness, LLM Jailbreaking, ELLIS, IMPRS-IS, Tübingen, Jonas Geiping, Maksym Andriushchenko, Max Planck Institute for Intelligent Systems, MPI-IS, Тольятти, Togliatti, Samara, Самара, ITMO, ИТМО, ITMO University, Red Teaming, AI Alignment, искусственный интеллект, машинное обучение, безопасность ИИ, исследователь, PhD, аспирант, Германия">
-  <meta name="author" content="{full_name_en}">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Enhanced Open Graph / Social Media -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="{full_name_en} - AI Safety Researcher">
-  <meta property="og:title" content="{full_name_en} - AI Safety & ML Security Researcher">
-  <meta property="og:description" content="PhD student working on adversarial robustness, AI safety, and LLM jailbreaking attacks at ELLIS Institute Tübingen. Исследователь безопасности ИИ.">
-  <meta property="og:url" content="https://kotekjedi.github.io">
-  <meta property="og:image" content="https://kotekjedi.github.io/assets/img/profile_mine_new.jpg">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:locale:alternate" content="ru_RU">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="{full_name_en} - AI Safety Researcher">
-  <meta name="twitter:description" content="PhD student working on adversarial robustness, AI safety, and LLM jailbreaking attacks. Исследователь безопасности ИИ.">
-  <meta name="twitter:image" content="https://kotekjedi.github.io/assets/img/profile_mine_new.jpg">
-  <meta name="twitter:site" content="@kotekjedi_ml">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="assets/styles.css">
-
-  <link rel="icon" type="image/x-icon" href="assets/favicon_mine.ico">
-  
-  <!-- Enhanced Structured Data (JSON-LD) for SEO -->
-  <script type="application/ld+json">
-  {{
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "{full_name_en}",
-    "alternateName": ["{full_name_ru}", "Sasha Panfilov", "Alexander Panfilov", "Александр Панфилов", "Котек Джеди", "kotekjedi"],
-    "jobTitle": "PhD Student",
-    "description": "PhD student working on adversarial robustness, AI safety, ML security, and LLM jailbreaking attacks",
-    "affiliation": {{
-      "@type": "Organization",
-      "name": "ELLIS Institute Tübingen",
-      "alternateName": ["Max Planck Institute for Intelligent Systems", "MPI-IS", "IMPRS-IS"]
-    }},
-    "url": "https://kotekjedi.github.io",
-    "image": "https://kotekjedi.github.io/assets/img/profile_mine_new.jpg",
-    "sameAs": [
-      "https://scholar.google.com/citations?user=M65_TPEAAAAJ&hl=en",
-      "https://www.linkedin.com/in/kotekjedi",
-      "https://x.com/kotekjedi_ml",
-      "https://github.com/kotekjedi"
-    ],
-    "knowsAbout": [
-      "Artificial Intelligence Safety",
-      "Machine Learning Security", 
-      "Adversarial Robustness",
-      "LLM Jailbreaking",
-      "Red Teaming",
-      "AI Alignment",
-      "Безопасность искусственного интеллекта",
-      "Машинное обучение",
-      "Состязательные атаки"
-    ],
-    "alumniOf": [
-      {{"@type": "Organization", "name": "ELLIS Institute Tübingen"}},
-      {{"@type": "Organization", "name": "ITMO University", "alternateName": "ИТМО"}}
-    ],
-    "nationality": ["Russian", "русский"],
-    "workLocation": {{"@type": "Place", "name": "Tübingen, Germany"}},
-    "homeLocation": {{"@type": "Place", "name": "Togliatti, Russia", "alternateName": "Тольятти, Россия"}},
-    "publication": {json.dumps(publications_data, ensure_ascii=False)}
-  }}
-  </script>
-  
-  <script data-goatcounter="https://kotekjedi.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-</head>
+def build_nav_html() -> str:
+    links = "".join(
+        [f'<a href="{item["href"]}">{item["label"]}</a>' for item in NAV_LINKS]
+    )
+    return f'<nav class="site-nav"><div class="brand">Sasha&apos;s Website</div><div class="nav-links">{links}</div></nav>'
 
 
-<body>
-    <div class="main-container">
+def get_index_html() -> str:
+    publications_html, bib_data = build_publications_html()
+    news_html = render_news_items(load_news())
+    social_html = build_social_html()
+    focus_html = build_focus_html()
+    structured_data = build_structured_data(bib_data)
+    nav_html = build_nav_html()
 
-    <div class="container">
-        <!-- Заголовок -->
-        <div class="row" style="margin-top: 3em;">
-            <div class="col-sm-12" style="margin-bottom: 0em;">
-                <h1 class="display-4 text-center"><span style="font-weight: bold;">{name[0]}</span> {name[1]}</h1>
-            </div>
-        </div>
-        <!-- Иконки -->
-        <div class="row">
-            <div class="col-sm-12">
-                {icons_html}
-            </div>
-        </div>
-        <!-- Био и фото -->
-        <div class="row" style="margin-top: 2em;">
-            <div class="col-md-12">
-                {bio_text}
-            </div>
-        </div>
-        <!-- Разделы News и Publications -->
-        <div class="row" style="margin-top: 2em;">
-            <div class="col-sm-12">
-                <h3 style="margin-bottom: 0em; font-weight: bold;">News</h3>
-                {news_html}
-            </div>
-        </div>
-        <div class="row" style="margin-top: 2em;">
-            <div class="col-sm-12">
-                <h3 style="margin-bottom: 1em; font-weight: bold;">Selected Publications</h3>
-                {pub}
-            </div>
-        </div>
-        {ack}
-    </div>
-    {footer}
+    bio_html = "\n".join([f"<p>{paragraph}</p>" for paragraph in PERSON["bio"]])
+    return dedent(
+        f"""
+        <!doctype html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>{PERSON["first_name"]} {PERSON["last_name"]} - AI Safety Research</title>
+            <meta name="description" content="{PERSON["tagline"]}">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <link rel="stylesheet" href="assets/styles.css">
+            <link rel="icon" type="image/x-icon" href="assets/favicon_mine.ico">
+            <script type="application/ld+json">
+{structured_data}
+            </script>
+        </head>
+        <body>
+            {nav_html}
+            <header class="hero" id="top">
+                <div class="hero-grid">
+                    <div class="hero-content">
+                        <p class="eyebrow">{PERSON["location"]}</p>
+                        <h1>{PERSON["first_name"]} <span>{PERSON["last_name"]}</span></h1>
+                        <p class="tagline">{PERSON["tagline"]}</p>
+                        <div class="social-row">
+                            {social_html}
+                        </div>
+                        {bio_html}
+                        <div class="cta-row">
+                            <a class="pill-button primary" href="{PERSON["cv"]}" target="_blank" rel="noopener">Download CV</a>
+                            <a class="pill-button secondary" href="mailto:{PERSON["email"]}">Email me</a>
+                        </div>
+                    </div>
+                    <div class="hero-photo">
+                        <img src="{PERSON["photo"]}" alt="{PERSON["first_name"]} {PERSON["last_name"]}" loading="lazy">
+                    </div>
+                </div>
+            </header>
 
-    </div>
+            <main>
+                <section class="panel focus-panel" aria-labelledby="focus-title">
+                    <div class="panel-heading">
+                        <h2 id="focus-title">My current...</h2>
+                    </div>
+                    <div class="focus-grid">
+                        {focus_html}
+                    </div>
+                </section>
 
-    <!-- Скрипты -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"></script>
-</body>
+                <section class="panel news-panel" id="news" aria-labelledby="news-title">
+                    <div class="panel-heading">
+                        <h2 id="news-title">News & updates</h2>
+                    </div>
+                    <ul class="news-timeline">
+                        {news_html}
+                    </ul>
+                </section>
 
-</html>
-    """
-    return s
+                <section class="panel" id="research" aria-labelledby="research-title">
+                    <div class="panel-heading">
+                        <h2 id="research-title">Research</h2>
+                        <p class="panel-description">Some of my recent work :) </p>
+                    </div>
+                    <div class="publications">
+                        {publications_html}
+                    </div>
+                </section>
+
+                <section class="panel" id="contact">
+                    <div class="panel-heading">
+                        <h3 class="panel-title-sm">Acknowledgements</h3>
+                    </div>
+                    <p>{ACKNOWLEDGEMENT}</p>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>Vibe-coded with CodeX. Last updated {datetime.now().strftime("%b %d, %Y")}.</p>
+            </footer>
+
+            <script>
+            document.querySelectorAll('[data-toggle-target]').forEach((button) => {{
+                button.addEventListener('click', () => {{
+                    const targetId = button.dataset.toggleTarget;
+                    const target = document.getElementById(targetId);
+                    if (!target) return;
+                    target.classList.toggle('is-visible');
+                    const expanded = target.classList.contains('is-visible');
+                    button.setAttribute('aria-expanded', expanded);
+
+                    const isBibtex = targetId.startsWith('bibtex-');
+                    const isAbstract = targetId.startsWith('abstract-');
+                    const siblingPrefix = isBibtex ? 'abstract-' : isAbstract ? 'bibtex-' : null;
+
+                    if (siblingPrefix) {{
+                        const siblingId = targetId.replace(isBibtex ? 'bibtex-' : 'abstract-', siblingPrefix);
+                        const siblingPanel = document.getElementById(siblingId);
+                        if (siblingPanel && siblingPanel.classList.contains('is-visible')) {{
+                            siblingPanel.classList.remove('is-visible');
+                            const siblingButton = document.querySelector(`[data-toggle-target="${{siblingId}}"]`);
+                            if (siblingButton) {{
+                                siblingButton.setAttribute('aria-expanded', 'false');
+                            }}
+                        }}
+                    }}
+                }});
+            }});
+            </script>
+            <script data-goatcounter="https://kotekjedi.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+        </body>
+        </html>
+        """
+    ).strip()
 
 
-def write_index_html(filename="index.html"):
-    s = get_index_html()
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(s)
-    print(f"Written index content to {filename}.")
+def write_index_html(filename: str = "index.html") -> None:
+    html = get_index_html()
+    with open(filename, "w", encoding="utf-8") as fh:
+        fh.write(html)
+    print(f"Wrote {filename}")
 
 
 if __name__ == "__main__":
