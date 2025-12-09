@@ -12,6 +12,7 @@ from pybtex.database import BibliographyData
 from pybtex.database.input import bibtex
 
 ROOT = Path(__file__).parent.resolve()
+GOOGLE_ANALYTICS_ID = "G-4SLC5348B5"
 
 PERSON = {
     "first_name": "Alexander",
@@ -375,6 +376,20 @@ def get_index_html() -> str:
     nav_html = build_nav_html()
 
     bio_html = "\n".join([f"<p>{paragraph}</p>" for paragraph in PERSON["bio"]])
+    analytics_snippet = ""
+    if GOOGLE_ANALYTICS_ID:
+        analytics_snippet = dedent(
+            f"""
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={GOOGLE_ANALYTICS_ID}"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){{dataLayer.push(arguments);}}
+              gtag('js', new Date());
+              gtag('config', '{GOOGLE_ANALYTICS_ID}');
+            </script>
+            """
+        ).strip()
     return dedent(
         f"""
         <!doctype html>
@@ -390,6 +405,7 @@ def get_index_html() -> str:
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <link rel="stylesheet" href="assets/styles.css">
             <link rel="icon" type="image/x-icon" href="assets/favicon_mine.ico">
+            {analytics_snippet}
             <script type="application/ld+json">
 {structured_data}
             </script>
