@@ -18,7 +18,7 @@ PERSON = {
     "first_name": "Alexander",
     "last_name": "Panfilov",
     "tagline": "AI safety, Adversarial ML, & LLM Red-Teaming",
-    "location": "ELLIS Institute / IMPRS-IS, Tuebingen",
+    "location": "ELLIS Institute / MPI-IS, Tübingen",
     "email": "kotekjedi@gmail.com",
     "cv": "assets/pdf/cv.pdf",
     "photo": "assets/img/profile_mine_new.jpg",
