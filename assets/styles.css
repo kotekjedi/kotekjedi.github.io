@@ -31,6 +31,19 @@ body {
   line-height: 1.6;
 }
 
+.page-shell {
+  max-width: 1770px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+}
+
+@media (max-width: 1800px) {
+  .page-shell {
+    padding: 0 1.5rem 1.5rem;
+  }
+}
+
+
 a {
   color: var(--accent);
   text-decoration: none;

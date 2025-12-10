@@ -412,6 +412,7 @@ def get_index_html() -> str:
             </script>
         </head>
         <body>
+            <div class="page-shell">
             {nav_html}
             <header class="hero" id="top">
                 <div class="hero-grid">
@@ -474,6 +475,7 @@ def get_index_html() -> str:
             <footer class="site-footer">
                 <p>Vibe-coded with CodeX. Last updated {datetime.now().strftime("%b %d, %Y")}.</p>
             </footer>
+            </div>
 
             <script>
             document.querySelectorAll('[data-toggle-target]').forEach((button) => {{
