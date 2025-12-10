@@ -388,6 +388,7 @@ def get_index_html() -> str:
               gtag('js', new Date());
               gtag('config', '{GOOGLE_ANALYTICS_ID}');
             </script>
+            <script data-goatcounter="https://kotekjedi.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
             """
         ).strip()
     return dedent(
