@@ -115,6 +115,8 @@ CONFERENCES = [
     "NAACL",
 ]
 
+CONFERENCE_HIGHLIGHT_CLASS = "highlight highlight-conference"
+
 ARTEFACT_LABELS = {
     "url": "Paper",
     "html": "Website",
@@ -133,10 +135,13 @@ def highlight_oral(text: str) -> str:
 
 
 def highlight_conferences(text: str) -> str:
+    def repl(match: re.Match) -> str:
+        return f'<span class="{CONFERENCE_HIGHLIGHT_CLASS}">{match.group(1)}</span>'
+
     result = text
     for conf in CONFERENCES:
         pattern = r"\b(" + re.escape(conf) + r"(?:\s+\d{4})?)\b"
-        result = re.sub(pattern, r"<strong>\1</strong>", result, flags=re.IGNORECASE)
+        result = re.sub(pattern, repl, result, flags=re.IGNORECASE)
     return result
 
 
