@@ -34,5 +34,17 @@
     {
         "date": "2025-12-09",
         "text": "I will join MATS 9.0 cohort as a part of GDM stream (Zimmermann/Lindner/Emmons/Jenner) focusing on red-teaming of white-box detectors!"
+    },
+    {
+        "date": "2026-01-26",
+        "text": "Happy to announce that 4/4 of our submissions got accepted into <span class=\"highlight highlight-conference\">ICLR 2026</span>! Shoot me an email if you want to catch up in Rio!"
+    },
+    {
+        "date": "2026-02-06",
+        "text": "Presenting <em>Strategic Dishonesty Can Undermine AI Safety Evaluations of Frontier LLMs</em> at <span class=\"highlight highlight-event\">Newspeak House</span> as part of Winter MATS Research Talks!"
+    },
+    {
+        "date": "2026-02-09",
+        "text": "Presented my past work on jailbreaking at <span class=\"highlight highlight-event\">Imperial College London</span> (Yves-Alexandre de Montjoye's group seminar)."
     }
 ]
