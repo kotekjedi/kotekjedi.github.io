@@ -25,9 +25,9 @@ PERSON = {
     "highlight_name": "Alexander Panfilov",
     "bio": [
         "Yo! My name is Sasha and I am a second-year ELLIS / IMPRS-IS PhD student in Tuebingen advised by Jonas Geiping and Maksym Andriushchenko.",
-        "I work on AI Safety, particularly on red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.",
-        "Previously I was obsessed with LLM jailbreaks, trying to understand realistic threat models, whether current safety evaluations are trustworthy, and whether we’re doomed. Lately I’m leaning into white-box alignment methods and AI control.",
-        "I am open to collaboration - feel free to drop an email! I’m also looking for a safety/security internship opportunity in 2026/2027.",
+        "I work on AI Safety, particularly on red-teaming LLMs and stuff around them. Roughly four days a week I am an AI doomer.",
+        "I love LLM jailbreaks and red-teaming for misuse, but lately I’m spending more time on red-teaming for AI Control and Automated RnD.",
+        "I will start as intern at Meta Superinteligence Labs in 2026. I am open to collaboration and consider interesting roles in safety or security teams.",
     ],
 }
 
@@ -62,11 +62,11 @@ SOCIAL_LINKS = [
 FOCUS_AREAS = [
     {
         "title": "Research Interests",
-        "body": "I find introspection capability of LLMs fascinating and think it can be used as a way to reason about white-box interventions and useful for self-jailbreaking.",
+        "body": "I am interested in introspection and its implications for AI Control, automated R&amp;D, and white-box alignment methods.",
     },
     {
         "title": "Whereabouts",
-        "body": "Based in London from January through March for MATS. Happy to grab a coffee if you are around!",
+        "body": "Mostly in Tuebingen, occasionaly in London, late 2026 in Bay Area.",
     },
     {
         "title": "Plans",

@@ -46,5 +46,9 @@
     {
         "date": "2026-02-09",
         "text": "Presented my past work on jailbreaking at <span class=\"highlight highlight-event\">Imperial College London</span> (Yves-Alexandre de Montjoye's group seminar)."
+    },
+    {
+        "date": "2026-03-28",
+        "text": "Our work, <em>Measuring Control Intervention Awareness Across Frontier LLMs</em>, has been accepted for an oral presentation at the <span class=\"highlight highlight-event\">CAO Workshop at ICLR 2026</span>!"
     }
 ]

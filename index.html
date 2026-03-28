@@ -48,6 +48,42 @@
   "publication": [
     {
       "@type": "ScholarlyArticle",
+      "headline": "Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs",
+      "author": [
+        {
+          "@type": "Person",
+          "name": "Alexander Panfilov*"
+        },
+        {
+          "@type": "Person",
+          "name": "Peter Romov*"
+        },
+        {
+          "@type": "Person",
+          "name": "Igor Shilov*"
+        },
+        {
+          "@type": "Person",
+          "name": "Yves-Alexandre Montjoye"
+        },
+        {
+          "@type": "Person",
+          "name": "Jonas Geiping"
+        },
+        {
+          "@type": "Person",
+          "name": "Maksym Andriushchenko"
+        }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "CAO Workshop, ICLR 2026"
+      },
+      "datePublished": "2026",
+      "url": "https://arxiv.org/abs/2603.24511"
+    },
+    {
+      "@type": "ScholarlyArticle",
       "headline": "Adaptive Attacks on Trusted Monitors Subvert AI Control Protocols",
       "author": [
         {
@@ -215,9 +251,9 @@
 <a class="social-link" href="mailto:kotekjedi@gmail.com" target="_blank" rel="noopener"><i class="fa-solid fa-envelope"></i><span>Email</span></a>
                         </div>
                         <p>Yo! My name is Sasha and I am a second-year ELLIS / IMPRS-IS PhD student in Tuebingen advised by Jonas Geiping and Maksym Andriushchenko.</p>
-<p>I work on AI Safety, particularly on red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.</p>
-<p>Previously I was obsessed with LLM jailbreaks, trying to understand realistic threat models, whether current safety evaluations are trustworthy, and whether we’re doomed. Lately I’m leaning into white-box alignment methods and AI control.</p>
-<p>I am open to collaboration - feel free to drop an email! I’m also looking for a safety/security internship opportunity in 2026/2027.</p>
+<p>I work on AI Safety, particularly on red-teaming LLMs and stuff around them. Roughly four days a week I am an AI doomer.</p>
+<p>I love LLM jailbreaks and red-teaming for misuse, but lately I’m spending more time on red-teaming for AI Control and Automated RnD.</p>
+<p>I will start as intern at Meta Superinteligence Labs in 2026. I am open to collaboration and consider interesting roles in safety or security teams.</p>
                         <div class="cta-row">
                             <a class="pill-button primary" href="assets/pdf/cv.pdf" target="_blank" rel="noopener">Download CV</a>
                             <a class="pill-button secondary" href="mailto:kotekjedi@gmail.com">Email me</a>
@@ -237,11 +273,11 @@
                     <div class="focus-grid">
                         <div class="focus-card">
     <h4>Research Interests</h4>
-    <p>I find introspection capability of LLMs fascinating and think it can be used as a way to reason about white-box interventions and useful for self-jailbreaking.</p>
+    <p>I am interested in introspection and its implications for AI Control, automated R&amp;D, and white-box alignment methods.</p>
 </div>
 <div class="focus-card">
     <h4>Whereabouts</h4>
-    <p>Based in London from January through March for MATS. Happy to grab a coffee if you are around!</p>
+    <p>Mostly in Tuebingen, occasionaly in London, late 2026 in Bay Area.</p>
 </div>
 <div class="focus-card">
     <h4>Plans</h4>
@@ -256,6 +292,10 @@
                     </div>
                     <ul class="news-timeline">
                         <li class="news-item">
+    <span class="news-date">Mar 28, 2026</span>
+    <div class="news-body">Our work, <em>Measuring Control Intervention Awareness Across Frontier LLMs</em>, has been accepted for an <strong>oral</strong> presentation at the <span class="highlight highlight-event">CAO Workshop at <span class="highlight highlight-conference">ICLR 2026</span></span>!</div>
+</li>
+<li class="news-item">
     <span class="news-date">Feb 09, 2026</span>
     <div class="news-body">Presented my past work on jailbreaking at <span class="highlight highlight-event">Imperial College London</span> (Yves-Alexandre de Montjoye's group seminar).</div>
 </li>
@@ -314,6 +354,33 @@
                     <div class="publications">
                         <article class="publication-card">
   <div class="pub-thumb">
+    <img src="assets/img/publications/optuna_pareto_front.png" alt="Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs cover" loading="lazy">
+    <button class="pill-button thumb-button" data-toggle-target="abstract-panfilov2025claudini">Abstract</button>
+  </div>
+  <div class="pub-body">
+    <div class="pub-meta"><span class="venue">CAO Workshop, <span class="highlight highlight-conference">ICLR 2026</span></span></div>
+    <h4 class="pub-title"><a href="https://arxiv.org/abs/2603.24511" target="_blank" rel="noopener">Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs</a></h4>
+    <p class="pub-authors"><span class="author-self">Alexander Panfilov*</span>, Peter Romov*, Igor Shilov*, Yves-Alexandre Montjoye, Jonas Geiping, Maksym Andriushchenko</p>
+    <div class="pub-actions"><a class="pill-button" href="https://arxiv.org/abs/2603.24511" target="_blank" rel="noopener">Paper</a>
+<a class="pill-button" href="https://github.com/romovpa/claudini" target="_blank" rel="noopener">Code</a>
+      <button class="pill-button ghost" data-toggle-target="bibtex-panfilov2025claudini">BibTeX</button>
+    </div>
+<div class="toggle-panel" id="abstract-panfilov2025claudini">
+    <p>LLM agents like Claude Code can not only write code but also be used for autonomous AI research and engineering. We show that an autoresearch-style pipeline powered by Claude Code discovers novel white-box adversarial attack algorithms that significantly outperform all existing (30+) methods in jailbreaking and prompt injection evaluations. Starting from existing attack implementations, such as GCG, the agent iterates to produce new algorithms achieving up to 40\% attack success rate on CBRN queries against GPT-OSS-Safeguard-20B, compared to $\leq$10\% for existing algorithms. The discovered algorithms generalize: attacks optimized on surrogate models transfer directly to held-out models, achieving 100\% ASR against Meta-SecAlign-70B versus 56\% for the best baseline. Extending the findings of prior work, our results are an early demonstration that incremental safety and security research can be automated using LLM agents. White-box adversarial red-teaming is particularly well-suited for this: existing methods provide strong starting points, and the optimization objective yields dense, quantitative feedback.</p>
+</div>
+<div class="toggle-panel toggle-panel-bib" id="bibtex-panfilov2025claudini">
+                <pre class="pub-bibtex"><code>@inproceedings{panfilov2025claudini,
+    author = &quot;Panfilov*, Alexander and Romov*, Peter and Shilov*, Igor and de Montjoye, Yves-Alexandre and Geiping, Jonas and Andriushchenko, Maksym&quot;,
+    title = &quot;Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs&quot;,
+    booktitle = &quot;CAO Workshop, ICLR 2026&quot;,
+    url = &quot;https://arxiv.org/abs/2603.24511&quot;,
+    year = &quot;2026&quot;,
+}</code></pre>
+            </div>
+  </div>
+</article>
+<article class="publication-card">
+  <div class="pub-thumb">
     <img src="assets/img/publications/monitor.png" alt="Adaptive Attacks on Trusted Monitors Subvert AI Control Protocols cover" loading="lazy">
     <button class="pill-button thumb-button" data-toggle-target="abstract-terekhov2025monitor">Abstract</button>
   </div>
@@ -349,6 +416,7 @@
     <h4 class="pub-title"><a href="https://arxiv.org/abs/2509.18058" target="_blank" rel="noopener">Strategic Dishonesty Can Undermine AI Safety Evaluations of Frontier LLMs</a></h4>
     <p class="pub-authors"><span class="author-self">Alexander Panfilov*</span>, Evgenii Kortukov*, Kristina Nikolic, Matthias Bethge, Sebastian Lapuschkin, Wojciech Samek, Ameya Prabhu, Maksym Andriushchenko, Jonas Geiping</p>
     <div class="pub-actions"><a class="pill-button" href="https://arxiv.org/abs/2509.18058" target="_blank" rel="noopener">Paper</a>
+<a class="pill-button" href="https://github.com/kotekjedi/strategic_dishonesty_mcq" target="_blank" rel="noopener">Code</a>
       <button class="pill-button ghost" data-toggle-target="bibtex-panfilov2025dishonesty">BibTeX</button>
     </div>
 <div class="toggle-panel" id="abstract-panfilov2025dishonesty">
@@ -445,7 +513,7 @@ and for shaping my research vision. I would like to especially acknowledge
             </main>
 
             <footer class="site-footer">
-                <p>Vibe-coded with CodeX. Last updated Mar 03, 2026.</p>
+                <p>Vibe-coded with CodeX. Last updated Mar 28, 2026.</p>
             </footer>
             </div>
 
