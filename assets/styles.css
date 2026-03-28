@@ -324,8 +324,8 @@ main {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
-  max-height: 420px;
+  gap: 0.8rem;
+  max-height: 210px;
   overflow-y: auto;
   padding-right: 1rem;
 }
