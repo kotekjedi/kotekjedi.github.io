@@ -24,7 +24,7 @@ PERSON = {
     "photo": "assets/img/profile_mine_new.jpg",
     "highlight_name": "Alexander Panfilov",
     "bio": [
-        "Yo! My name is Sasha and I am a second-year ELLIS / IMPRS-IS PhD student in Tuebingen advised by Jonas Geiping and Maksym Andriushchenko.",
+        "Yo! My name is Sasha and I am a third-year ELLIS / IMPRS-IS PhD student in Tuebingen advised by Jonas Geiping and Maksym Andriushchenko.",
         "I work on AI Safety, particularly on red-teaming LLMs and stuff around them. Roughly four days a week I am an AI doomer.",
         "I love LLM jailbreaks and red-teaming for misuse, but lately I’m spending more time on red-teaming for AI Control and Automated RnD.",
         "I will start as intern at Meta Superinteligence Labs in 2026. I am open to collaboration and consider interesting roles in safety or security teams.",
