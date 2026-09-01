@@ -1,15 +1,11 @@
 [
     {
         "date": "2024-05-01",
-        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems. You can find the slides for my <span class=\"highlight highlight-event\">IMPRS</span> talk <a href=\"assets/talks/imprs_talk.pdf\" target=\"_blank\">here</a>."
+        "text": "Started my PhD at the ELLIS Institute Tübingen / Max Planck Institute for Intelligent Systems!"
     },
     {
         "date": "2024-10-09",
         "text": "Our work, <em>A Realistic Threat Model for Large Language Model Jailbreaks</em>, has been accepted for an oral presentation at the <span class=\"highlight highlight-event\">Red Teaming GenAI Workshop at NeurIPS 2024</span>."
-    },
-    {
-        "date": "2024-11-05",
-        "text": "Presented our work, <em>Provable Compositional Generalization for Object-Centric Learning</em> at <span class=\"highlight highlight-event\">EPFL</span> (Nicolas Flammarion's group seminar). You can find the slides <a href=\"assets/talks/ocl_epfl_talk.pdf\" target=\"_blank\">here</a>."
     },
     {
         "date": "2025-04-15",
@@ -18,10 +14,6 @@
     {
         "date": "2025-05-01",
         "text": "Our work, <em>An Interpretable N-gram Perplexity Threat Model for Large Language Model Jailbreaks</em>, has been accepted at <span class=\"highlight highlight-event\">ICML 2025</span>."
-    },
-    {
-        "date": "2025-06-23",
-        "text": "Presented our work <em>Capability-Based Scaling Laws for LLM Red-Teaming</em> and <em>ASIDE</em> at the <span class=\"highlight highlight-event\">Google's Red Teaming seminar</span>. You can find the slides <a href=\"assets/talks/google_talk.pdf\" target=\"_blank\">here</a>. Thanks for the invitation!"
     },
     {
         "date": "2025-07-09",
@@ -40,15 +32,15 @@
         "text": "Happy to share that four out of four of my submissions got accepted into <span class=\"highlight highlight-conference\">ICLR 2026</span>! Shoot me an email if you want to catch up in Rio!"
     },
     {
-        "date": "2026-02-06",
-        "text": "Presented <em>Strategic Dishonesty Can Undermine AI Safety Evaluations of Frontier LLMs</em> at <span class=\"highlight highlight-event\">Newspeak House</span> as part of <a href=\"https://luma.com/lb8wiu9f?tk=ZI8kjw&utm_medium=email&utm_source=substack\" target=\"_blank\">MATS Winter Research Talks</a>! You can find the slides <a href=\"assets/talks/mats_talk.pdf\" target=\"_blank\">here</a>."
-    },
-    {
-        "date": "2026-02-09",
-        "text": "Presented my past work on jailbreaking at <span class=\"highlight highlight-event\">Imperial College London</span> (Yves-Alexandre de Montjoye's group seminar)."
-    },
-    {
         "date": "2026-03-28",
         "text": "Our work, <em>Measuring Control Intervention Awareness Across Frontier LLMs</em>, has been accepted for an oral presentation at the <span class=\"highlight highlight-event\">CAO Workshop at ICLR 2026</span>!"
+    },
+    {
+        "date": "2026-06-01",
+        "text": "<em>Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs</em> has been accepted at the <span class=\"highlight highlight-event\">ICML 2026 Workshop on Agents in the Wild: Safety, Security, and Beyond</span>!"
+    },
+    {
+        "date": "2026-06-01",
+        "text": "<em>Training Against Harmfulness Probes Induces Harmlessness without Refusals</em> has been accepted at the <span class=\"highlight highlight-event\">ICML 2026 MechInterp Workshop</span>!"
     }
 ]

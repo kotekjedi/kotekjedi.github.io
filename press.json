@@ -1,0 +1,163 @@
+{
+    "panfilov2026claudini": [
+        {
+            "outlet": "WIRED Newsletter"
+        },
+        {
+            "outlet": "LessWrong",
+            "title": "Monday AI Radar #19",
+            "url": "https://www.lesswrong.com/posts/tqjyPfcpKYYErMhQc/monday-ai-radar-19",
+            "date": "2026-03-31"
+        },
+        {
+            "outlet": "Blake Crosley",
+            "title": "AI Agent Research: Claude Beat 33 Attack Methods",
+            "url": "https://blakecrosley.com/blog/when-your-agent-becomes-the-researcher",
+            "date": "2026-03-26"
+        },
+        {
+            "outlet": "Towards AI",
+            "title": "A full explanation of Claudini — the auto-research pipeline that discovered state-of-the-art adversarial attacks on LLMs",
+            "url": "https://pub.towardsai.net/a-full-explanation-of-claudini-the-auto-research-pipeline-that-discovered-state-of-the-art-d8078cdb7e75"
+        }
+    ],
+    "panfilov2025dishonesty": [
+        {
+            "outlet": "WIRED Newsletter"
+        },
+        {
+            "outlet": "LessWrong",
+            "title": "AI Safety at the Frontier: Paper Highlights, September '25",
+            "url": "https://www.lesswrong.com/posts/Tj44XfQbb4AhRShfi/ai-safety-at-the-frontier-paper-highlights-september-25",
+            "date": "2025-10-01"
+        },
+        {
+            "outlet": "AI Safety Papers",
+            "title": "Detecting and reducing scheming, LLMs strategically lie, …",
+            "url": "https://onexerxes.substack.com/p/detecting-and-reducing-scheming-llms",
+            "date": "2025-09-26"
+        }
+    ],
+    "panfilov2026stolenthoughts": [
+        {
+            "outlet": "WIRED",
+            "title": "A New Trick Reveals AI Models' Inner Thoughts",
+            "url": "https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/",
+            "date": "2026-08-11"
+        },
+        {
+            "outlet": "The Hacker News",
+            "title": "OpenAI, Anthropic, Google API Flaw Let Weaker AI Models Decode Stronger Models' Reasoning",
+            "url": "https://thehackernews.com/2026/08/openai-anthropic-google-api-flaw-let.html",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "The Indian Express",
+            "title": "Can an AI model's 'reasoning' be extracted? New research fuels US-China distillation row",
+            "url": "https://indianexpress.com/article/technology/artificial-intelligence/ai-model-reasoning-new-research-us-china-distillation-row-10832595/",
+            "date": "2026-08-01"
+        },
+        {
+            "outlet": "AI Frontline / 36Kr",
+            "title": "The anti-distillation mechanisms of the world's three top leading models have been fully cracked",
+            "url": "https://eu.36kr.com/en/p/3936193723104388",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "DeepTech / Sina Tech",
+            "title": "OpenAI and Anthropic worked hard to encrypt their chains of thought — but they can be easily extracted",
+            "url": "https://finance.sina.com.cn/tech/roll/2026-08-12/doc-inimzumt4025426.shtml",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "QbitAI / Sina Tech",
+            "title": "$720 extracts Anthropic's hidden Opus reasoning traces",
+            "url": "https://finance.sina.com.cn/tech/csj/2026-08-13/doc-ininavwx6554430.shtml",
+            "date": "2026-08-13"
+        },
+        {
+            "outlet": "The Stack",
+            "title": "Stolen valor? How researchers discovered some open-weight models might have cut corners",
+            "url": "https://www.thestack.technology/stolen-valor-how-researchers-discovered-some-open-weight-models-might-have-cut-corners/",
+            "date": "2026-08-26"
+        },
+        {
+            "outlet": "t3n",
+            "title": "Verschlüsselung ausgehebelt: So einfach offenbaren KI-Modelle sensible Daten ihrer Nutzer",
+            "url": "https://t3n.de/news/ki-modelle-sensible-daten-nutzer-offenbart-1757668/",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "Decrypt",
+            "title": "'Inner Thoughts' of Every Major AI Model Exposed in Massive Exploit",
+            "url": "https://decrypt.co/375501/inner-thoughts-every-major-ai-model-exposed-exploit",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "The Neuron",
+            "title": "OpenAI, Claude, and Gemini's reasoning got cracked",
+            "url": "https://www.theneuron.ai/newsletter/openai-claude-and-gemini-s-reasoning-got-cracked/",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "THE DECODER",
+            "title": "'Aber Marinade': Forscher extrahieren versteckte Denkprozesse von ChatGPT, Claude und Co.",
+            "url": "https://the-decoder.de/aber-marinade-forscher-extrahieren-versteckte-denkprozesse-von-chatgpt-claude-und-co/",
+            "date": "2026-08-11"
+        },
+        {
+            "outlet": "Latent Space / AINews",
+            "title": "How to steal a Reasoning Trace",
+            "url": "https://www.latent.space/p/ainews-how-to-steal-a-reasoning-trace",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "Simon Willison",
+            "title": "Stealing Reasoning Traces from Proprietary LLM APIs",
+            "url": "https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/",
+            "date": "2026-08-11"
+        },
+        {
+            "outlet": "TechNews Taiwan",
+            "title": "AI \"inner thoughts\" fully exposed? New technique cracks large-model reasoning traces",
+            "url": "https://technews.tw/2026/08/12/ai-models-inner-thoughts/",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "Cloud Security Alliance",
+            "title": "Reasoning Trace Theft: A Shared Flaw Across AI Vendors",
+            "url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-reasoning-trace-theft-llm-apis-20260812-cs/",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "GIGAZINE",
+            "title": "Encrypted AI reasoning can be extracted using weaker models",
+            "url": "https://gigazine.net/news/20260812-ai-stolen-thoughts/",
+            "date": "2026-08-12"
+        },
+        {
+            "outlet": "ASCII.jp",
+            "title": "AI no \"himitsu no shikou\" ga nukitorareru osore",
+            "url": "https://ascii.jp/elem/000/004/427/4427032/",
+            "date": "2026-08-17"
+        },
+        {
+            "outlet": "Wccftech",
+            "title": "Kimi K3 Shows An Uncanny Affinity To The Reasoning Patterns Of Claude Opus",
+            "url": "https://wccftech.com/kimi-k3-shows-an-uncanny-affinity-to-the-reasoning-patterns-of-claude-opus-as-a-new-study-hands-the-trump-administration-a-smoking-gun/",
+            "date": "2026-08-11"
+        },
+        {
+            "outlet": "Cyber Security News",
+            "title": "OpenAI, Anthropic, and Google LLM APIs Vulnerability Exposes Hidden Reasoning Traces",
+            "url": "https://cybersecuritynews.com/top-ai-models-apis-flaw-exposes-hidden-reasoning/",
+            "date": "2026-08-11"
+        },
+        {
+            "outlet": "WatersTechnology",
+            "title": "API security flaw highlights AI model vulnerabilities",
+            "url": "https://www.waterstechnology.com/emerging-technologies/7953218/api-security-flaw-highlights-ai-model-vulnerabilities",
+            "date": "2026-08-20"
+        }
+    ]
+}

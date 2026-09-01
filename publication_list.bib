@@ -1,3 +1,18 @@
+@article{panfilov2026stolenthoughts,
+      title={Stealing Reasoning Traces from Proprietary LLM APIs},
+      author={Alexander Panfilov* and David Schmotz* and Ilia Shumailov* and Luca Beurer-Kellner and Joachim Schaeffer and Ameya Prabhu and Jonas Geiping and Maksym Andriushchenko},
+      journal={arXiv preprint},
+      eprint={2608.09867},
+      archivePrefix={arXiv},
+      booktitle={Preprint},
+      img={assets/img/publications/stolen_thoughts.png},
+      url={https://arxiv.org/abs/2608.09867},
+      html={https://stolen-thoughts.com/},
+      featured={true},
+      year={2026},
+      abstract={Leading large language model providers now conceal their models' step-by-step reasoning, or chain-of-thought, to protect intellectual property and limit information leakage. Rather than storing these traces server-side, providers return them to the client as blocks of encrypted text, which the client passes back with each subsequent request. Building on prior research, we identify an architectural vulnerability: these encrypted blocks are fully compatible and interchangeable across different sessions, users, and models within a provider's ecosystem. We exploit this compatibility to develop a scalable decryption jailbreak. By injecting an encrypted reasoning trace from a given model into a weaker, and less safeguarded model from the same provider, we force it to decode and output the trace verbatim in plaintext, without ever jailbreaking the more capable model directly. This vulnerability enables four distinct attack vectors. First, it circumvents anti-distillation mechanisms, allowing adversaries to extract a proprietary model's reasoning, as we demonstrate across Anthropic, OpenAI, and Google. Second, it allows for large-scale private data extraction. Developers frequently share session logs publicly, unaware of contents of the encrypted blocks. By decoding 315,320 reasoning blocks scraped from public repositories, we recovered 367 Personally Identifiable Information (PII) artifacts and 182 credentials. Third, it inadvertently reveals hazardous information hidden within the reasoning process, even in cases where the model's final, visible output safely rejects a malicious request. Fourth, attackers can leverage this flaw to execute invisible prompt injections, embedding malicious payloads entirely within encrypted blocks to poison public agentic rollouts. Following responsible disclosure, we propose concrete cryptographic and system-level mitigations to secure client-side reasoning.},
+}
+
 @article{panfilov2026claudini,
       title={Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs},
       author={Alexander Panfilov* and Peter Romov* and Igor Shilov* and Yves-Alexandre de Montjoye and Jonas Geiping and Maksym Andriushchenko},
@@ -8,6 +23,7 @@
       img={assets/img/publications/optuna_pareto_front.png},
       url={https://arxiv.org/abs/2603.24511},
       code={https://github.com/romovpa/claudini},
+      featured={true},
       year={2026},
       abstract={LLM agents like Claude Code can not only write code but also be used for autonomous AI research and engineering. We show that an autoresearch-style pipeline powered by Claude Code discovers novel white-box adversarial attack algorithms that significantly outperform all existing (30+) methods in jailbreaking and prompt injection evaluations. Starting from existing attack implementations, such as GCG, the agent iterates to produce new algorithms achieving up to 40\% attack success rate on CBRN queries against GPT-OSS-Safeguard-20B, compared to $\leq$10\% for existing algorithms. The discovered algorithms generalize: attacks optimized on surrogate models transfer directly to held-out models, achieving 100\% ASR against Meta-SecAlign-70B versus 56\% for the best baseline. Extending the findings of prior work, our results are an early demonstration that incremental safety and security research can be automated using LLM agents. White-box adversarial red-teaming is particularly well-suited for this: existing methods provide strong starting points, and the optimization objective yields dense, quantitative feedback.},
 }
@@ -30,6 +46,7 @@
       img={assets/img/publications/faking.png},
       url={https://arxiv.org/abs/2509.18058},
       code={https://github.com/kotekjedi/strategic_dishonesty_mcq},
+      featured={true},
       year={2025},
       abstract={Large language model (LLM) developers aim for their models to be honest, helpful, and harmless. However, when faced with malicious requests, models are trained to refuse, sacrificing helpfulness. We show that frontier LLMs can develop a preference for dishonesty as a new strategy, even when other options are available. Affected models respond to harmful requests with outputs that sound harmful but are crafted to be subtly incorrect or otherwise harmless in practice. This behavior emerges with hard-to-predict variations even within models from the same model family. We find no apparent cause for the propensity to deceive, but show that more capable models are better at executing this strategy. Strategic dishonesty already has a practical impact on safety evaluations, as we show that dishonest responses fool all output-based monitors used to detect jailbreaks that we test, rendering benchmark scores unreliable. Further, strategic dishonesty can act like a honeypot against malicious users, which noticeably obfuscates prior jailbreak attacks. While output monitors fail, we show that linear probes on internal activations can be used to reliably detect strategic dishonesty. We validate probes on datasets with verifiable outcomes and by using them as steering vectors. Overall, we consider strategic dishonesty as a concrete example of a broader concern that alignment of LLMs is hard to control, especially when helpfulness and harmlessness conflict.},
 }

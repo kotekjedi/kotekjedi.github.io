@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+from collections import OrderedDict
 from datetime import datetime
 from html import escape
 from pathlib import Path
@@ -17,17 +18,18 @@ GOOGLE_ANALYTICS_ID = "G-4SLC5348B5"
 PERSON = {
     "first_name": "Alexander",
     "last_name": "Panfilov",
-    "tagline": "AI safety, Adversarial ML, & LLM Red-Teaming",
-    "location": "ELLIS Institute / MPI-IS, Tübingen",
+    "nickname": "Sasha",
+    "tagline": "AI safety, adversarial ML & LLM red-teaming",
+    "location": "ELLIS Institute Tübingen / MPI-IS",
     "email": "kotekjedi@gmail.com",
     "cv": "assets/pdf/cv.pdf",
     "photo": "assets/img/profile_mine_new.jpg",
+    "photo_caption": "Tübingen, Germany",
     "highlight_name": "Alexander Panfilov",
     "bio": [
-        "Yo! My name is Sasha and I am a third-year ELLIS / IMPRS-IS PhD student in Tuebingen advised by Jonas Geiping and Maksym Andriushchenko.",
-        "I work on AI Safety, particularly on red-teaming LLMs and stuff around them. Roughly four days a week I am an AI doomer.",
-        "I love LLM jailbreaks and red-teaming for misuse, but lately I’m spending more time on red-teaming for AI Control and Automated RnD.",
-        "I will start as intern at Meta Superinteligence Labs in 2026. I am open to collaboration and consider interesting roles in safety or security teams.",
+        "I am a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko.",
+        "I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.",
+        "My research has been covered by <a href=\"https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/\" target=\"_blank\" rel=\"noopener\">press</a> and <a href=\"https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/\" target=\"_blank\" rel=\"noopener\">blogs</a>, and has affected <a href=\"https://support.claude.com/en/articles/16761192-preserved-thinking-changing-how-the-messages-api-handles-thinking-blocks-to-protect-against-distillation\" target=\"_blank\" rel=\"noopener\">frontier model deployments</a>.",
     ],
 }
 
@@ -59,21 +61,6 @@ SOCIAL_LINKS = [
     },
 ]
 
-FOCUS_AREAS = [
-    {
-        "title": "Research Interests",
-        "body": "I am interested in introspection and its implications for AI Control, automated R&amp;D, and white-box alignment methods.",
-    },
-    {
-        "title": "Whereabouts",
-        "body": "Mostly in Tuebingen, occasionaly in London, late 2026 in Bay Area.",
-    },
-    {
-        "title": "Plans",
-        "body": "Planning to attend ICLR 2026 in Brazil. Happy to catch up there!",
-    },
-]
-
 ACKNOWLEDGEMENT = dedent(
     """
     I am grateful to the many friends and colleagues, from whom I learned so much, for their invaluable guidance
@@ -84,6 +71,7 @@ ACKNOWLEDGEMENT = dedent(
     <a href="https://scholar.google.com/citations?user=aeCiRSYAAAAJ&hl=en" target="_blank">Thaddaeus Wiedemer</a>,
     <a href="https://scholar.google.com/citations?hl=en&user=jgPzOmgAAAAJ" target="_blank">Jack Brady</a>,
     <a href="https://scholar.google.com/citations?user=v-JL-hsAAAAJ&hl=en" target="_blank">Wieland Brendel</a>,
+    <a href="https://scholar.google.com/citations?user=9hlJ9W0AAAAJ&hl=en" target="_blank">Felix Dangel</a>,
     <a href="https://scholar.google.com/citations?hl=en&user=gzRuY4cAAAAJ" target="_blank">Valentyn Boreiko</a>,
     <a href="https://scholar.google.com/citations?user=0ZAb3tsAAAAJ&hl=en" target="_blank">Matthias Hein</a>,
     <a href="https://scholar.google.com/citations?hl=en&user=exaNV-0AAAAJ" target="_blank">Shashwat Goel</a>,
@@ -94,8 +82,10 @@ ACKNOWLEDGEMENT = dedent(
 ).strip()
 
 NAV_LINKS = [
-    {"label": "News", "href": "#news"},
-    {"label": "Research", "href": "#research"},
+    {"label": "news", "href": "#news"},
+    {"label": "talks", "href": "#talks"},
+    {"label": "research", "href": "#research"},
+    {"label": "cv", "href": "assets/pdf/cv.pdf"},
 ]
 
 CONFERENCES = [
@@ -118,10 +108,10 @@ CONFERENCES = [
 CONFERENCE_HIGHLIGHT_CLASS = "highlight highlight-conference"
 
 ARTEFACT_LABELS = {
-    "url": "Paper",
-    "html": "Website",
-    "code": "Code",
-    "poster": "Poster",
+    "url": "paper",
+    "html": "website",
+    "code": "code",
+    "poster": "poster",
 }
 
 
@@ -131,7 +121,9 @@ def slugify(value: str) -> str:
 
 
 def highlight_oral(text: str) -> str:
-    return re.sub(r"\b(oral)\b", r"<strong>\1</strong>", text, flags=re.IGNORECASE)
+    return re.sub(
+        r"\b(oral)\b", r'<span class="pen-circle">\1</span>', text, flags=re.IGNORECASE
+    )
 
 
 def highlight_conferences(text: str) -> str:
@@ -145,30 +137,161 @@ def highlight_conferences(text: str) -> str:
     return result
 
 
-def load_news(path: Path = ROOT / "news.json") -> List[Dict[str, object]]:
+def load_dated_json(path: Path) -> List[Dict[str, object]]:
     with path.open("r", encoding="utf-8") as fh:
-        news_items = json.load(fh)
-    for item in news_items:
+        items = json.load(fh)
+    for item in items:
         item["date_obj"] = datetime.strptime(item["date"], "%Y-%m-%d")
-    return sorted(news_items, key=lambda itm: itm["date_obj"], reverse=True)
+    return sorted(items, key=lambda itm: itm["date_obj"], reverse=True)
 
 
-def render_news_items(news_items: List[Dict[str, object]]) -> str:
-    rendered = []
+def render_news_html(news_items: List[Dict[str, object]]) -> str:
+    groups: "OrderedDict[int, List[Dict[str, object]]]" = OrderedDict()
     for item in news_items:
-        date_label = item["date_obj"].strftime("%b %d, %Y")
-        text = highlight_oral(highlight_conferences(item["text"]))
-        rendered.append(
+        groups.setdefault(item["date_obj"].year, []).append(item)
+
+    rendered_groups = []
+    for year, items in groups.items():
+        entries = []
+        for item in items:
+            date_label = item["date_obj"].strftime("%b %d")
+            text = highlight_oral(highlight_conferences(item["text"]))
+            entries.append(
+                f'<li class="news-item"><span class="news-date">{date_label}</span>'
+                f'<div class="news-body">{text}</div></li>'
+            )
+        entries_html = "\n".join(entries)
+        rendered_groups.append(
             dedent(
                 f"""
-                <li class="news-item">
-                    <span class="news-date">{date_label}</span>
-                    <div class="news-body">{text}</div>
-                </li>
+                <div class="news-year-group">
+                    <h3 class="year-label" aria-label="{year}">{year}</h3>
+                    <ul class="news-list">
+                        {entries_html}
+                    </ul>
+                </div>
                 """
             ).strip()
         )
-    return "\n".join(rendered)
+    groups_html = "\n".join(rendered_groups)
+    return f'<div class="news-groups scrollable">\n{groups_html}\n</div>'
+
+
+def render_talks_html(talks: List[Dict[str, object]]) -> str:
+    groups: "OrderedDict[int, List[Dict[str, object]]]" = OrderedDict()
+    for talk in talks:
+        groups.setdefault(talk["date_obj"].year, []).append(talk)
+
+    rendered_groups = []
+    for year, items in groups.items():
+        rows_html = "\n".join(render_talk_item(talk) for talk in items)
+        rendered_groups.append(
+            dedent(
+                f"""
+                <div class="talk-year-group">
+                    <h3 class="year-label" aria-label="{year}">{year}</h3>
+                    <ul class="talk-list">
+                        {rows_html}
+                    </ul>
+                </div>
+                """
+            ).strip()
+        )
+    groups_html = "\n".join(rendered_groups)
+    return f'<div class="talk-groups scrollable">\n{groups_html}\n</div>'
+
+
+def render_talk_item(talk: Dict[str, object]) -> str:
+    date_label = talk["date_obj"].strftime("%b %d")
+    title = talk.get("title")
+    venue = talk["venue"]
+    event = talk.get("event")
+    event_url = talk.get("event_url")
+    talk_type = talk.get("type", "talk")
+
+    lead = venue
+    badge = ""
+
+    sub_parts = []
+    if talk_type not in ("talk",):
+        sub_parts.append(talk_type)
+    if title:
+        sub_parts.append(f"<em>{title}</em>")
+    sub = " · ".join(sub_parts)
+    if event:
+        sub = f"{sub} ({event})" if sub else f"({event})"
+    sub_html = f'<p class="talk-sub">{sub}</p>' if sub else ""
+
+    links = []
+    if event_url:
+        links.append(
+            f'<a class="pill-button ghost" href="{event_url}" target="_blank" rel="noopener">event</a>'
+        )
+    if slides := talk.get("slides"):
+        links.append(
+            f'<a class="pill-button ghost" href="{slides}" target="_blank" rel="noopener">slides</a>'
+        )
+    if video := talk.get("video"):
+        links.append(
+            f'<a class="pill-button ghost" href="{video}" target="_blank" rel="noopener">video</a>'
+        )
+    links_html = (
+        f'<div class="talk-links">{" ".join(links)}</div>' if links else ""
+    )
+
+    return dedent(
+        f"""
+        <li class="talk-item">
+            <span class="talk-date">{date_label}</span>
+            <div class="talk-body">
+                <p class="talk-lead">{lead}{badge}</p>
+                {sub_html}
+            </div>
+            {links_html}
+        </li>
+        """
+    ).strip()
+
+
+def load_press_map(path: Path = ROOT / "press.json") -> Dict[str, List[Dict[str, str]]]:
+    if not path.exists():
+        return {}
+    with path.open("r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def is_featured(entry) -> bool:
+    return entry.fields.get("featured", "").strip().lower() in ("true", "1", "yes")
+
+
+def render_featured_html(bib_data, press_map: Dict[str, List[Dict[str, str]]]) -> str:
+    cards = []
+    for entry_key, entry in bib_data.entries.items():
+        if not is_featured(entry):
+            continue
+        slug = slugify(entry_key)
+        title = entry.fields.get("title", "Untitled")
+        booktitle_raw = entry.fields.get("booktitle", "Preprint")
+        display_text = entry.fields.get("display", booktitle_raw)
+        venue_html = highlight_conferences(f'<span class="venue">{display_text}</span>')
+        url = entry.fields.get("url", "#")
+        img = entry.fields.get("img", "assets/img/publications/placeholder.png")
+        actions = format_artefact_links(entry)
+        if press_map.get(entry_key):
+            actions += f'\n<button class="pill-button ghost" data-goto-target="press-{slug}">press</button>'
+        cards.append(
+            dedent(
+                f"""
+                <div class="featured-card">
+                    <a class="featured-thumb" href="{url}" target="_blank" rel="noopener"><img src="{img}" alt="{title} figure" loading="lazy"></a>
+                    <span class="featured-meta">{venue_html}</span>
+                    <a class="featured-title" href="{url}" target="_blank" rel="noopener">{title}</a>
+                    <div class="featured-actions">{actions}</div>
+                </div>
+                """
+            ).strip()
+        )
+    return "\n".join(cards)
 
 
 def format_authors(persons) -> str:
@@ -186,9 +309,7 @@ def format_authors(persons) -> str:
 def format_badge(label: Optional[str]) -> str:
     if not label:
         return ""
-    variant = label.strip().lower()
-    extra_class = " badge-oral" if variant == "oral" else ""
-    return f'<span class="badge-pill{extra_class}">{label}</span>'
+    return f'<span class="pen-circle">{label.strip().lower()}</span>'
 
 
 def format_artefact_links(entry) -> str:
@@ -202,7 +323,7 @@ def format_artefact_links(entry) -> str:
     return "\n".join(links)
 
 
-def format_publication(entry_key: str, entry) -> str:
+def format_publication(entry_key: str, entry, press_map: Dict[str, List[Dict[str, str]]]) -> str:
     slug = slugify(entry_key)
     title = entry.fields.get("title", "Untitled")
     booktitle_raw = entry.fields.get("booktitle", "Preprint")
@@ -216,7 +337,7 @@ def format_publication(entry_key: str, entry) -> str:
 
     bibliograpy = BibliographyData(entries={entry_key: entry})
     bibtex_raw = bibliograpy.to_string("bibtex").strip()
-    drop_fields = ("img", "code", "html", "poster", "presentation", "abstract")
+    drop_fields = ("img", "code", "html", "poster", "presentation", "abstract", "featured", "display", "press")
     cleaned_lines = []
     for line in bibtex_raw.splitlines():
         stripped = line.strip()
@@ -226,35 +347,34 @@ def format_publication(entry_key: str, entry) -> str:
     bibtex_clean = "\n".join(cleaned_lines).strip()
     bibtex_html = escape(bibtex_clean)
 
-    thumb_button = ""
-    if abstract_text:
-        thumb_button = f'<button class="pill-button thumb-button" data-toggle-target="abstract-{slug}">Abstract</button>'
-
-    venue_html = highlight_oral(
-        highlight_conferences(f'<span class="venue">{display_text}</span>')
+    venue_html = highlight_conferences(f'<span class="venue">{display_text}</span>')
+    year_fragment = (
+        f'<span class="pub-year">{year}</span>' if (year and is_preprint) else ""
     )
-    year_fragment = f" | {year}" if (year and is_preprint) else ""
 
     parts = [
         '<article class="publication-card">',
-        '  <div class="pub-thumb">',
-        f'    <img src="{entry.fields.get("img", "assets/img/publications/placeholder.png")}" alt="{title} cover" loading="lazy">',
-    ]
-    if thumb_button:
-        parts.append(f'    {thumb_button}')
-    parts.append("  </div>")
-    parts.extend([
         '  <div class="pub-body">',
-        f'    <div class="pub-meta">{venue_html}{year_fragment}{badge}</div>',
+        f"    <div class=\"pub-meta\">{venue_html}{year_fragment}{badge}</div>",
         f'    <h4 class="pub-title"><a href="{entry.fields.get("url", "#")}" target="_blank" rel="noopener">{title}</a></h4>',
         f'    <p class="pub-authors">{authors}</p>',
         f'    <div class="pub-actions">{artefacts}',
-    ])
+    ]
+
+    press_links = press_map.get(entry_key, [])
 
     toggle_buttons = []
+    if abstract_text:
+        toggle_buttons.append(
+            f'<button class="pill-button ghost" data-toggle-target="abstract-{slug}">abstract</button>'
+        )
     toggle_buttons.append(
-        f'<button class="pill-button ghost" data-toggle-target="bibtex-{slug}">BibTeX</button>'
+        f'<button class="pill-button ghost" data-toggle-target="bibtex-{slug}">bibtex</button>'
     )
+    if press_links:
+        toggle_buttons.append(
+            f'<button class="pill-button ghost" data-toggle-target="press-{slug}">press</button>'
+        )
 
     parts.append("      " + " ".join(toggle_buttons))
     parts.append("    </div>")
@@ -265,6 +385,31 @@ def format_publication(entry_key: str, entry) -> str:
                 f"""
                 <div class="toggle-panel" id="abstract-{slug}">
                     <p>{abstract_text}</p>
+                </div>
+                """
+            ).strip()
+        )
+
+    if press_links:
+        press_rows = []
+        for item in press_links:
+            label = f'<span class="press-outlet">{item["outlet"]}</span>'
+            if item.get("title"):
+                label += f' &mdash; {item["title"]}'
+            if item.get("url"):
+                press_rows.append(
+                    f'        <li><a href="{item["url"]}" target="_blank" rel="noopener">{label}</a></li>'
+                )
+            else:
+                press_rows.append(f"        <li>{label}</li>")
+        press_items = "\n".join(press_rows)
+        parts.append(
+            dedent(
+                f"""
+                <div class="toggle-panel toggle-panel-press" id="press-{slug}">
+                    <ul class="press-links">
+                {press_items}
+                    </ul>
                 </div>
                 """
             ).strip()
@@ -285,11 +430,11 @@ def format_publication(entry_key: str, entry) -> str:
     return "\n".join(parts)
 
 
-def build_publications_html():
+def build_publications_html(press_map: Dict[str, List[Dict[str, str]]]):
     parser = bibtex.Parser()
     bib_data = parser.parse_file(str(ROOT / "publication_list.bib"))
     cards = [
-        format_publication(entry_key, entry)
+        format_publication(entry_key, entry, press_map)
         for entry_key, entry in bib_data.entries.items()
     ]
     return "\n".join(cards), bib_data
@@ -303,25 +448,9 @@ def build_social_html() -> str:
         else:
             icon_html = f'<i class="{link["icon"]}"></i>'
         items.append(
-            f'<a class="social-link" href="{link["url"]}" target="_blank" rel="noopener">{icon_html}<span>{link["label"]}</span></a>'
+            f'<a class="social-link" href="{link["url"]}" target="_blank" rel="noopener">{icon_html}<span>{link["label"].lower()}</span></a>'
         )
     return "\n".join(items)
-
-
-def build_focus_html() -> str:
-    return "\n".join(
-        [
-            dedent(
-                f"""
-                <div class="focus-card">
-                    <h4>{item["title"]}</h4>
-                    <p>{item["body"]}</p>
-                </div>
-                """
-            ).strip()
-            for item in FOCUS_AREAS
-        ]
-    )
 
 
 def build_structured_data(bib_data) -> str:
@@ -352,7 +481,7 @@ def build_structured_data(bib_data) -> str:
         "description": PERSON["tagline"],
         "affiliation": {
             "@type": "Organization",
-        "name": "ELLIS Institute Tuebingen",
+            "name": "ELLIS Institute Tuebingen",
             "alternateName": "IMPRS-IS",
         },
         "url": "https://kotekjedi.github.io",
@@ -369,14 +498,44 @@ def build_nav_html() -> str:
     links = "".join(
         [f'<a href="{item["href"]}">{item["label"]}</a>' for item in NAV_LINKS]
     )
-    return f'<nav class="site-nav"><div class="brand">Sasha&apos;s Website</div><div class="nav-links">{links}</div></nav>'
+    return (
+        '<nav class="site-nav">'
+        '<a class="brand" href="#top">kotekjedi<span class="brand-cat" aria-hidden="true"> =^..^=</span></a>'
+        f'<div class="nav-links">{links}</div></nav>'
+    )
+
+
+def section_heading(cmd: str, title: str, description: Optional[str] = None) -> str:
+    desc_html = f'<p class="section-description">{description}</p>' if description else ""
+    return (
+        '<div class="section-heading">'
+        f'<h2 class="section-cmd" id="{cmd}-title" aria-label="{title}">'
+        f'<span class="cmd-slash" aria-hidden="true">/</span>{cmd}</h2>'
+        f"{desc_html}</div>"
+    )
 
 
 def get_index_html() -> str:
-    publications_html, bib_data = build_publications_html()
-    news_html = render_news_items(load_news())
+    press_map = load_press_map()
+    publications_html, bib_data = build_publications_html(press_map)
+    featured_html = render_featured_html(bib_data, press_map)
+
+    # Featured-research section is temporarily hidden — uncomment to restore it.
+    featured_section = ""
+    # featured_section = dedent(
+    #     f"""
+    #     <section class="section" id="featured" aria-labelledby="featured-research-title">
+    #         {section_heading("featured-research", "Featured research")}
+    #         <div class="featured-grid">
+    #             {featured_html}
+    #         </div>
+    #     </section>
+    #     """
+    # ).strip()
+
+    news_html = render_news_html(load_dated_json(ROOT / "news.json"))
+    talks_html = render_talks_html(load_dated_json(ROOT / "talks.json"))
     social_html = build_social_html()
-    focus_html = build_focus_html()
     structured_data = build_structured_data(bib_data)
     nav_html = build_nav_html()
 
@@ -407,7 +566,7 @@ def get_index_html() -> str:
             <meta name="description" content="{PERSON["tagline"]}">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <link rel="stylesheet" href="assets/styles.css">
             <link rel="icon" type="image/x-icon" href="assets/favicon_mine.ico">
@@ -422,67 +581,55 @@ def get_index_html() -> str:
             <header class="hero" id="top">
                 <div class="hero-grid">
                     <div class="hero-content">
-                        <p class="eyebrow">{PERSON["location"]}</p>
-                        <h1>{PERSON["first_name"]} <span>{PERSON["last_name"]}</span></h1>
-                        <p class="tagline">{PERSON["tagline"]}</p>
+                        <h1 class="hero-title">Yo, I&rsquo;m <span class="squiggle">{PERSON["nickname"]}</span>!</h1>
                         <div class="social-row">
                             {social_html}
                         </div>
                         {bio_html}
                         <div class="cta-row">
-                            <a class="pill-button primary" href="{PERSON["cv"]}" target="_blank" rel="noopener">Download CV</a>
-                            <a class="pill-button secondary" href="mailto:{PERSON["email"]}">Email me</a>
+                            <a class="pill-button primary" href="{PERSON["cv"]}" target="_blank" rel="noopener">cv</a>
+                            <a class="pill-button secondary" href="mailto:{PERSON["email"]}">email me</a>
                         </div>
                     </div>
-                    <div class="hero-photo">
+                    <figure class="hero-photo">
                         <img src="{PERSON["photo"]}" alt="{PERSON["first_name"]} {PERSON["last_name"]}" loading="lazy">
-                    </div>
+                        <figcaption>{PERSON["photo_caption"]}</figcaption>
+                    </figure>
                 </div>
             </header>
 
             <main>
-                <section class="panel focus-panel" aria-labelledby="focus-title">
-                    <div class="panel-heading">
-                        <h2 id="focus-title">My current...</h2>
-                    </div>
-                    <div class="focus-grid">
-                        {focus_html}
-                    </div>
+                {featured_section}
+                <section class="section" id="news" aria-labelledby="news-title">
+                    {section_heading("news", "News")}
+                    {news_html}
                 </section>
 
-                <section class="panel news-panel" id="news" aria-labelledby="news-title">
-                    <div class="panel-heading">
-                        <h2 id="news-title">News & updates</h2>
-                    </div>
-                    <ul class="news-timeline">
-                        {news_html}
-                    </ul>
+                <section class="section" id="talks" aria-labelledby="invited-talks-title">
+                    {section_heading("invited-talks", "Invited talks")}
+                    {talks_html}
                 </section>
 
-                <section class="panel" id="research" aria-labelledby="research-title">
-                    <div class="panel-heading">
-                        <h2 id="research-title">Research</h2>
-                        <p class="panel-description">Some of my recent work :) </p>
-                    </div>
+                <section class="section" id="research" aria-label="Research">
                     <div class="publications">
                         {publications_html}
                     </div>
                 </section>
 
-                <section class="panel" id="contact">
-                    <div class="panel-heading">
-                        <h3 class="panel-title-sm">Acknowledgements</h3>
-                    </div>
-                    <p>{ACKNOWLEDGEMENT}</p>
+                <section class="section" id="thanks" aria-labelledby="thanks-title">
+                    {section_heading("thanks", "Acknowledgements")}
+                    <p class="acknowledgement">{ACKNOWLEDGEMENT}</p>
                 </section>
             </main>
 
             <footer class="site-footer">
-                <p>Vibe-coded with CodeX. Last updated {datetime.now().strftime("%b %d, %Y")}.</p>
+                <p class="footer-cat" aria-hidden="true">=^..^=</p>
+                <p>Vibe-coded with Claude Code. Last updated {datetime.now().strftime("%b %d, %Y")}.</p>
             </footer>
             </div>
 
             <script>
+            const PANEL_PREFIXES = ['abstract-', 'bibtex-', 'press-'];
             document.querySelectorAll('[data-toggle-target]').forEach((button) => {{
                 button.addEventListener('click', () => {{
                     const targetId = button.dataset.toggleTarget;
@@ -492,12 +639,10 @@ def get_index_html() -> str:
                     const expanded = target.classList.contains('is-visible');
                     button.setAttribute('aria-expanded', expanded);
 
-                    const isBibtex = targetId.startsWith('bibtex-');
-                    const isAbstract = targetId.startsWith('abstract-');
-                    const siblingPrefix = isBibtex ? 'abstract-' : isAbstract ? 'bibtex-' : null;
-
-                    if (siblingPrefix) {{
-                        const siblingId = targetId.replace(isBibtex ? 'bibtex-' : 'abstract-', siblingPrefix);
+                    const prefix = PANEL_PREFIXES.find((p) => targetId.startsWith(p));
+                    if (!prefix || !expanded) return;
+                    PANEL_PREFIXES.filter((p) => p !== prefix).forEach((other) => {{
+                        const siblingId = targetId.replace(prefix, other);
                         const siblingPanel = document.getElementById(siblingId);
                         if (siblingPanel && siblingPanel.classList.contains('is-visible')) {{
                             siblingPanel.classList.remove('is-visible');
@@ -506,11 +651,27 @@ def get_index_html() -> str:
                                 siblingButton.setAttribute('aria-expanded', 'false');
                             }}
                         }}
+                    }});
+                }});
+            }});
+
+            document.querySelectorAll('[data-goto-target]').forEach((button) => {{
+                button.addEventListener('click', () => {{
+                    const targetId = button.dataset.gotoTarget;
+                    const panel = document.getElementById(targetId);
+                    if (!panel) return;
+                    if (!panel.classList.contains('is-visible')) {{
+                        const opener = document.querySelector(`[data-toggle-target="${{targetId}}"]`);
+                        if (opener) {{
+                            opener.click();
+                        }} else {{
+                            panel.classList.add('is-visible');
+                        }}
                     }}
+                    panel.scrollIntoView({{ behavior: 'smooth', block: 'center' }});
                 }});
             }});
             </script>
-            <script data-goatcounter="https://kotekjedi.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
         </body>
         </html>
         """
