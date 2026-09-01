@@ -82,9 +82,9 @@ ACKNOWLEDGEMENT = dedent(
 ).strip()
 
 NAV_LINKS = [
+    {"label": "research", "href": "#featured"},
     {"label": "news", "href": "#news"},
     {"label": "talks", "href": "#talks"},
-    {"label": "research", "href": "#research"},
     {"label": "cv", "href": "assets/pdf/cv.pdf"},
 ]
 
@@ -264,8 +264,24 @@ def is_featured(entry) -> bool:
     return entry.fields.get("featured", "").strip().lower() in ("true", "1", "yes")
 
 
+def render_press_rows(press_links: List[Dict[str, str]]) -> str:
+    rows = []
+    for item in press_links:
+        label = f'<span class="press-outlet">{item["outlet"]}</span>'
+        if item.get("title"):
+            label += f' &mdash; {item["title"]}'
+        if item.get("url"):
+            rows.append(
+                f'<li><a href="{item["url"]}" target="_blank" rel="noopener">{label}</a></li>'
+            )
+        else:
+            rows.append(f"<li>{label}</li>")
+    return '<ul class="press-links">\n' + "\n".join(rows) + "\n</ul>"
+
+
 def render_featured_html(bib_data, press_map: Dict[str, List[Dict[str, str]]]) -> str:
     cards = []
+    panels = []
     for entry_key, entry in bib_data.entries.items():
         if not is_featured(entry):
             continue
@@ -277,8 +293,15 @@ def render_featured_html(bib_data, press_map: Dict[str, List[Dict[str, str]]]) -
         url = entry.fields.get("url", "#")
         img = entry.fields.get("img", "assets/img/publications/placeholder.png")
         actions = format_artefact_links(entry)
-        if press_map.get(entry_key):
-            actions += f'\n<button class="pill-button ghost" data-goto-target="press-{slug}">press</button>'
+        press_links = press_map.get(entry_key, [])
+        if press_links:
+            actions += (
+                f'\n<button class="pill-button ghost" data-toggle-target="featured-press-{slug}">press</button>'
+            )
+            panels.append(
+                f'<div class="toggle-panel toggle-panel-press" id="featured-press-{slug}">\n'
+                f"{render_press_rows(press_links)}\n</div>"
+            )
         cards.append(
             dedent(
                 f"""
@@ -291,7 +314,9 @@ def render_featured_html(bib_data, press_map: Dict[str, List[Dict[str, str]]]) -
                 """
             ).strip()
         )
-    return "\n".join(cards)
+    cards_html = "\n".join(cards)
+    panels_html = "\n".join(panels)
+    return f'<div class="featured-grid">\n{cards_html}\n</div>\n{panels_html}'
 
 
 def format_authors(persons) -> str:
@@ -391,28 +416,9 @@ def format_publication(entry_key: str, entry, press_map: Dict[str, List[Dict[str
         )
 
     if press_links:
-        press_rows = []
-        for item in press_links:
-            label = f'<span class="press-outlet">{item["outlet"]}</span>'
-            if item.get("title"):
-                label += f' &mdash; {item["title"]}'
-            if item.get("url"):
-                press_rows.append(
-                    f'        <li><a href="{item["url"]}" target="_blank" rel="noopener">{label}</a></li>'
-                )
-            else:
-                press_rows.append(f"        <li>{label}</li>")
-        press_items = "\n".join(press_rows)
         parts.append(
-            dedent(
-                f"""
-                <div class="toggle-panel toggle-panel-press" id="press-{slug}">
-                    <ul class="press-links">
-                {press_items}
-                    </ul>
-                </div>
-                """
-            ).strip()
+            f'<div class="toggle-panel toggle-panel-press" id="press-{slug}">\n'
+            f"{render_press_rows(press_links)}\n</div>"
         )
 
     parts.append(
@@ -520,14 +526,23 @@ def get_index_html() -> str:
     publications_html, bib_data = build_publications_html(press_map)
     featured_html = render_featured_html(bib_data, press_map)
 
-    # Featured-research section is temporarily hidden — uncomment to restore it.
-    featured_section = ""
-    # featured_section = dedent(
+    featured_section = dedent(
+        f"""
+        <section class="section" id="featured" aria-labelledby="featured-research-title">
+            {section_heading("featured-research", "Featured research")}
+            {featured_html}
+        </section>
+        """
+    ).strip()
+
+    # Full publications list is temporarily hidden — uncomment to restore it.
+    research_section = ""
+    # research_section = dedent(
     #     f"""
-    #     <section class="section" id="featured" aria-labelledby="featured-research-title">
-    #         {section_heading("featured-research", "Featured research")}
-    #         <div class="featured-grid">
-    #             {featured_html}
+    #     <section class="section" id="research" aria-labelledby="research-title">
+    #         {section_heading("research", "Research")}
+    #         <div class="publications">
+    #             {publications_html}
     #         </div>
     #     </section>
     #     """
@@ -610,12 +625,7 @@ def get_index_html() -> str:
                     {talks_html}
                 </section>
 
-                <section class="section" id="research" aria-label="Research">
-                    <div class="publications">
-                        {publications_html}
-                    </div>
-                </section>
-
+                {research_section}
                 <section class="section" id="thanks" aria-labelledby="thanks-title">
                     {section_heading("thanks", "Acknowledgements")}
                     <p class="acknowledgement">{ACKNOWLEDGEMENT}</p>
