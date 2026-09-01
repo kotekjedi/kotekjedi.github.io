@@ -27,7 +27,7 @@ PERSON = {
     "photo_caption": "Tübingen, Germany",
     "highlight_name": "Alexander Panfilov",
     "bio": [
-        "I am a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko.",
+        "I am a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko. I did MATS 9.0 as part of Google DeepMind stream.",
         "I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.",
         "My research has been covered by <a href=\"https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/\" target=\"_blank\" rel=\"noopener\">press</a> and <a href=\"https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/\" target=\"_blank\" rel=\"noopener\">blogs</a>, and has affected <a href=\"https://support.claude.com/en/articles/16761192-preserved-thinking-changing-how-the-messages-api-handles-thinking-blocks-to-protect-against-distillation\" target=\"_blank\" rel=\"noopener\">frontier model deployments</a>.",
     ],
