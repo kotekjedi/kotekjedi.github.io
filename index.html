@@ -317,7 +317,7 @@
                     <a class="featured-title" href="https://arxiv.org/abs/2608.09867" target="_blank" rel="noopener">Stealing Reasoning Traces from Proprietary LLM APIs</a>
                     <div class="featured-actions"><a class="pill-button" href="https://arxiv.org/abs/2608.09867" target="_blank" rel="noopener">paper</a>
 <a class="pill-button" href="https://stolen-thoughts.com/" target="_blank" rel="noopener">website</a>
-<button class="pill-button ghost" data-toggle-target="featured-press-panfilov2026stolenthoughts">press</button></div>
+<button class="pill-button" data-toggle-target="featured-press-panfilov2026stolenthoughts">press/blogs</button></div>
                 </div>
 <div class="featured-card">
                     <a class="featured-thumb" href="https://arxiv.org/abs/2603.24511" target="_blank" rel="noopener"><img src="assets/img/publications/optuna_pareto_front.png" alt="Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs figure" loading="lazy"></a>
@@ -325,7 +325,7 @@
                     <a class="featured-title" href="https://arxiv.org/abs/2603.24511" target="_blank" rel="noopener">Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs</a>
                     <div class="featured-actions"><a class="pill-button" href="https://arxiv.org/abs/2603.24511" target="_blank" rel="noopener">paper</a>
 <a class="pill-button" href="https://github.com/romovpa/claudini" target="_blank" rel="noopener">code</a>
-<button class="pill-button ghost" data-toggle-target="featured-press-panfilov2026claudini">press</button></div>
+<button class="pill-button" data-toggle-target="featured-press-panfilov2026claudini">press/blogs</button></div>
                 </div>
 <div class="featured-card">
                     <a class="featured-thumb" href="https://arxiv.org/abs/2509.18058" target="_blank" rel="noopener"><img src="assets/img/publications/faking.png" alt="Strategic Dishonesty Can Undermine AI Safety Evaluations of Frontier LLMs figure" loading="lazy"></a>
@@ -333,7 +333,7 @@
                     <a class="featured-title" href="https://arxiv.org/abs/2509.18058" target="_blank" rel="noopener">Strategic Dishonesty Can Undermine AI Safety Evaluations of Frontier LLMs</a>
                     <div class="featured-actions"><a class="pill-button" href="https://arxiv.org/abs/2509.18058" target="_blank" rel="noopener">paper</a>
 <a class="pill-button" href="https://github.com/kotekjedi/strategic_dishonesty_mcq" target="_blank" rel="noopener">code</a>
-<button class="pill-button ghost" data-toggle-target="featured-press-panfilov2025dishonesty">press</button></div>
+<button class="pill-button" data-toggle-target="featured-press-panfilov2025dishonesty">press/blogs</button></div>
                 </div>
 </div>
 <div class="toggle-panel toggle-panel-press" id="featured-press-panfilov2026stolenthoughts">
@@ -363,8 +363,10 @@
 <div class="toggle-panel toggle-panel-press" id="featured-press-panfilov2026claudini">
 <ul class="press-links">
 <li><span class="press-outlet">WIRED Newsletter</span></li>
+<li><a href="https://mail.bycloud.ai/p/leworldmodel-jepa-but-more-practical" target="_blank" rel="noopener"><span class="press-outlet">The AI Timeline (bycloud)</span> &mdash; LeWorldModel: JEPA but more practical — bycloud's pick</a></li>
 <li><a href="https://www.theneuron.ai/ai-news-digests/-around-the-horn-digest-everything-that-happened-in-ai-this-weekend-march-28-29-2026/" target="_blank" rel="noopener"><span class="press-outlet">The Neuron</span> &mdash; Around the Horn Digest: Everything That Happened in AI This Weekend</a></li>
 <li><a href="https://www.threads.com/@alphasignal.ai/post/DWd7O_YFEhw" target="_blank" rel="noopener"><span class="press-outlet">AlphaSignal</span> &mdash; 56 loops of Claude Code just killed every hand-crafted AI attack method</a></li>
+<li><a href="https://intelligibberish.com/articles/2026-04-10-omega-claudini-ai-discovers-own-jailbreaks-100-percent-success/" target="_blank" rel="noopener"><span class="press-outlet">Intelligibberish</span> &mdash; An AI Agent Just Taught Itself to Jailbreak Every Safety Model It Encountered</a></li>
 <li><a href="https://www.lesswrong.com/posts/tqjyPfcpKYYErMhQc/monday-ai-radar-19" target="_blank" rel="noopener"><span class="press-outlet">LessWrong</span> &mdash; Monday AI Radar #19</a></li>
 <li><a href="https://blakecrosley.com/blog/when-your-agent-becomes-the-researcher" target="_blank" rel="noopener"><span class="press-outlet">Blake Crosley</span> &mdash; AI Agent Research: Claude Beat 33 Attack Methods</a></li>
 <li><a href="https://pub.towardsai.net/a-full-explanation-of-claudini-the-auto-research-pipeline-that-discovered-state-of-the-art-d8078cdb7e75" target="_blank" rel="noopener"><span class="press-outlet">Towards AI</span> &mdash; A full explanation of Claudini — the auto-research pipeline that discovered state-of-the-art adversarial attacks on LLMs</a></li>
@@ -564,6 +566,17 @@ and for shaping my research vision. I would like to especially acknowledge
                     target.classList.toggle('is-visible');
                     const expanded = target.classList.contains('is-visible');
                     button.setAttribute('aria-expanded', expanded);
+
+                    if (expanded && targetId.startsWith('featured-press-')) {
+                        document.querySelectorAll('.toggle-panel.is-visible').forEach((panel) => {
+                            if (panel.id === targetId || !panel.id.startsWith('featured-press-')) return;
+                            panel.classList.remove('is-visible');
+                            const otherButton = document.querySelector(`[data-toggle-target="${panel.id}"]`);
+                            if (otherButton) {
+                                otherButton.setAttribute('aria-expanded', 'false');
+                            }
+                        });
+                    }
 
                     const prefix = PANEL_PREFIXES.find((p) => targetId.startsWith(p));
                     if (!prefix || !expanded) return;

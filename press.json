@@ -4,6 +4,12 @@
             "outlet": "WIRED Newsletter"
         },
         {
+            "outlet": "The AI Timeline (bycloud)",
+            "title": "LeWorldModel: JEPA but more practical — bycloud's pick",
+            "url": "https://mail.bycloud.ai/p/leworldmodel-jepa-but-more-practical",
+            "date": "2026-03-31"
+        },
+        {
             "outlet": "The Neuron",
             "title": "Around the Horn Digest: Everything That Happened in AI This Weekend",
             "url": "https://www.theneuron.ai/ai-news-digests/-around-the-horn-digest-everything-that-happened-in-ai-this-weekend-march-28-29-2026/",
@@ -13,6 +19,12 @@
             "outlet": "AlphaSignal",
             "title": "56 loops of Claude Code just killed every hand-crafted AI attack method",
             "url": "https://www.threads.com/@alphasignal.ai/post/DWd7O_YFEhw"
+        },
+        {
+            "outlet": "Intelligibberish",
+            "title": "An AI Agent Just Taught Itself to Jailbreak Every Safety Model It Encountered",
+            "url": "https://intelligibberish.com/articles/2026-04-10-omega-claudini-ai-discovers-own-jailbreaks-100-percent-success/",
+            "date": "2026-04-10"
         },
         {
             "outlet": "LessWrong",

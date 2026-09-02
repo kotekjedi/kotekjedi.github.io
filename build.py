@@ -296,7 +296,7 @@ def render_featured_html(bib_data, press_map: Dict[str, List[Dict[str, str]]]) -
         press_links = press_map.get(entry_key, [])
         if press_links:
             actions += (
-                f'\n<button class="pill-button ghost" data-toggle-target="featured-press-{slug}">press</button>'
+                f'\n<button class="pill-button" data-toggle-target="featured-press-{slug}">press/blogs</button>'
             )
             panels.append(
                 f'<div class="toggle-panel toggle-panel-press" id="featured-press-{slug}">\n'
@@ -398,7 +398,7 @@ def format_publication(entry_key: str, entry, press_map: Dict[str, List[Dict[str
     )
     if press_links:
         toggle_buttons.append(
-            f'<button class="pill-button ghost" data-toggle-target="press-{slug}">press</button>'
+            f'<button class="pill-button" data-toggle-target="press-{slug}">press/blogs</button>'
         )
 
     parts.append("      " + " ".join(toggle_buttons))
@@ -648,6 +648,17 @@ def get_index_html() -> str:
                     target.classList.toggle('is-visible');
                     const expanded = target.classList.contains('is-visible');
                     button.setAttribute('aria-expanded', expanded);
+
+                    if (expanded && targetId.startsWith('featured-press-')) {{
+                        document.querySelectorAll('.toggle-panel.is-visible').forEach((panel) => {{
+                            if (panel.id === targetId || !panel.id.startsWith('featured-press-')) return;
+                            panel.classList.remove('is-visible');
+                            const otherButton = document.querySelector(`[data-toggle-target="${{panel.id}}"]`);
+                            if (otherButton) {{
+                                otherButton.setAttribute('aria-expanded', 'false');
+                            }}
+                        }});
+                    }}
 
                     const prefix = PANEL_PREFIXES.find((p) => targetId.startsWith(p));
                     if (!prefix || !expanded) return;
