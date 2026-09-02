@@ -46,7 +46,25 @@
     ],
     "panfilov2025dishonesty": [
         {
+            "outlet": "U.S. Department of Commerce",
+            "title": "AI at Work: Maximizing Impact, Minimizing Risk",
+            "url": "https://www.commerce.gov/hr/ai-work-maximizing-impact-minimizing-risk",
+            "date": "2026-04-02"
+        },
+        {
             "outlet": "WIRED Newsletter"
+        },
+        {
+            "outlet": "Transformer Weekly",
+            "title": "The UN can take on AI without Trump",
+            "url": "https://www.transformernews.ai/p/un-ai-trump-kratsios-nvidia-openai-newsom-sb-53-alibaba",
+            "date": "2025-09-26"
+        },
+        {
+            "outlet": "LessWrong",
+            "title": "Shallow Review of Technical AI Safety, 2025",
+            "url": "https://www.lesswrong.com/posts/Wti4Wr7Cf5ma3FGWa/shallow-review-of-technical-ai-safety-2025-2",
+            "date": "2025-12-17"
         },
         {
             "outlet": "AI Safety at the Frontier",
@@ -55,10 +73,26 @@
             "date": "2025-10-01"
         },
         {
+            "outlet": "The Arena (Beta Briefing)",
+            "title": "Strategic Dishonesty Defeats Output-Based Jailbreak Monitors; Only Internal-Activation Probes Catch It",
+            "url": "https://betabriefing.ai/channels/the-arena/briefings/2026-04-21/",
+            "date": "2026-04-21"
+        },
+        {
+            "outlet": "AI Deception Survey",
+            "title": "Top-10 AI Deception Papers (ranked #1, September 2025)",
+            "url": "https://deceptionsurvey.com/top10papers"
+        },
+        {
             "outlet": "AI Safety Papers",
             "title": "Detecting and reducing scheming, LLMs strategically lie, …",
             "url": "https://onexerxes.substack.com/p/detecting-and-reducing-scheming-llms",
             "date": "2025-09-26"
+        },
+        {
+            "outlet": "AI Threat Atlas",
+            "title": "Safety Evaluation Faking (Strategic Dishonesty in Benchmarks)",
+            "url": "https://github.com/seahop/ai-threat-atlas/blob/main/docs/techniques/safety-evaluation-faking.md"
         }
     ],
     "panfilov2026stolenthoughts": [
