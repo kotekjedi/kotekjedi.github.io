@@ -4,6 +4,17 @@
             "outlet": "WIRED Newsletter"
         },
         {
+            "outlet": "The Neuron",
+            "title": "Around the Horn Digest: Everything That Happened in AI This Weekend",
+            "url": "https://www.theneuron.ai/ai-news-digests/-around-the-horn-digest-everything-that-happened-in-ai-this-weekend-march-28-29-2026/",
+            "date": "2026-03-29"
+        },
+        {
+            "outlet": "AlphaSignal",
+            "title": "56 loops of Claude Code just killed every hand-crafted AI attack method",
+            "url": "https://www.threads.com/@alphasignal.ai/post/DWd7O_YFEhw"
+        },
+        {
             "outlet": "LessWrong",
             "title": "Monday AI Radar #19",
             "url": "https://www.lesswrong.com/posts/tqjyPfcpKYYErMhQc/monday-ai-radar-19",
@@ -26,8 +37,8 @@
             "outlet": "WIRED Newsletter"
         },
         {
-            "outlet": "LessWrong",
-            "title": "AI Safety at the Frontier: Paper Highlights, September '25",
+            "outlet": "AI Safety at the Frontier",
+            "title": "Paper Highlights, September '25",
             "url": "https://www.lesswrong.com/posts/Tj44XfQbb4AhRShfi/ai-safety-at-the-frontier-paper-highlights-september-25",
             "date": "2025-10-01"
         },
