@@ -1,5 +1,11 @@
 [
     {
+        "date": "2026-09-03",
+        "venue": "ETH Zürich",
+        "event": "Florian Tramèr's SPY Lab + SRI Lab + a few Meta employees",
+        "type": "invited talk"
+    },
+    {
         "date": "2026-08-26",
         "venue": "Cohere (remote)",
         "type": "invited talk"
