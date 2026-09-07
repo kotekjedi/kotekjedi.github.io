@@ -2,7 +2,7 @@
     {
         "date": "2026-09-09",
         "venue": "MIT (CSAIL)",
-        "event": "NLP Seminar",
+        "event": "NLP Seminar, remote",
         "event_url": "https://www.csail.mit.edu/event/nlp-seminar-stolen-thoughts-stealing-reasoning-traces-proprietary-llm-apis",
         "type": "invited talk"
     },
@@ -21,6 +21,7 @@
     {
         "date": "2026-08-14",
         "venue": "Machine Learning Street Talk",
+        "event": "London",
         "type": "guest appearance",
         "video": "https://www.youtube.com/watch?v=gasgivVCl2U&t=952s"
     },
@@ -39,12 +40,14 @@
     },
     {
         "date": "2026-08-15",
-        "venue": "OpenAI (remote)",
+        "venue": "OpenAI",
+        "event": "remote",
         "type": "research presentation"
     },
     {
         "date": "2026-06-19",
-        "venue": "Google DeepMind (Gemini Safety Team, remote)",
+        "venue": "Google DeepMind (Gemini Safety Team)",
+        "event": "remote",
         "type": "research presentation"
     },
     {
@@ -70,20 +73,21 @@
     {
         "date": "2025-06-23",
         "venue": "Google",
-        "event": "ML Red Teaming Seminar",
+        "event": "ML Red Teaming Seminar, remote",
         "slides": "assets/talks/google_talk.pdf",
         "type": "invited talk"
     },
     {
         "date": "2024-11-05",
         "venue": "EPFL",
-        "event": "Nicolas Flammarion's group seminar",
+        "event": "Nicolas Flammarion's group seminar, Lausanne",
         "slides": "assets/talks/ocl_epfl_talk.pdf",
         "type": "invited talk"
     },
     {
         "date": "2024-05-01",
         "venue": "IMPRS-IS Symposium",
+        "event": "remote",
         "slides": "assets/talks/imprs_talk.pdf",
         "type": "research presentation"
     }
