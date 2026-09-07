@@ -9,12 +9,13 @@
     {
         "date": "2026-09-03",
         "venue": "ETH Zürich",
-        "event": "Florian Tramèr's SPY Lab + SRI Lab + a few Meta employees xD",
+        "event": "Florian Tramèr's SPY Lab + SRI Lab + a few Meta employees xD, Zürich",
         "type": "invited talk"
     },
     {
         "date": "2026-08-26",
-        "venue": "Cohere (remote)",
+        "venue": "Cohere",
+        "event": "remote",
         "type": "invited talk"
     },
     {
@@ -26,6 +27,7 @@
     {
         "date": "2026-08-21",
         "venue": "MATS 10.0 Symposium",
+        "event": "London",
         "event_url": "https://luma.com/2po8muuo",
         "type": "keynote"
     },
@@ -37,23 +39,24 @@
     },
     {
         "date": "2026-08-15",
-        "venue": "OpenAI",
+        "venue": "OpenAI (remote)",
         "type": "research presentation"
     },
     {
         "date": "2026-06-19",
-        "venue": "Google DeepMind (Gemini Safety Team)",
+        "venue": "Google DeepMind (Gemini Safety Team, remote)",
         "type": "research presentation"
     },
     {
         "date": "2026-06-18",
         "venue": "Google DeepMind x MATS (AGI Safety Team)",
+        "event": "London",
         "type": "invited talk"
     },
     {
         "date": "2026-02-09",
         "venue": "Imperial College London",
-        "event": "Yves-Alexandre de Montjoye's group seminar",
+        "event": "Yves-Alexandre de Montjoye's group seminar, London",
         "type": "invited talk"
     },
     {
