@@ -1,5 +1,12 @@
 [
     {
+        "date": "2026-09-18",
+        "venue": "FridayTalks @ Tübingen",
+        "event": "Cyber Valley, Tübingen",
+        "event_url": "https://fridaytalks.github.io/",
+        "type": "invited talk"
+    },
+    {
         "date": "2026-09-09",
         "venue": "MIT (CSAIL)",
         "event": "NLP Seminar, remote",
