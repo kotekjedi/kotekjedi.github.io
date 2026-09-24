@@ -13,13 +13,10 @@
       abstract={Leading large language model providers now conceal their models' step-by-step reasoning, or chain-of-thought, to protect intellectual property and limit information leakage. Rather than storing these traces server-side, providers return them to the client as blocks of encrypted text, which the client passes back with each subsequent request. Building on prior research, we identify an architectural vulnerability: these encrypted blocks are fully compatible and interchangeable across different sessions, users, and models within a provider's ecosystem. We exploit this compatibility to develop a scalable decryption jailbreak. By injecting an encrypted reasoning trace from a given model into a weaker, and less safeguarded model from the same provider, we force it to decode and output the trace verbatim in plaintext, without ever jailbreaking the more capable model directly. This vulnerability enables four distinct attack vectors. First, it circumvents anti-distillation mechanisms, allowing adversaries to extract a proprietary model's reasoning, as we demonstrate across Anthropic, OpenAI, and Google. Second, it allows for large-scale private data extraction. Developers frequently share session logs publicly, unaware of contents of the encrypted blocks. By decoding 315,320 reasoning blocks scraped from public repositories, we recovered 367 Personally Identifiable Information (PII) artifacts and 182 credentials. Third, it inadvertently reveals hazardous information hidden within the reasoning process, even in cases where the model's final, visible output safely rejects a malicious request. Fourth, attackers can leverage this flaw to execute invisible prompt injections, embedding malicious payloads entirely within encrypted blocks to poison public agentic rollouts. Following responsible disclosure, we propose concrete cryptographic and system-level mitigations to secure client-side reasoning.},
 }
 
-@article{panfilov2026claudini,
+@inproceedings{panfilov2026claudini,
       title={Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs},
       author={Alexander Panfilov* and Peter Romov* and Igor Shilov* and Yves-Alexandre de Montjoye and Jonas Geiping and Maksym Andriushchenko},
-      journal={arXiv preprint},
-      eprint={2603.24511},
-      archivePrefix={arXiv},
-      booktitle={Preprint},
+      booktitle={NeurIPS 2026},
       img={assets/img/publications/optuna_pareto_front.png},
       url={https://arxiv.org/abs/2603.24511},
       code={https://github.com/romovpa/claudini},

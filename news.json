@@ -42,5 +42,9 @@
     {
         "date": "2026-06-01",
         "text": "<em>Training Against Harmfulness Probes Induces Harmlessness without Refusals</em> has been accepted at the <span class=\"highlight highlight-event\">ICML 2026 MechInterp Workshop</span>!"
+    },
+    {
+        "date": "2026-09-24",
+        "text": "<em>Claudini: Autoresearch Discovers State-of-the-Art Adversarial Attack Algorithms for LLMs</em> has been accepted at NeurIPS 2026!"
     }
 ]
