@@ -97,6 +97,17 @@
     ],
     "panfilov2026stolenthoughts": [
         {
+            "outlet": "Anthropic Developer Docs",
+            "title": "Preserved thinking",
+            "url": "https://platform.claude.com/docs/en/build-with-claude/preserved-thinking"
+        },
+        {
+            "outlet": "OpenAI",
+            "title": "Disrupting a coordinated model-distillation campaign",
+            "url": "https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign/",
+            "date": "2026-09-30"
+        },
+        {
             "outlet": "WIRED",
             "title": "A New Trick Reveals AI Models' Inner Thoughts",
             "url": "https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/",
