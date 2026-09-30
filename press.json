@@ -186,6 +186,12 @@
             "date": "2026-08-11"
         },
         {
+            "outlet": "Schneier on Security",
+            "title": "Stealing AI Reasoning Traces",
+            "url": "https://www.schneier.com/blog/archives/2026/09/stealing-ai-reasoning-traces.html",
+            "date": "2026-09-08"
+        },
+        {
             "outlet": "TechNews Taiwan",
             "title": "AI \"inner thoughts\" fully exposed? New technique cracks large-model reasoning traces",
             "url": "https://technews.tw/2026/08/12/ai-models-inner-thoughts/",
@@ -216,6 +222,12 @@
             "date": "2026-08-11"
         },
         {
+            "outlet": "Wccftech",
+            "title": "Moonshot AI Of Kimi K3 Fame Tried To Crack OpenAI's Encrypted Reasoning Through 16,000 Requests",
+            "url": "https://wccftech.com/moonshot-ai-of-kimi-k3-fame-tried-to-crack-openais-encrypted-reasoning-through-16000-requests-bolstering-trump-administrations-distillation-claims/",
+            "date": "2026-09-30"
+        },
+        {
             "outlet": "Cyber Security News",
             "title": "OpenAI, Anthropic, and Google LLM APIs Vulnerability Exposes Hidden Reasoning Traces",
             "url": "https://cybersecuritynews.com/top-ai-models-apis-flaw-exposes-hidden-reasoning/",
@@ -226,6 +238,12 @@
             "title": "API security flaw highlights AI model vulnerabilities",
             "url": "https://www.waterstechnology.com/emerging-technologies/7953218/api-security-flaw-highlights-ai-model-vulnerabilities",
             "date": "2026-08-20"
+        },
+        {
+            "outlet": "CyberScoop",
+            "title": "OpenAI reveals ‘novel’ encryption bypass used in distillation attack",
+            "url": "https://cyberscoop.com/openai-moonshot-ai-model-distillation-attack/",
+            "date": "2026-09-30"
         }
     ]
 }
