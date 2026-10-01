@@ -1,5 +1,12 @@
 [
     {
+        "date": "2026-10-07",
+        "venue": "Safe AI Germany",
+        "event": "remote",
+        "event_url": "https://luma.com/o9pe5wfk",
+        "type": "invited talk"
+    },
+    {
         "date": "2026-10-01",
         "venue": "Cohere Labs Community",
         "event": "Privacy, Security & Policy group, remote",
