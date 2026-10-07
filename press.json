@@ -114,6 +114,12 @@
             "date": "2026-08-11"
         },
         {
+            "outlet": "Scientific American",
+            "title": "AI companies say rivals are 'distilling' their models. What does that even mean?",
+            "url": "https://www.scientificamerican.com/article/what-is-ai-model-distillation-and-why-is-it-so-hard-to-stop/",
+            "date": "2026-10-07"
+        },
+        {
             "outlet": "The Hacker News",
             "title": "OpenAI, Anthropic, Google API Flaw Let Weaker AI Models Decode Stronger Models' Reasoning",
             "url": "https://thehackernews.com/2026/08/openai-anthropic-google-api-flaw-let.html",
