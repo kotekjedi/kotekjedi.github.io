@@ -293,7 +293,28 @@
 <a class="social-link" href="mailto:kotekjedi@gmail.com" target="_blank" rel="noopener"><i class="fa-solid fa-envelope"></i><span>email</span></a>
                         </div>
                         <p>I am a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko. I did MATS 9.0 as part of Google DeepMind stream.</p>
-<p>I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.</p>
+<p>I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly <span class="doomer" tabindex="0"><span class="doomer-trigger">two days a week</span><span class="doomer-pop"><span class="doomer-pop-title">AI doomer days / week <em>(git log)</em></span>
+<svg class="doomer-chart" viewBox="0 0 240 104" role="img" aria-label="AI doomer days per week over time: 3 from May 2025; 2 from Dec 2025; 4 from Mar 2026; 2 from Sep 2026.">
+<line x1="20" y1="16.0" x2="228" y2="16.0" stroke="var(--line-soft)" stroke-width="1"/>
+<line x1="20" y1="86.0" x2="228" y2="86.0" stroke="var(--line)" stroke-width="1"/>
+<text x="14" y="19.0" text-anchor="end" class="doomer-tick">7</text>
+<text x="14" y="89.0" text-anchor="end" class="doomer-tick">0</text>
+<line x1="110.6" y1="86.0" x2="110.6" y2="90.0" stroke="var(--line)" stroke-width="1"/>
+<text x="110.6" y="100" text-anchor="middle" class="doomer-tick">2026</text>
+<line x1="228.0" y1="86.0" x2="228.0" y2="90.0" stroke="var(--line)" stroke-width="1"/>
+<text x="228.0" y="100" text-anchor="end" class="doomer-tick">now</text>
+<path d="M20.0 56.0 H101.4 V66.0 H146.6 V46.0 H212.1 V66.0 H228.0 V86.0 H20.0 Z" fill="var(--red-soft)"/>
+<path d="M20.0 56.0 H101.4 V66.0 H146.6 V46.0 H212.1 V66.0 H228.0" fill="none" stroke="var(--red)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="20.0" cy="56.0" r="4" fill="var(--red)" stroke="var(--card)" stroke-width="2"/>
+<text x="26.0" y="51.0" text-anchor="start" class="doomer-value">3</text>
+<circle cx="101.4" cy="66.0" r="4" fill="var(--red)" stroke="var(--card)" stroke-width="2"/>
+<text x="107.4" y="61.0" text-anchor="start" class="doomer-value">2</text>
+<circle cx="146.6" cy="46.0" r="4" fill="var(--red)" stroke="var(--card)" stroke-width="2"/>
+<text x="152.6" y="41.0" text-anchor="start" class="doomer-value">4</text>
+<circle cx="212.1" cy="66.0" r="4" fill="var(--red)" stroke="var(--card)" stroke-width="2"/>
+<text x="218.1" y="61.0" text-anchor="start" class="doomer-value">2</text>
+</svg>
+</span></span> I am an AI doomer.</p>
 <p>My research has been covered by <a href="https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/" target="_blank" rel="noopener">press</a> and <a href="https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/" target="_blank" rel="noopener">blogs</a>, and has affected <a href="https://support.claude.com/en/articles/16761192-preserved-thinking-changing-how-the-messages-api-handles-thinking-blocks-to-protect-against-distillation" target="_blank" rel="noopener">frontier model deployments</a>.</p>
                         <div class="cta-row">
                             <a class="pill-button primary" href="assets/pdf/cv.pdf" target="_blank" rel="noopener">cv</a>
@@ -655,6 +676,38 @@ and for shaping my research vision. I would like to especially acknowledge
                             }
                         }
                     });
+                });
+            });
+
+            document.querySelectorAll('.doomer').forEach((el) => {
+                const pop = el.querySelector('.doomer-pop');
+                if (!pop) return;
+                const place = () => {
+                    el.style.setProperty('--doomer-shift', '0px');
+                    const rect = pop.getBoundingClientRect();
+                    const margin = 12;
+                    let shift = 0;
+                    if (rect.left < margin) {
+                        shift = margin - rect.left;
+                    } else if (rect.right > window.innerWidth - margin) {
+                        shift = window.innerWidth - margin - rect.right;
+                    }
+                    el.style.setProperty('--doomer-shift', `${shift}px`);
+                };
+                el.addEventListener('mouseenter', place);
+                el.addEventListener('focus', place);
+                el.addEventListener('click', () => {
+                    el.classList.toggle('is-open');
+                    place();
+                });
+                el.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape') {
+                        el.classList.remove('is-open');
+                        el.blur();
+                    }
+                });
+                document.addEventListener('click', (event) => {
+                    if (!el.contains(event.target)) el.classList.remove('is-open');
                 });
             });
 

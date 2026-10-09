@@ -28,7 +28,7 @@ PERSON = {
     "highlight_name": "Alexander Panfilov",
     "bio": [
         "I am a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko. I did MATS 9.0 as part of Google DeepMind stream.",
-        "I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly two days a week I am an AI doomer.",
+        "I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly {doomer} I am an AI doomer.",
         "My research has been covered by <a href=\"https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/\" target=\"_blank\" rel=\"noopener\">press</a> and <a href=\"https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/\" target=\"_blank\" rel=\"noopener\">blogs</a>, and has affected <a href=\"https://support.claude.com/en/articles/16761192-preserved-thinking-changing-how-the-messages-api-handles-thinking-blocks-to-protect-against-distillation\" target=\"_blank\" rel=\"noopener\">frontier model deployments</a>.",
     ],
 }
@@ -143,6 +143,106 @@ def load_dated_json(path: Path) -> List[Dict[str, object]]:
     for item in items:
         item["date_obj"] = datetime.strptime(item["date"], "%Y-%m-%d")
     return sorted(items, key=lambda itm: itm["date_obj"], reverse=True)
+
+
+NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven"]
+
+
+def days_word(value) -> str:
+    number = float(value)
+    if number.is_integer() and 0 <= int(number) < len(NUMBER_WORDS):
+        return NUMBER_WORDS[int(number)]
+    return f"{number:g}"
+
+
+def load_doomer_history(path: Path = ROOT / "doomer.json") -> List[Dict[str, object]]:
+    """Each entry is a commit where the 'days a week' number changed; oldest first."""
+    return sorted(load_dated_json(path), key=lambda item: item["date_obj"])
+
+
+def render_doomer_chart(history: List[Dict[str, object]], today: datetime) -> str:
+    """Small step chart of the doomer number over time, as inline SVG."""
+    width, height = 240, 104
+    pad_left, pad_right, pad_top, pad_bottom = 20, 12, 16, 18
+    plot_w = width - pad_left - pad_right
+    plot_h = height - pad_top - pad_bottom
+    y_max = 7  # days in a week
+    start = history[0]["date_obj"]
+    span_days = max((today - start).days, 1)
+
+    def x_of(when: datetime) -> float:
+        return pad_left + (when - start).days / span_days * plot_w
+
+    def y_of(value: float) -> float:
+        return pad_top + plot_h - (float(value) / y_max) * plot_h
+
+    x_end = pad_left + plot_w
+    y_base = y_of(0)
+
+    points = [(x_of(item["date_obj"]), y_of(item["days"]), item) for item in history]
+    step = [f"M{points[0][0]:.1f} {points[0][1]:.1f}"]
+    for x, y, _ in points[1:]:
+        step.append(f"H{x:.1f} V{y:.1f}")
+    step.append(f"H{x_end:.1f}")
+    line_d = " ".join(step)
+    area_d = f"{line_d} V{y_base:.1f} H{points[0][0]:.1f} Z"
+
+    x_labels = []
+    for year in range(start.year + 1, today.year + 1):
+        boundary = datetime(year, 1, 1)
+        if boundary <= today:
+            x_labels.append((x_of(boundary), str(year)))
+    if not x_labels or x_end - x_labels[-1][0] > 28:
+        x_labels.append((x_end, "now"))
+
+    parts = [
+        f'<line x1="{pad_left}" y1="{y_of(y_max):.1f}" x2="{x_end}" y2="{y_of(y_max):.1f}" stroke="var(--line-soft)" stroke-width="1"/>',
+        f'<line x1="{pad_left}" y1="{y_base:.1f}" x2="{x_end}" y2="{y_base:.1f}" stroke="var(--line)" stroke-width="1"/>',
+        f'<text x="{pad_left - 6}" y="{y_of(y_max) + 3:.1f}" text-anchor="end" class="doomer-tick">7</text>',
+        f'<text x="{pad_left - 6}" y="{y_base + 3:.1f}" text-anchor="end" class="doomer-tick">0</text>',
+    ]
+    for x, label in x_labels:
+        anchor = "end" if label == "now" else "middle"
+        parts.append(
+            f'<line x1="{x:.1f}" y1="{y_base:.1f}" x2="{x:.1f}" y2="{y_base + 4:.1f}" stroke="var(--line)" stroke-width="1"/>'
+        )
+        parts.append(
+            f'<text x="{x:.1f}" y="{height - 4}" text-anchor="{anchor}" class="doomer-tick">{label}</text>'
+        )
+    parts.append(f'<path d="{area_d}" fill="var(--red-soft)"/>')
+    parts.append(
+        f'<path d="{line_d}" fill="none" stroke="var(--red)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+    )
+    for x, y, item in points:
+        parts.append(
+            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="var(--red)" stroke="var(--card)" stroke-width="2"/>'
+        )
+        parts.append(
+            f'<text x="{x + 6:.1f}" y="{y - 5:.1f}" text-anchor="start" class="doomer-value">{item["days"]:g}</text>'
+        )
+
+    described = "; ".join(
+        f'{item["days"]:g} from {item["date_obj"].strftime("%b %Y")}' for item in history
+    )
+    svg_body = "\n".join(parts)
+    return (
+        f'<svg class="doomer-chart" viewBox="0 0 {width} {height}" role="img" '
+        f'aria-label="AI doomer days per week over time: {described}.">\n{svg_body}\n</svg>'
+    )
+
+
+def render_doomer_phrase(history: List[Dict[str, object]], today: datetime) -> str:
+    current = history[-1]["days"]
+    phrase = f"{days_word(current)} days a week"
+    chart = render_doomer_chart(history, today)
+    return (
+        '<span class="doomer" tabindex="0">'
+        f'<span class="doomer-trigger">{phrase}</span>'
+        '<span class="doomer-pop">'
+        '<span class="doomer-pop-title">AI doomer days / week <em>(git log)</em></span>\n'
+        f"{chart}\n"
+        "</span></span>"
+    )
 
 
 def render_news_html(news_items: List[Dict[str, object]]) -> str:
@@ -554,7 +654,10 @@ def get_index_html() -> str:
     structured_data = build_structured_data(bib_data)
     nav_html = build_nav_html()
 
-    bio_html = "\n".join([f"<p>{paragraph}</p>" for paragraph in PERSON["bio"]])
+    doomer_html = render_doomer_phrase(load_doomer_history(), datetime.now())
+    bio_html = "\n".join(
+        [f'<p>{paragraph.replace("{doomer}", doomer_html)}</p>' for paragraph in PERSON["bio"]]
+    )
     analytics_snippet = ""
     if GOOGLE_ANALYTICS_ID:
         analytics_snippet = dedent(
@@ -673,6 +776,38 @@ def get_index_html() -> str:
                             }}
                         }}
                     }});
+                }});
+            }});
+
+            document.querySelectorAll('.doomer').forEach((el) => {{
+                const pop = el.querySelector('.doomer-pop');
+                if (!pop) return;
+                const place = () => {{
+                    el.style.setProperty('--doomer-shift', '0px');
+                    const rect = pop.getBoundingClientRect();
+                    const margin = 12;
+                    let shift = 0;
+                    if (rect.left < margin) {{
+                        shift = margin - rect.left;
+                    }} else if (rect.right > window.innerWidth - margin) {{
+                        shift = window.innerWidth - margin - rect.right;
+                    }}
+                    el.style.setProperty('--doomer-shift', `${{shift}}px`);
+                }};
+                el.addEventListener('mouseenter', place);
+                el.addEventListener('focus', place);
+                el.addEventListener('click', () => {{
+                    el.classList.toggle('is-open');
+                    place();
+                }});
+                el.addEventListener('keydown', (event) => {{
+                    if (event.key === 'Escape') {{
+                        el.classList.remove('is-open');
+                        el.blur();
+                    }}
+                }});
+                document.addEventListener('click', (event) => {{
+                    if (!el.contains(event.target)) el.classList.remove('is-open');
                 }});
             }});
 
