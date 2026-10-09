@@ -187,12 +187,12 @@ def render_doomer_chart(history: List[Dict[str, object]], today: datetime) -> st
     line_d = " ".join(step)
     area_d = f"{line_d} V{y_base:.1f} H{points[0][0]:.1f} Z"
 
-    x_labels = []
+    x_labels = [(points[0][0], str(start.year))]
     for year in range(start.year + 1, today.year + 1):
         boundary = datetime(year, 1, 1)
-        if boundary <= today:
+        if boundary <= today and x_of(boundary) - x_labels[-1][0] > 28:
             x_labels.append((x_of(boundary), str(year)))
-    if not x_labels or x_end - x_labels[-1][0] > 28:
+    if x_end - x_labels[-1][0] > 28:
         x_labels.append((x_end, "now"))
 
     parts = [
