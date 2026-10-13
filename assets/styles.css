@@ -169,7 +169,7 @@ img {
   background: var(--card);
   border: 1px solid var(--line);
   box-shadow: 6px 6px 0 var(--red-soft);
-  transform: translateX(calc(-50% + var(--doomer-shift, 0px))) rotate(-1.5deg);
+  transform: translateX(calc(-50% + var(--pop-shift, 0px))) rotate(-1.5deg);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -220,6 +220,108 @@ img {
   fill: var(--ink);
   font-size: 10px;
   font-weight: 600;
+}
+
+/* inline dropdowns in the bio: "press", "blogs", "frontier model deployments" */
+.drop {
+  position: relative;
+  display: inline-block;
+}
+
+.drop-trigger {
+  font: inherit;
+  line-height: inherit;
+  color: var(--blue);
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.drop-trigger:hover,
+.drop.is-open .drop-trigger {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+}
+
+.drop-caret {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  margin-left: 0.12em;
+  color: var(--red);
+  transition: transform 0.18s ease;
+}
+
+.drop:hover .drop-caret,
+.drop.is-open .drop-caret {
+  transform: translateY(0.12em);
+}
+
+.drop-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 0.3rem;
+  width: 320px;
+  max-width: calc(100vw - 2rem);
+  transform: translateX(var(--pop-shift, 0px));
+  opacity: 0;
+  visibility: hidden;
+  z-index: 30;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+
+.drop:hover .drop-menu,
+.drop-trigger:focus-visible + .drop-menu,
+.drop.is-open .drop-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drop-card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 6px 6px 0 var(--red-soft);
+  padding: 0.3rem 0.35rem;
+  transform: rotate(0.6deg);
+  text-align: left;
+}
+
+.drop-item {
+  display: block;
+  padding: 0.4rem 0.55rem;
+  color: var(--ink);
+  border-radius: 4px;
+  line-height: 1.35;
+}
+
+.drop-item:hover,
+.drop-item:focus-visible {
+  background: var(--paper-deep);
+  text-decoration: none;
+}
+
+.drop-outlet {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--red);
+}
+
+.drop-title {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.drop-item:hover .drop-title {
+  color: var(--ink);
 }
 
 /* --- nav ------------------------------------------------------------------ */

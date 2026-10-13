@@ -102,6 +102,12 @@
             "url": "https://platform.claude.com/docs/en/build-with-claude/preserved-thinking"
         },
         {
+            "outlet": "Anthropic",
+            "title": "Strengthening our defenses against distillation attacks",
+            "url": "https://www.anthropic.com/research/distillation-defenses",
+            "date": "2026-10-12"
+        },
+        {
             "outlet": "OpenAI",
             "title": "Disrupting a coordinated model-distillation campaign",
             "url": "https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign/",

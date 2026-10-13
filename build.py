@@ -29,8 +29,35 @@ PERSON = {
     "bio": [
         "I am a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko. I did MATS 9.0 as part of Google DeepMind stream.",
         "I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly {doomer} I am an AI doomer.",
-        "My research has been covered by <a href=\"https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/\" target=\"_blank\" rel=\"noopener\">press</a> and <a href=\"https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/\" target=\"_blank\" rel=\"noopener\">blogs</a>, and has affected <a href=\"https://support.claude.com/en/articles/16761192-preserved-thinking-changing-how-the-messages-api-handles-thinking-blocks-to-protect-against-distillation\" target=\"_blank\" rel=\"noopener\">frontier model deployments</a>.",
+        "My research has been covered by {drop:press} and {drop:blogs}, and has affected {drop:deployments}.",
     ],
+}
+
+# Inline dropdowns in the bio. Each URL must exist in press.json, which supplies
+# the outlet name and title so they are maintained in one place.
+BIO_DROPDOWNS = {
+    "press": {
+        "label": "press",
+        "urls": [
+            "https://www.wired.com/story/a-new-trick-reveals-ai-models-inner-thoughts/",
+            "https://www.scientificamerican.com/article/what-is-ai-model-distillation-and-why-is-it-so-hard-to-stop/",
+        ],
+    },
+    "blogs": {
+        "label": "blogs",
+        "urls": [
+            "https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/",
+            "https://www.youtube.com/watch?v=ODDJXGY_1kQ&t=406s",
+        ],
+    },
+    "deployments": {
+        "label": "frontier model deployments",
+        "urls": [
+            "https://platform.claude.com/docs/en/build-with-claude/preserved-thinking",
+            "https://www.anthropic.com/research/distillation-defenses",
+            "https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign/",
+        ],
+    },
 }
 
 SOCIAL_LINKS = [
@@ -229,6 +256,50 @@ def render_doomer_chart(history: List[Dict[str, object]], today: datetime) -> st
         f'<svg class="doomer-chart" viewBox="0 0 {width} {height}" role="img" '
         f'aria-label="AI doomer days per week over time: {described}.">\n{svg_body}\n</svg>'
     )
+
+
+def build_press_index(press_map: Dict[str, List[Dict[str, str]]]) -> Dict[str, Dict[str, str]]:
+    return {
+        item["url"]: item
+        for items in press_map.values()
+        for item in items
+        if item.get("url")
+    }
+
+
+def render_bio_dropdown(key: str, press_index: Dict[str, Dict[str, str]]) -> str:
+    spec = BIO_DROPDOWNS[key]
+    items = []
+    for url in spec["urls"]:
+        if url not in press_index:
+            raise KeyError(f"bio dropdown '{key}': {url} is not in press.json")
+        item = press_index[url]
+        items.append(
+            f'<a class="drop-item" href="{url}" target="_blank" rel="noopener">'
+            f'<span class="drop-outlet">{item["outlet"]}</span>'
+            f'<span class="drop-title">{item.get("title", "")}</span></a>'
+        )
+    items_html = "\n".join(items)
+    return (
+        '<span class="drop">'
+        f'<button type="button" class="drop-trigger" aria-haspopup="true" aria-expanded="false">'
+        f'{spec["label"]}<span class="drop-caret" aria-hidden="true">&#9662;</span></button>'
+        f'<span class="drop-menu"><span class="drop-card">\n{items_html}\n</span></span>'
+        "</span>"
+    )
+
+
+def render_bio_html(press_index: Dict[str, Dict[str, str]], doomer_html: str) -> str:
+    def fill(match: re.Match) -> str:
+        token = match.group(1)
+        if token == "doomer":
+            return doomer_html
+        if token.startswith("drop:"):
+            return render_bio_dropdown(token[len("drop:"):], press_index)
+        raise KeyError(f"unknown bio placeholder {{{token}}}")
+
+    paragraphs = [re.sub(r"\{([a-z:]+)\}", fill, paragraph) for paragraph in PERSON["bio"]]
+    return "\n".join(f"<p>{paragraph}</p>" for paragraph in paragraphs)
 
 
 def render_doomer_phrase(history: List[Dict[str, object]], today: datetime) -> str:
@@ -655,9 +726,7 @@ def get_index_html() -> str:
     nav_html = build_nav_html()
 
     doomer_html = render_doomer_phrase(load_doomer_history(), datetime.now())
-    bio_html = "\n".join(
-        [f'<p>{paragraph.replace("{doomer}", doomer_html)}</p>' for paragraph in PERSON["bio"]]
-    )
+    bio_html = render_bio_html(build_press_index(press_map), doomer_html)
     analytics_snippet = ""
     if GOOGLE_ANALYTICS_ID:
         analytics_snippet = dedent(
@@ -779,37 +848,60 @@ def get_index_html() -> str:
                 }});
             }});
 
-            document.querySelectorAll('.doomer').forEach((el) => {{
-                const pop = el.querySelector('.doomer-pop');
-                if (!pop) return;
+            // Popovers anchored to inline text: the doomer chart and the bio dropdowns.
+            // Hover/focus opens via CSS; click toggles for touch; the script only keeps
+            // the floating card inside the viewport.
+            const placers = [];
+            const attachPopover = (el, pop, trigger) => {{
+                const setOpen = (open) => {{
+                    el.classList.toggle('is-open', open);
+                    if (trigger !== el) trigger.setAttribute('aria-expanded', String(open));
+                }};
                 const place = () => {{
-                    el.style.setProperty('--doomer-shift', '0px');
+                    el.style.setProperty('--pop-shift', '0px');
                     const rect = pop.getBoundingClientRect();
+                    const limit = document.documentElement.clientWidth;
                     const margin = 12;
                     let shift = 0;
                     if (rect.left < margin) {{
                         shift = margin - rect.left;
-                    }} else if (rect.right > window.innerWidth - margin) {{
-                        shift = window.innerWidth - margin - rect.right;
+                    }} else if (rect.right > limit - margin) {{
+                        shift = limit - margin - rect.right;
                     }}
-                    el.style.setProperty('--doomer-shift', `${{shift}}px`);
+                    el.style.setProperty('--pop-shift', `${{shift}}px`);
                 }};
+                placers.push(place);
                 el.addEventListener('mouseenter', place);
-                el.addEventListener('focus', place);
-                el.addEventListener('click', () => {{
-                    el.classList.toggle('is-open');
+                trigger.addEventListener('focus', place);
+                trigger.addEventListener('click', () => {{
+                    setOpen(!el.classList.contains('is-open'));
                     place();
                 }});
                 el.addEventListener('keydown', (event) => {{
                     if (event.key === 'Escape') {{
-                        el.classList.remove('is-open');
-                        el.blur();
+                        setOpen(false);
+                        trigger.blur();
                     }}
                 }});
                 document.addEventListener('click', (event) => {{
-                    if (!el.contains(event.target)) el.classList.remove('is-open');
+                    if (!el.contains(event.target)) setOpen(false);
                 }});
+            }};
+            document.querySelectorAll('.doomer').forEach((el) => {{
+                const pop = el.querySelector('.doomer-pop');
+                if (pop) attachPopover(el, pop, el);
             }});
+            document.querySelectorAll('.drop').forEach((el) => {{
+                const pop = el.querySelector('.drop-menu');
+                const trigger = el.querySelector('.drop-trigger');
+                if (pop && trigger) attachPopover(el, pop, trigger);
+            }});
+            // Hidden popovers still occupy layout space, so keep them inside the
+            // viewport from the start, not only once hovered.
+            const placeAll = () => placers.forEach((place) => place());
+            placeAll();
+            window.addEventListener('resize', placeAll);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeAll);
 
             document.querySelectorAll('[data-goto-target]').forEach((button) => {{
                 button.addEventListener('click', () => {{
