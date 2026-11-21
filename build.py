@@ -20,15 +20,15 @@ PERSON = {
     "last_name": "Panfilov",
     "nickname": "Sasha",
     "tagline": "AI safety, adversarial ML & LLM red-teaming",
-    "location": "ELLIS Institute Tübingen / MPI-IS",
+    "location": "Google DeepMind / ELLIS Institute Tübingen",
     "email": "kotekjedi@gmail.com",
     "cv": "assets/pdf/cv.pdf",
     "photo": "assets/img/profile_mine_new.jpg",
-    "photo_caption": "Tübingen, Germany",
+    "photo_caption": "Nowadays in London",
     "highlight_name": "Alexander Panfilov",
     "bio": [
-        "I am a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko. I did MATS 9.0 as part of Google DeepMind stream.",
-        "I work on AI safety, particularly on red-teaming LLMs and stuff around them. Roughly {doomer} I am an AI doomer.",
+        "I am a Research Scientist at Google DeepMind, working on Gemini Safety. I am also (still) a third-year ELLIS / IMPRS-IS PhD student in Tübingen, advised by Jonas Geiping and Maksym Andriushchenko. I did MATS 9.0 as part of Google DeepMind stream.",
+        "I work on AI safety, particularly on red-teaming LLMs and stuff around them. Exactly {doomer} I am an AI doomer.",
         "My research has been covered by {drop:press} and {drop:blogs}, and has affected {drop:deployments}.",
     ],
 }
@@ -194,8 +194,11 @@ def render_doomer_chart(history: List[Dict[str, object]], today: datetime) -> st
     plot_w = width - pad_left - pad_right
     plot_h = height - pad_top - pad_bottom
     y_max = 7  # days in a week
-    start = history[0]["date_obj"]
-    span_days = max((today - start).days, 1)
+    # Calendar-year axis: runs from Jan 1 of the first year to Jan 1 after the
+    # current year, so every year gets the same width.
+    start = datetime(history[0]["date_obj"].year, 1, 1)
+    end = datetime(today.year + 1, 1, 1)
+    span_days = max((end - start).days, 1)
 
     def x_of(when: datetime) -> float:
         return pad_left + (when - start).days / span_days * plot_w
@@ -204,23 +207,24 @@ def render_doomer_chart(history: List[Dict[str, object]], today: datetime) -> st
         return pad_top + plot_h - (float(value) / y_max) * plot_h
 
     x_end = pad_left + plot_w
+    x_now = x_of(today)
     y_base = y_of(0)
 
     points = [(x_of(item["date_obj"]), y_of(item["days"]), item) for item in history]
     step = [f"M{points[0][0]:.1f} {points[0][1]:.1f}"]
     for x, y, _ in points[1:]:
         step.append(f"H{x:.1f} V{y:.1f}")
-    step.append(f"H{x_end:.1f}")
+    step.append(f"H{x_now:.1f}")
     line_d = " ".join(step)
     area_d = f"{line_d} V{y_base:.1f} H{points[0][0]:.1f} Z"
 
-    x_labels = [(points[0][0], str(start.year))]
-    for year in range(start.year + 1, today.year + 1):
-        boundary = datetime(year, 1, 1)
-        if boundary <= today and x_of(boundary) - x_labels[-1][0] > 28:
-            x_labels.append((x_of(boundary), str(year)))
-    if x_end - x_labels[-1][0] > 28:
-        x_labels.append((x_end, "now"))
+    # Tick marks on every Jan 1 (including the right edge); year labels centred
+    # under each year's span.
+    boundaries = [x_of(datetime(year, 1, 1)) for year in range(start.year, end.year + 1)]
+    x_labels = [
+        ((boundaries[i] + boundaries[i + 1]) / 2, str(start.year + i))
+        for i in range(len(boundaries) - 1)
+    ]
 
     parts = [
         f'<line x1="{pad_left}" y1="{y_of(y_max):.1f}" x2="{x_end}" y2="{y_of(y_max):.1f}" stroke="var(--line-soft)" stroke-width="1"/>',
@@ -228,13 +232,13 @@ def render_doomer_chart(history: List[Dict[str, object]], today: datetime) -> st
         f'<text x="{pad_left - 6}" y="{y_of(y_max) + 3:.1f}" text-anchor="end" class="doomer-tick">7</text>',
         f'<text x="{pad_left - 6}" y="{y_base + 3:.1f}" text-anchor="end" class="doomer-tick">0</text>',
     ]
-    for x, label in x_labels:
-        anchor = "end" if label == "now" else "middle"
+    for x in boundaries:
         parts.append(
             f'<line x1="{x:.1f}" y1="{y_base:.1f}" x2="{x:.1f}" y2="{y_base + 4:.1f}" stroke="var(--line)" stroke-width="1"/>'
         )
+    for x, label in x_labels:
         parts.append(
-            f'<text x="{x:.1f}" y="{height - 4}" text-anchor="{anchor}" class="doomer-tick">{label}</text>'
+            f'<text x="{x:.1f}" y="{height - 4}" text-anchor="middle" class="doomer-tick">{label}</text>'
         )
     parts.append(f'<path d="{area_d}" fill="var(--red-soft)"/>')
     parts.append(
@@ -654,18 +658,17 @@ def build_structured_data(bib_data) -> str:
         "@context": "https://schema.org",
         "@type": "Person",
         "name": f'{PERSON["first_name"]} {PERSON["last_name"]}',
-        "jobTitle": "PhD Student",
+        "jobTitle": "Research Scientist",
         "description": PERSON["tagline"],
-        "affiliation": {
-            "@type": "Organization",
-            "name": "ELLIS Institute Tuebingen",
-            "alternateName": "IMPRS-IS",
-        },
+        "affiliation": [
+            {"@type": "Organization", "name": "Google DeepMind"},
+            {"@type": "Organization", "name": "ELLIS Institute Tuebingen", "alternateName": "IMPRS-IS"},
+        ],
         "url": "https://kotekjedi.github.io",
         "image": f'https://kotekjedi.github.io/{PERSON["photo"]}',
         "sameAs": [link["url"] for link in SOCIAL_LINKS if link["url"].startswith("http")],
         "email": PERSON["email"],
-        "workLocation": {"@type": "Place", "name": "Tuebingen, Germany"},
+        "workLocation": {"@type": "Place", "name": "London, United Kingdom"},
         "publication": publications,
     }
     return json.dumps(data, ensure_ascii=False, indent=2)
