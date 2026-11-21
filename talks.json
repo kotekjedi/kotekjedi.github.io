@@ -29,7 +29,8 @@
         "venue": "FridayTalks @ Tübingen",
         "event": "Cyber Valley, Tübingen",
         "event_url": "https://fridaytalks.github.io/",
-        "type": "invited talk"
+        "type": "invited talk",
+        "video": "https://www.youtube.com/watch?v=T1ZHMslICME"
     },
     {
         "date": "2026-09-09",
