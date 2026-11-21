@@ -1,5 +1,11 @@
 [
     {
+        "date": "2026-11-18",
+        "venue": "European Cyber Week 2026",
+        "event": "Rennes",
+        "type": "invited talk"
+    },
+    {
         "date": "2026-10-09",
         "venue": "Commission Nationale de l'Informatique et des Libertés",
         "event": "French data protection authority, remote",
