@@ -314,7 +314,7 @@ def render_doomer_phrase(history: List[Dict[str, object]], today: datetime) -> s
         '<span class="doomer" tabindex="0">'
         f'<span class="doomer-trigger">{phrase}</span>'
         '<span class="doomer-pop">'
-        '<span class="doomer-pop-title">AI doomer days / week <em>(git log)</em></span>\n'
+        '<span class="doomer-pop-title">AI doomer days / week</span>\n'
         f"{chart}\n"
         "</span></span>"
     )
